@@ -13,6 +13,19 @@ Step 4 - cd K5-Password-Retrevial
 Step 5 - ng serve
 Step 6 - open browser and visit - http://localhost:4200/
 
+## add bootstrap to make it pretty
+Step 7 - npm install bootstrap@3 jquery --save
+Step 8 - edit .angular-cli.json file as follows:
+
+"styles": [
+    "styles.css",
+    "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+  ],
+  "scripts": [
+    "../node_modules/jquery/dist/jquery.min.js",
+    "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+  ]
+
 ## generate rough HTML for SPA
 Step 7 - create rough HTML/CSS Layout using --> http://www.layoutit.com/build
 
