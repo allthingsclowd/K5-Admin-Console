@@ -27,5 +27,8 @@ Step 8 - edit .angular-cli.json file as follows:
   ]
 
 ## generate rough HTML for SPA
-Step 7 - create rough HTML/CSS Layout using --> http://www.layoutit.com/build
+Step 9 - create rough HTML/CSS Layout using --> http://www.layoutit.com/build
+Step 10 - replace HTML in app.component.html with HTML created above and modify as required
+
+ 
 
