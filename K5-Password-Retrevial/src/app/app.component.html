@@ -8,90 +8,93 @@
 	</div>
 	<div class="row">
 		<div class="col-md-4">
-			<form role="form">
-				<div class="form-group">
-					 
-					<label for="k5username">
-						User
-					</label>
-					<input type="text" class="form-control" id="k5username">
+			<form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+				<div formGroupName="loginData">
+					<div class="form-group">					 
+						<label for="k5username">
+							User
+						</label>
+						<input 
+							type="text" 
+							class="form-control" 
+							id="k5username"
+							formControlName="user">
+					</div>
+					<div class="form-group">
+						<label for="k5password">
+							Password
+						</label>
+						<input 
+							type="password" 
+							class="form-control" 
+							id="k5password"
+							formControlName="password">
+					</div>
+					<div class="form-group">
+						<label for="k5contract">
+							Contract
+						</label>
+						<input 
+							type="text" 
+							class="form-control" 
+							id="k5contract"
+							formControlName="contract">
+					</div>
 				</div>
+				
 				<div class="form-group">
-					 
-					<label for="k5password">
-						Password
-					</label>
-					<input type="password" class="form-control" id="k5password">
-        </div>
-				<div class="form-group">
-					 
-					<label for="k5contract">
-						Contract
-					</label>
-					<input type="text" class="form-control" id="k5contract">
+					<button type="submit" class="btn btn-success btn-large">
+						Login
+					</button>
 				</div>
-				<div class="form-group">
-				<button type="Login" class="btn btn-success btn-large">
-					Login
-				</button>
-				</div>
-			<div *ngIf=true class="form-group">
-			<div class="btn-group">
-				 
-				<button class="btn btn-primary btn-large">
-					Select Project
-				</button> 
-				<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li>
-						<a >Action</a>
-					</li>
-					<li class="disabled">
-						<a href="#">Another action</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div *ngIf=true class="form-group">
-			<div class="btn-group">
-				 
-				<button class="btn btn-primary btn-large">
-					Select Server
-				</button> 
-				<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="#">Action</a>
-					</li>
-					<li class="disabled">
-						<a href="#">Another action</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-				<div class="form-group">
-
-					 
-					<label for="pemFile">
-						Select Private SSH Key
+				<div *ngIf=true class="form-group">
+					<label for="project">
+						Please select a project
 					</label>
-					<input type="file" id="pemFile">
+					<select
+						id="project"
+						class="form-control"
+						formControlName="project"						
+						name="project">
+						placeholder="Select a Project"
+						<option *ngFor="let project of projects" [value]="project">{{project}}</option>
+						
+					</select>
+				</div>
+				<div *ngIf=true class="form-group">
+					<label for="server">
+						Please select a server
+					</label>					
+					<select
+						id="server"
+						class="form-control"
+						formControlName="server"						
+						name="server">
+						<option *ngFor="let server of servers" [value]="server">{{server}}</option>
+						
+					</select>
+				</div>
+        		<div class="form-group">
+					<label for="pemkey">
+						Paste private ssh key below
+					</label>					
+					<textarea
+						name="pemkey"
+						rows="3"
+						class="form-control"
+						formControlName="pemkey">
+					</textarea>						
 					<p class="help-block">
 						This should be the private ssh key file that is associated with the public ssh key used to build the server.
 					</p>
 				</div>
 				<div class="form-group">
-				<button type="submit" class="btn btn-primary btn-large">
-					Retrieve Password
-				</button>
+					<button type="button" class="btn btn-primary btn-large">
+						Retrieve Password
+					</button>
 				</div>
 			</form>
 		</div>
-
 		<div *ngIf=true class="col-md-8">
 			<div class="jumbotron">
 				<h2>
@@ -102,6 +105,6 @@
 				</p>
 			</div>
 
+		</div>
 	</div>
-</div>
 
