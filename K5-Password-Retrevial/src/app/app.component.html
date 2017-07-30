@@ -1,14 +1,12 @@
     <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-8">
-			<img alt="Fujitsu K5 Logo" src="http://www.fujitsu.com/uk/Images/K5-climber-580x224_tcm23-2619235.jpg" class="img-rounded">
-		</div>
 		<div class="col-md-4">
+			<img alt="Fujitsu K5 Logo" src="http://www.fujitsu.com/uk/Images/K5-climber-580x224_tcm23-2619235.jpg" class="img-rounded">
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-4">
-			<form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+			<form [formGroup]="passwordForm" >
 				<div formGroupName="loginData">
 					<div class="form-group">					 
 						<label for="k5username">
@@ -19,6 +17,10 @@
 							class="form-control" 
 							id="k5username"
 							formControlName="user">
+						<span
+              				*ngIf="!passwordForm.get('loginData.user').valid && passwordForm.get('loginData.user').touched"
+							class="help-block">Please enter a valid K5 username
+						</span>
 					</div>
 					<div class="form-group">
 						<label for="k5password">
@@ -29,6 +31,10 @@
 							class="form-control" 
 							id="k5password"
 							formControlName="password">
+						<span
+              				*ngIf="!passwordForm.get('loginData.password').valid && passwordForm.get('loginData.password').touched"
+							class="help-block">Please enter a valid K5 password
+						</span>
 					</div>
 					<div class="form-group">
 						<label for="k5contract">
@@ -39,72 +45,94 @@
 							class="form-control" 
 							id="k5contract"
 							formControlName="contract">
+						<span
+              				*ngIf="!passwordForm.get('loginData.contract').valid && passwordForm.get('loginData.contract').touched"
+							class="help-block">Please enter a valid K5 contract name
+						</span>
 					</div>
 				</div>
-				
-				<div class="form-group">
-					<button type="submit" class="btn btn-success btn-large">
+				<div class="form-group" *ngIf="!loggedIn">
+					<button type="button" class="btn btn-success btn-large" [disabled]="!passwordForm.get('loginData').valid" (click)="onLogin()">
 						Login
 					</button>
 				</div>
-				<div *ngIf=true class="form-group">
-					<label for="project">
-						Please select a project
-					</label>
-					<select
-						id="project"
-						class="form-control"
-						formControlName="project"						
-						name="project">
-						placeholder="Select a Project"
-						<option *ngFor="let project of projects" [value]="project">{{project}}</option>
-						
-					</select>
-				</div>
-				<div *ngIf=true class="form-group">
-					<label for="server">
-						Please select a server
-					</label>					
-					<select
-						id="server"
-						class="form-control"
-						formControlName="server"						
-						name="server">
-						<option *ngFor="let server of servers" [value]="server">{{server}}</option>
-						
-					</select>
-				</div>
-        		<div class="form-group">
-					<label for="pemkey">
-						Paste private ssh key below
-					</label>					
-					<textarea
-						name="pemkey"
-						rows="3"
-						class="form-control"
-						formControlName="pemkey">
-					</textarea>						
-					<p class="help-block">
-						This should be the private ssh key file that is associated with the public ssh key used to build the server.
-					</p>
-				</div>
-				<div class="form-group">
-					<button type="button" class="btn btn-primary btn-large">
-						Retrieve Password
+				<div class="form-group" *ngIf="loggedIn">
+					<button type="button" class="btn btn-danger btn-large" (click)="onLogout()">
+						Logout
 					</button>
 				</div>
+				<div formGroupName="serverData" *ngIf="loggedIn">
+					<div  class="form-group">
+						<label for="project">
+							Please select a project
+						</label>
+						<select
+							id="project"
+							class="form-control"
+							formControlName="project"						
+							name="project">
+							placeholder="Select a Project"
+							<option *ngFor="let project of projects" [value]="project">{{project}}</option>
+							
+						</select>
+						<span
+							*ngIf="!passwordForm.get('serverData.project').valid && passwordForm.get('serverData.project').touched"
+							class="help-block">Please select a project from the list
+						</span>					
+					</div>
+					<div *ngIf="passwordForm.get('serverData.project').valid" class="form-group">
+						<label for="server">
+							Please select a server
+						</label>					
+						<select
+							id="server"
+							class="form-control"
+							formControlName="server"						
+							name="server">
+							<option *ngFor="let server of servers" [value]="server">{{server}}</option>
+							
+						</select>
+						<span
+							*ngIf="!passwordForm.get('serverData.server').valid && passwordForm.get('serverData.server').touched"
+							class="help-block">Please select a windows server from the list
+						</span>
+					</div>
+					<div *ngIf="passwordForm.get('serverData.server').valid" class="form-group">
+						<label for="pemkey">
+							Paste private ssh key below
+						</label>					
+						<textarea
+							name="pemkey"
+							rows="3"
+							class="form-control"
+							formControlName="pemkey">
+						</textarea>
+						<span
+							*ngIf="!passwordForm.get('serverData.pemkey').valid && passwordForm.get('serverData.pemkey').touched"
+							class="help-block">Please paste the private ssh key file that is associated with the public ssh key used to build the server
+						</span>						
+					</div>
+					<div *ngIf="passwordForm.get('serverData').valid" class="form-group">
+						<button type="button" (click)="onThisButton()" class="btn btn-primary btn-large" [disabled]="!passwordForm.get('loginData').valid">
+							Retrieve Password
+						</button>
+					</div>
+					
+				</div>	
+
+			<!-- </form> -->
+			<div *ngIf="passwordForm.get('serverData').valid" class="form-group">
+				<div class="jumbotron">
+					<h2>
+						The password is
+					</h2>
+					<p>
+						An amazing Password
+					</p>
+				</div>
+			</div>
 			</form>
 		</div>
-		<div *ngIf=true class="col-md-8">
-			<div class="jumbotron">
-				<h2>
-					The password is
-				</h2>
-				<p>
-					An amazing Password
-				</p>
-			</div>
 
-		</div>
 	</div>
 
