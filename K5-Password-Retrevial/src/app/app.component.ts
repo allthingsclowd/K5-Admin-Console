@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   servers = ['Server 1', 'Server 2', 'Server 3'];
   passwordForm: FormGroup;
   loggedIn : boolean = false;
+  failedLogIn : boolean = false;
 
   constructor(private identityService: IdentityService) {}
 
@@ -45,6 +46,7 @@ export class AppComponent implements OnInit {
                                                         //console.log(data);
                                                         this.identityService.loggedIn = true;
                                                         //this.identityService.k5response = data;
+                                                        this.failedLogIn = false;
                                                         this.loggedIn = true;
                                                         this.identityService.getProjectList().subscribe(value => {
                                                                 console.log('login - got project list');
@@ -56,6 +58,8 @@ export class AppComponent implements OnInit {
                                                         //this.alertService.error(error);
                                                         //this.loading = false;
                                                         console.log('bang - something failed during login');
+                                                        this.failedLogIn = true;
+                                                        this.passwordForm.reset();
                                                         
                                                     });
     console.log(this.passwordForm);

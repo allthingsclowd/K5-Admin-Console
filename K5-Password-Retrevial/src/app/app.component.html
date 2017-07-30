@@ -55,6 +55,10 @@
 					<button type="button" class="btn btn-success btn-large" [disabled]="!passwordForm.get('loginData').valid" (click)="onLogin()">
 						Login
 					</button>
+					<span
+						*ngIf="failedLogIn"
+						class="help-block error">Login Failure - Please check your K5 details and try again.
+					</span>					
 				</div>
 				<div class="form-group" *ngIf="loggedIn">
 					<button type="button" class="btn btn-danger btn-large" (click)="onLogout()">
