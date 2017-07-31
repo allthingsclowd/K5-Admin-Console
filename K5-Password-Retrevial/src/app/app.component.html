@@ -55,11 +55,11 @@
 							Region
 						</label>
 						<select
-							id="project"
+							id="region"
 							class="form-control"
 							formControlName="region"						
 							name="region">
-							placeholder="Select a Region"
+							<option [value]="null">Choose a region</option>
 							<option *ngFor="let region of regions" [value]="region">{{region}}</option>
 							
 						</select>
@@ -93,9 +93,9 @@
 							class="form-control"
 							formControlName="project"						
 							name="project"
-							(onchange)="projectChange()">
+							(change)="projectChange()">
 							<option [value]="null">Choose a project</option>
-							<option *ngFor="let project of projects | sortObjectsByName" [value]="project">{{project.name}}</option>
+							<option *ngFor="let project of projects | sortObjectsByName" [value]="project.id">{{project.name}}</option>
 							
 						</select>
 						<span
