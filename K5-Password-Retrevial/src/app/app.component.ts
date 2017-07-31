@@ -1,5 +1,5 @@
 import { IdentityService } from './services/identity.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
@@ -11,18 +11,22 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class AppComponent implements OnInit {
   projects :any;
   servers = ['Server 1', 'Server 2', 'Server 3'];
+  regions = ['uk-1', 'fi-1', 'de-1', 'es-1', 'us-1'];
   passwordForm: FormGroup;
   loggedIn : boolean = false;
+  projectList : boolean = false;
   failedLogIn : boolean = false;
 
   constructor(private identityService: IdentityService) {}
+
 
   ngOnInit() {
     this.passwordForm = new FormGroup({
       'loginData': new FormGroup({
         'user': new FormControl(null, [Validators.required]),
         'password': new FormControl(null, [Validators.required]),
-        'contract': new FormControl(null, [Validators.required])
+        'contract': new FormControl(null, [Validators.required]),
+        'region': new FormControl(null, [Validators.required])
       }),
       'serverData': new FormGroup({
         'project': new FormControl(null, [Validators.required]),
@@ -37,9 +41,10 @@ export class AppComponent implements OnInit {
     // console.log(this.passwordForm.get('loginData.user').value,
     //                                             this.passwordForm.get('loginData.password').value,
     //                                             this.passwordForm.get('loginData.contract').value);
-    this.identityService.getCentralPortalToken( this.passwordForm.get('loginData.user').value,
+    this.identityService.login( this.passwordForm.get('loginData.user').value,
                                                 this.passwordForm.get('loginData.password').value,
-                                                this.passwordForm.get('loginData.contract').value)
+                                                this.passwordForm.get('loginData.contract').value,
+                                                this.passwordForm.get('loginData.region').value)
                                                 .subscribe(
                                                     data => {
                                                         //console.log('Next should be the data');
@@ -48,11 +53,12 @@ export class AppComponent implements OnInit {
                                                         //this.identityService.k5response = data;
                                                         this.failedLogIn = false;
                                                         this.loggedIn = true;
-                                                        this.identityService.getProjectList().subscribe(value => {
-                                                                console.log('login - got project list');
-                                                                this.projects = value;
+                                                        this.identityService.getProjectList().subscribe(newProjectList => {
+                                                          this.projects = newProjectList;
+                                                          console.log('projects ->');
+                                                          console.log(this.projects);
+                                                        });
 
-                                                            });
                                                     },
                                                     error => {
                                                         //this.alertService.error(error);

@@ -50,6 +50,24 @@
 							class="help-block">Please enter a valid K5 contract name
 						</span>
 					</div>
+					<div class="form-group">
+						<label for="k5region">
+							Region
+						</label>
+						<select
+							id="project"
+							class="form-control"
+							formControlName="region"						
+							name="region">
+							placeholder="Select a Region"
+							<option *ngFor="let region of regions" [value]="region">{{region}}</option>
+							
+						</select>
+						<span
+							*ngIf="!passwordForm.get('loginData.region').valid && passwordForm.get('loginData.region').touched"
+							class="help-block">Please select a global region from the list
+						</span>	
+					</div>
 				</div>
 				<div class="form-group" *ngIf="!loggedIn">
 					<button type="button" class="btn btn-success btn-large" [disabled]="!passwordForm.get('loginData').valid" (click)="onLogin()">
@@ -76,7 +94,7 @@
 							formControlName="project"						
 							name="project">
 							placeholder="Select a Project"
-							<option *ngFor="let project of projects" [value]="project">{{project}}</option>
+							<option *ngFor="let project of projects" [value]="project">{{project.name}}</option>
 							
 						</select>
 						<span

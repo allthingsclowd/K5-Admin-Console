@@ -111,13 +111,14 @@ export class IdentityService {
     getProjectList() {
 
         const k5token = this.k5response;
+        console.log(k5token)
         const identityURL = this.utilityService.getEndpoint(k5token, 'identityv3');
 
         const endpointDetail = identityURL.concat('/users/', k5token.json().token.user.id, '/projects');
-        // console.log(endpointDetail);
+        console.log(endpointDetail);
         // With CORS Proxy Service in use here
         const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
-        // console.log(authURL);
+        console.log(authURL);
 
         // retrieve the K5/OpenStack authentication token from the response header
         const token = k5token.headers.get('x-subject-token');
