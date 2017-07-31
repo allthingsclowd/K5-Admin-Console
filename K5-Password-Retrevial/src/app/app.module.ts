@@ -6,10 +6,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { SortObjectsByNamePipe } from './services/sort-objects-by-name.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SortObjectsByNamePipe
   ],
   imports: [
     BrowserModule,

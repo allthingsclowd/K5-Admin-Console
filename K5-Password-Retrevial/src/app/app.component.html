@@ -92,9 +92,10 @@
 							id="project"
 							class="form-control"
 							formControlName="project"						
-							name="project">
-							placeholder="Select a Project"
-							<option *ngFor="let project of projects" [value]="project">{{project.name}}</option>
+							name="project"
+							(onchange)="projectChange()">
+							<option [value]="null">Choose a project</option>
+							<option *ngFor="let project of projects | sortObjectsByName" [value]="project">{{project.name}}</option>
 							
 						</select>
 						<span
@@ -111,6 +112,7 @@
 							class="form-control"
 							formControlName="server"						
 							name="server">
+							<option [value]="null">Choose a server</option>
 							<option *ngFor="let server of servers" [value]="server">{{server}}</option>
 							
 						</select>

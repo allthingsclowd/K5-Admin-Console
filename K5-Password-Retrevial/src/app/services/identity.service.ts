@@ -171,11 +171,6 @@ export class IdentityService {
                 // retrieve the K5/OpenStack authentication token from the response header
                 this.user.globalToken = gres.headers.get('X-Access-Token');
                 console.log('Central Portal Token => \n'+ JSON.stringify(gres) );
-                                // test code
-                //console.log(this.generateNewUserDetails('american.hero@grazzer.com', ''));
-                //console.log(this.generateNewUserDetails('whoopsie@whoopsie.com','bananas'));
-                //this.addNewUsertoCentralPortal().subscribe(adduser => console.log('New User Added -> '+ JSON.stringify(adduser)));
-                //console.log('Deleting User -> ' + this.userService.removeUserfromCentralPortal('heroa'));
 
            });
 
@@ -228,16 +223,6 @@ export class IdentityService {
                 this.loggedIn = true;
                 //this.k5currentScopedToken = res;
                 this.k5currentScopedToken = res;
-
-                // display all token details in console for debug purposes
-                //console.log('k5token -> ' + res.json().token.project.domain.id);
-                //console.log('k5token -> ' + res.json().toString());
-                //console.log('k5token -> ' + JSON.stringify(res));
-                // console.log(this.getKeystoneObjectList('users').subscribe(objectList => {
-                //     console.log(this.utilityService.getItemId(objectList, 'fannyadam', 'users'));
-                // }));
-                //console.log(this.getKeystoneObjectList('projects').subscribe());
-                //console.log(this.getKeystoneObjectList('roles').subscribe());
 
                 // retrieve Global token
                 this.getCentralPortalToken(username, password, contract).subscribe();

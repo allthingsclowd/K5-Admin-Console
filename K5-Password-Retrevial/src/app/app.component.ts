@@ -37,6 +37,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  projectChange(){
+    console.log(this.passwordForm);
+  }
+
   onLogin() {
     // console.log(this.passwordForm.get('loginData.user').value,
     //                                             this.passwordForm.get('loginData.password').value,
