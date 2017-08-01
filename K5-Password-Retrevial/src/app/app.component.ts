@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   loggedIn : boolean = false;
   projectList : boolean = false;
   failedLogIn : boolean = false;
+  currentScopedToken: Response;
 
   constructor(private identityService: IdentityService,
               private computeService: ComputeService) {}
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
     this.identityService.getProjectScopedToken(this.passwordForm.get('serverData.project').value)
       .subscribe( data => {
         console.log(data);
+        this.currentScopedToken = data;
         this.computeService.getServerList(data)
           .subscribe( serverList => {
             this.servers = serverList.json().servers;
@@ -51,6 +53,21 @@ export class AppComponent implements OnInit {
           });
       });
     
+  }
+  
+  serverChange(){
+    let token = this.currentScopedToken;
+    let serverId = this.passwordForm.get('serverData.server').value;
+    console.log('Server Password Prerequisites');
+    console.log(token);
+    console.log(serverId);
+    this.computeService.getServerPassword(token, serverId)
+          .subscribe( serverPassword => {
+            console.log('New Password is');
+            console.log(serverPassword);
+            
+          });
+          
   }
 
   onLogin() {

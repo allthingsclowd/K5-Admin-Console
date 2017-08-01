@@ -60,7 +60,7 @@
 							formControlName="region"						
 							name="region">
 							<option [value]="null">Choose a region</option>
-							<option *ngFor="let region of regions| sortObjectsByName" [value]="region">{{region}}</option>
+							<option *ngFor="let region of regions | sortObjectsByName" [value]="region">{{region}}</option>
 							
 						</select>
 						<span
@@ -111,9 +111,10 @@
 							id="server"
 							class="form-control"
 							formControlName="server"						
-							name="server">
+							name="server"
+							(change)="serverChange()">
 							<option [value]="null">Choose a server</option>
-							<option *ngFor="let server of servers| sortObjectsByName" [value]="server.id">{{server.name}}</option>
+							<option *ngFor="let server of servers | sortObjectsByName" [value]="server.id">{{server.name}}</option>
 							
 						</select>
 						<span

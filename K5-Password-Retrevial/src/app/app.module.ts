@@ -1,3 +1,4 @@
+import { PasswordManagementService } from './services/password-management.service';
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
 import { UtilityService } from './services/utility.service';
@@ -19,7 +20,7 @@ import { SortObjectsByNamePipe } from './services/sort-objects-by-name.pipe';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [IdentityService, UtilityService, ComputeService],
+  providers: [IdentityService, UtilityService, ComputeService, PasswordManagementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

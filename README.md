@@ -30,5 +30,8 @@ Step 8 - edit .angular-cli.json file as follows:
 Step 9 - create rough HTML/CSS Layout using --> http://www.layoutit.com/build
 Step 10 - replace HTML in app.component.html with HTML created above and modify as required
 
+Step 11 - Add rsautl openssl rsa library
+$ npm install rsautl
+
  
 

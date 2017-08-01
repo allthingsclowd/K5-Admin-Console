@@ -65,6 +65,33 @@ export class ComputeService {
                 });
 
     }
+
+    getServerPassword(k5scopedtoken: any, serverid: any) {
+        console.log('Server Password Function');
+        console.log(k5scopedtoken);
+        console.log(serverid);
+
+        let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
+        computeURL = computeURL.concat('/servers/', serverid,'/os-server-password');
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(computeURL);
+
+        const getheaders: Headers = new Headers();
+        getheaders.append('Content-Type', 'application/json');
+        getheaders.append('Accept', 'application/json');
+        getheaders.append('X-Auth-Token', k5scopedtoken.headers.get('x-subject-token'));
+
+        const headeropts: RequestOptions = new RequestOptions();
+        headeropts.headers = getheaders;
+
+        return this.http.get(proxiedURL, headeropts)
+            .map((res: any) => {
+                console.log('server password');
+                console.log(res.json());
+                return res;
+                });
+
+    }
 }
 
 
