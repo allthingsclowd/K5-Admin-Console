@@ -1,3 +1,4 @@
+import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -10,14 +11,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   projects :any;
-  servers = ['Server 1', 'Server 2', 'Server 3'];
+  servers : any;
   regions = ['uk-1', 'fi-1', 'de-1', 'es-1', 'us-1'];
   passwordForm: FormGroup;
   loggedIn : boolean = false;
   projectList : boolean = false;
   failedLogIn : boolean = false;
 
-  constructor(private identityService: IdentityService) {}
+  constructor(private identityService: IdentityService,
+              private computeService: ComputeService) {}
 
 
   ngOnInit() {
@@ -38,7 +40,17 @@ export class AppComponent implements OnInit {
   }
 
   projectChange(){
-    console.log(this.passwordForm);
+    this.identityService.getProjectScopedToken(this.passwordForm.get('serverData.project').value)
+      .subscribe( data => {
+        console.log(data);
+        this.computeService.getServerList(data)
+          .subscribe( serverList => {
+            this.servers = serverList.json().servers;
+            console.log(this.servers);
+            
+          });
+      });
+    
   }
 
   onLogin() {

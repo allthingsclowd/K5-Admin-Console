@@ -1,3 +1,4 @@
+import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
 import { UtilityService } from './services/utility.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,7 +19,7 @@ import { SortObjectsByNamePipe } from './services/sort-objects-by-name.pipe';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [IdentityService, UtilityService],
+  providers: [IdentityService, UtilityService, ComputeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
