@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
   projectList : boolean = false;
   failedLogIn : boolean = false;
   currentScopedToken: Response;
+  passwordReceived : boolean = false;
+  encryptedPassword : string = '';
 
   constructor(private identityService: IdentityService,
               private computeService: ComputeService) {}
@@ -61,10 +63,13 @@ export class AppComponent implements OnInit {
     console.log('Server Password Prerequisites');
     console.log(token);
     console.log(serverId);
+    this.passwordReceived = false;
     this.computeService.getServerPassword(token, serverId)
           .subscribe( serverPassword => {
-            console.log('New Password is');
+            this.passwordReceived = true;
+            console.log('Encrypted Password is');
             console.log(serverPassword);
+            this.encryptedPassword = serverPassword;
             
           });
           
@@ -108,6 +113,7 @@ export class AppComponent implements OnInit {
   onLogout() {
     this.identityService.logout();
     this.passwordForm.reset();
+    this.passwordReceived = false;
     this.loggedIn = false;
 
   }

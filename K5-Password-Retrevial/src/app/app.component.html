@@ -122,6 +122,13 @@
 							class="help-block">Please select a windows server from the list
 						</span>
 					</div>
+					<div *ngIf="passwordReceived" class="form-group">
+						<label for="server">
+							Encrypted password
+						</label>
+						<p class="form-control">{{encryptedPassword}}</p>
+
+					</div>
 					<div *ngIf="passwordForm.get('serverData.server').valid" class="form-group">
 						<label for="pemkey">
 							Paste private ssh key below

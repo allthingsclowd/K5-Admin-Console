@@ -87,8 +87,8 @@ export class ComputeService {
         return this.http.get(proxiedURL, headeropts)
             .map((res: any) => {
                 console.log('server password');
-                console.log(res.json());
-                return res;
+                console.log(res.json().password);
+                return res.json().password;
                 });
 
     }
