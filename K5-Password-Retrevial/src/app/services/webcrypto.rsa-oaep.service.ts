@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class CryptRSAOAEP {
+export class CryptRSAOAEPService {
     Crypto;
     name: string = 'RSA-OAEP';
     keyUsagesEncryptDecrypt: string[] = ["encrypt", "decrypt"];
@@ -10,6 +10,9 @@ export class CryptRSAOAEP {
     constructor() {
         this.Crypto = window.crypto.subtle;
     }
+
+
+    
     getKey():Promise<any> {
         if(this.KEY){
             return new Promise((resolve, reject) => {

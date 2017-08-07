@@ -1,3 +1,5 @@
+import { CryptRSAOAEPService } from './services/webcrypto.rsa-oaep.service';
+import { PasswordManagementService } from './services/password-management.service';
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
 import { Component, OnInit, OnChanges } from '@angular/core';
@@ -22,7 +24,9 @@ export class AppComponent implements OnInit {
   encryptedPassword : string = '';
 
   constructor(private identityService: IdentityService,
-              private computeService: ComputeService) {}
+              private computeService: ComputeService,
+              private passwordManagementService: PasswordManagementService,
+              private cryptRSAOAEPService: CryptRSAOAEPService ) {}
 
 
   ngOnInit() {
@@ -40,6 +44,8 @@ export class AppComponent implements OnInit {
       })
       
     });
+    console.log('Crypto Test');
+    this.cryptRSAOAEPService.keyGenerate();
   }
 
   projectChange(){
@@ -70,6 +76,8 @@ export class AppComponent implements OnInit {
             console.log('Encrypted Password is');
             console.log(serverPassword);
             this.encryptedPassword = serverPassword;
+            
+
             
           });
           
