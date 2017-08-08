@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CryptRSAOAEP {
-    Crypto;
+    Crypto: any;
     name: string = 'RSA-OAEP';
     keyUsagesEncryptDecrypt: string[] = ["encrypt", "decrypt"];
     KEY;

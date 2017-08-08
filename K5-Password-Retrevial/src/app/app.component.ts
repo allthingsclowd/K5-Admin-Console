@@ -1,5 +1,6 @@
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
+import { PasswordManagementService } from './services/password-management.service';
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
   encryptedPassword : string = '';
 
   constructor(private identityService: IdentityService,
-              private computeService: ComputeService) {}
+              private computeService: ComputeService,
+              private passwordManagementService: PasswordManagementService) {}
 
 
   ngOnInit() {
@@ -72,7 +74,7 @@ export class AppComponent implements OnInit {
             this.encryptedPassword = serverPassword;
             
           });
-          
+       
   }
 
   onLogin() {
@@ -119,7 +121,9 @@ export class AppComponent implements OnInit {
   }
 
   onThisButton() {
-    console.log(this.passwordForm.get('serverData'));
+      console.log('Decoding Key now')
+      console.log(this.passwordForm.get('serverData').value);
+      console.log(this.passwordManagementService.decrypt_data(this.passwordForm.get('serverData.pemkey').value,this.encryptedPassword));  
     //this.passwordForm.reset();
   } 
 }
