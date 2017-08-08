@@ -1,4 +1,3 @@
-import { CryptRSAOAEPService } from './services/webcrypto.rsa-oaep.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
@@ -21,7 +20,7 @@ import { SortObjectsByNamePipe } from './services/sort-objects-by-name.pipe';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [IdentityService, UtilityService, ComputeService, PasswordManagementService, CryptRSAOAEPService],
+  providers: [IdentityService, UtilityService, ComputeService, PasswordManagementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

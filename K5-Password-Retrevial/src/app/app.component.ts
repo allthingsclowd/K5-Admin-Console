@@ -1,4 +1,3 @@
-import { CryptRSAOAEPService } from './services/webcrypto.rsa-oaep.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
@@ -25,8 +24,10 @@ export class AppComponent implements OnInit {
 
   constructor(private identityService: IdentityService,
               private computeService: ComputeService,
-              private passwordManagementService: PasswordManagementService,
-              private cryptRSAOAEPService: CryptRSAOAEPService ) {}
+              private passwordManagementService: PasswordManagementService) {
+                console.log('Crypto Test');
+                console.log(this.passwordManagementService.getKey());
+              }
 
 
   ngOnInit() {
@@ -44,8 +45,7 @@ export class AppComponent implements OnInit {
       })
       
     });
-    console.log('Crypto Test');
-    this.cryptRSAOAEPService.keyGenerate();
+    
   }
 
   projectChange(){
@@ -128,6 +128,7 @@ export class AppComponent implements OnInit {
 
   onThisButton() {
     console.log(this.passwordForm.get('serverData'));
-    //this.passwordForm.reset();
+    console.log("Importing Key...");
+    console.log(this.passwordManagementService.keyImport(this.passwordForm.get('serverData.keypem').value));
   } 
 }
