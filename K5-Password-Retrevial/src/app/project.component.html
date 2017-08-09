@@ -1,0 +1,25 @@
+<form [formGroup]="passwordForm" >      
+  <div formGroupName="serverData" *ngIf="loggedIn">
+        <div  class="form-group">
+          <label for="project">
+            Please select a project
+          </label>
+          <select
+            id="project"
+            class="form-control"
+            formControlName="project"						
+            name="project"
+            (change)="projectChange()">
+            <option [value]="null">Choose a project</option>
+            <option *ngFor="let project of projects | sortObjectsByName" [value]="project.id">{{project.name}}</option>
+            
+          </select>
+          <span
+            *ngIf="!passwordForm.get('serverData.project').valid && passwordForm.get('serverData.project').touched"
+            class="help-block">Please select a project from the list
+          </span>					
+        </div>
+
+        
+      </div>
+</form>
