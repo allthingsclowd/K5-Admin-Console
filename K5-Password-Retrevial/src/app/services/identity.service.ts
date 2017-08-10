@@ -128,6 +128,8 @@ export class IdentityService {
         postheaders.append('Content-Type', 'application/json');
         postheaders.append('Accept', 'application/json');
         postheaders.append('X-Auth-Token', token);
+        console.log('Project Token');
+        console.log(k5token.headers);
 
         const postopts: RequestOptions = new RequestOptions();
         postopts.headers = postheaders;
@@ -210,6 +212,8 @@ export class IdentityService {
             .map((res: Response) => {
 
                 this.k5response = res;
+                console.log('Successful Login');
+                console.log(res);
                 // retrieve the K5/OpenStack authentication token from the response header
                 this.user.token = res.headers.get('x-subject-token');
 

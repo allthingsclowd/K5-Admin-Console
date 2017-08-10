@@ -68,32 +68,8 @@ export class UtilityService {
     sendViaCORSProxy(URL: string) {
         console.log(URL);
         // CORS PROXY URL
-        //const corsProxy = 'http://localhost:2337/';https://corsproxy.uk-1.cf-app.net/
-        const corsProxy = 'https://corsproxy.uk-1.cf-app.net/'
-        // remove the first 8 characters of the URL...https:// and add export
-        const protocol = URL.split(':', 1);
-        const port = (protocol[0] === 'https') ? 443 : 80;
-
-        // insert port number after host details
-        const pureURL = URL.substring((protocol[0].length + 3), URL.length);
-        console.log(pureURL);
-
-        const hostName = pureURL.split('/', 1);
-        const urlWithoutHost = pureURL.substring(hostName[0].length, pureURL.length);
-        console.log(urlWithoutHost);
-        const hostNamePort = hostName[0].concat(':', port.toString());
-
-        const proxyURL = corsProxy.concat(hostNamePort, urlWithoutHost);
-        console.log(proxyURL);
-        return proxyURL;
-
-    }
-
-    sendViaApigeeCORSProxy(URL: string) {
-        console.log(URL);
-        // CORS PROXY URL
-        //const corsProxy = 'http://localhost:2337/';https://corsproxy.uk-1.cf-app.net/
-        const corsProxy = 'https://corsproxy.uk-1.cf-app.net/'
+        //const corsProxy = 'http://localhost:2337/';https://corsproxy.uk-1.cf-app.net/;'http://hydra-t-apimng.uk-1.paas.cloud.global.fujitsu.com:10080/k5corsdemo/'
+        const corsProxy = 'http://hydra-t-apimng.uk-1.paas.cloud.global.fujitsu.com:10080/k5corsdemo/'
         // remove the first 8 characters of the URL...https:// and add export
         const protocol = URL.split(':', 1);
         const port = (protocol[0] === 'https') ? 443 : 80;
