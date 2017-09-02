@@ -2,6 +2,7 @@ import { User, project, projects, ProjectToken } from './../model/user';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, RequestMethod, Request, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -15,8 +16,10 @@ export class IdentityService {
     k5response: Response;
     k5Globalresponse: Response;
     loggedIn :boolean = false;
-    currentProject: project;
-    projects :projects;
+    //currentProject: project;
+    private selectedProject = new BehaviorSubject<project>(null);
+    currentProject = this.selectedProject.asObservable();
+    //projects :projects;
     k5currentScopedToken :Response;
 
     constructor(private http: Http,
@@ -30,6 +33,11 @@ export class IdentityService {
         //     });
         // });
     }
+
+    changeProject(currentProject: project){
+        this.selectedProject.next(currentProject)
+    }
+
 
     getKeystoneObjectList(objectType: string) {
         const k5token = this.k5response;
@@ -97,13 +105,9 @@ export class IdentityService {
                 // retrieve the K5/OpenStack authentication token from the response header
                 projectToken.scopedToken = res.headers.get('x-subject-token');
                 projectToken.projectId = projectId;
-                //this.k5currentScopedToken.emit(res);
+                this.k5currentScopedToken = res;
 
-                if (projectToken.scopedToken != null) {
-                    // store user details local storage to keep user logged in between page refreshes
-                    sessionStorage.setItem('gjl-currentProjecttoken', JSON.stringify(ProjectToken));
-                    return res;
-                }
+                return res;
             });
 
     }
@@ -111,7 +115,7 @@ export class IdentityService {
     getProjectList() {
 
         const k5token = this.k5response;
-        console.log(k5token)
+        console.log(this.currentProject);
         const identityURL = this.utilityService.getEndpoint(k5token, 'identityv3');
 
         const endpointDetail = identityURL.concat('/users/', k5token.json().token.user.id, '/projects');
@@ -133,7 +137,14 @@ export class IdentityService {
         postopts.headers = postheaders;
 
         return this.http.get(authURL, postopts)
-            .map((res: Response) => res.json().projects as projects);
+            .map((res: Response) => {
+                    
+                    this.changeProject(res.json().projects[150].name);
+                    console.log(this.currentProject);
+                    return res.json().projects as projects;
+                    // return projects;
+            });
+
 
 
     }
@@ -230,10 +241,12 @@ export class IdentityService {
                 this.getProjectList().subscribe(value => {
                                             console.log('Bananas');
                                             this.k5projects = value;
-                                            console.log(this.k5projects);
-                                            this.projects = value;
+                                            console.log('New Project Name BElow');
+                                            console.log(this.currentProject);
+                                            //this.projects = value;
                                             // sessionStorage.setItem('gjl-currentUserProjects', JSON.stringify(this.k5projects));
                                              });
+
 
 
                 if (this.user.token != null) {

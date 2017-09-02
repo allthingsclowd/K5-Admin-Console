@@ -1,4 +1,8 @@
+import { projects, project } from './model/user';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IdentityService } from './services/identity.service';
+import { ComputeService } from './services/compute.service';
 
 @Component({
   selector: 'app-project',
@@ -6,38 +10,37 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./project.component.css']
 })
 export class ProjectComponent implements OnInit {
+  projectForm: FormGroup;
+  userLoggedin: boolean = false;
+  projects: projects = null;
+  currentProject: project = null;
 
-  constructor() { }
+  constructor(private identityService: IdentityService,
+              private computeService: ComputeService) { }
 
   ngOnInit() {
-    // this.passwordForm = new FormGroup({
-    //   'loginData': new FormGroup({
-    //     'user': new FormControl(null, [Validators.required]),
-    //     'password': new FormControl(null, [Validators.required]),
-    //     'contract': new FormControl(null, [Validators.required]),
-    //     'region': new FormControl(null, [Validators.required])
-    //   }),
-    //   'serverData': new FormGroup({
-    //     'project': new FormControl(null, [Validators.required]),
-    //     'server': new FormControl(null, [Validators.required]),
-    //     'pemkey': new FormControl(null, [Validators.required])
-    //   })
-      
-    // });
+    this.projectForm = new FormGroup({
+      'projectData': new FormGroup({
+        'project': new FormControl(null, [Validators.required])
+      })      
+    });
+    this.userLoggedin = this.identityService.loggedIn;
+    this.projects = this.identityService.k5projects;
   }
 
-  // projectChange(){
-  //   this.identityService.getProjectScopedToken(this.passwordForm.get('serverData.project').value)
-  //     .subscribe( data => {
-  //       console.log(data);
-  //       this.currentScopedToken = data;
-  //       this.computeService.getServerList(data)
-  //         .subscribe( serverList => {
-  //           this.servers = serverList.json().servers;
-  //           console.log(this.servers);
+  projectChange(){
+    this.identityService.getProjectScopedToken(this.projectForm.get('projectData.project').value)
+      .subscribe( data => {
+        console.log('new project token');
+        console.log(data);
+        //this.currentScopedToken = data;
+        // this.computeService.getServerList(data)
+        //   .subscribe( serverList => {
+        //     this.servers = serverList.json().servers;
+        //     console.log(this.servers);
             
-  //         });
-  //     });
+         // });
+      });
     
-  // }
+  }
 }
