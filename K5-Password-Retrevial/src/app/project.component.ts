@@ -38,6 +38,8 @@ export class ProjectComponent implements OnInit {
   projectChange(){
 
     this.identityService.changeProject(this.projectForm.get('projectData.project').value);
+    console.log("Selected Project ID to be verified...");
+    console.log((this.projectForm.get('projectData.project').value).id);
     this.identityService.getProjectScopedToken((this.projectForm.get('projectData.project').value).id)
       .subscribe( data => {
         console.log('new project token');
