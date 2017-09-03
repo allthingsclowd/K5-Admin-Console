@@ -12,10 +12,14 @@ import { UtilityService } from './utility.service';
 export class IdentityService {
     user = new User();
     
-    k5projects: projects;
+    //k5projects: projects;
+    private userProjectList = new BehaviorSubject<projects>(null);
+    userProjects = this.userProjectList.asObservable();
     k5response: Response;
     k5Globalresponse: Response;
-    loggedIn :boolean = false;
+    //loggedIn :boolean = false; 
+    private userLoggedIn = new BehaviorSubject<boolean>(false);
+    loggedIn = this.userLoggedIn.asObservable();
     //currentProject: project;
     private selectedProject = new BehaviorSubject<project>(null);
     currentProject = this.selectedProject.asObservable();
@@ -36,6 +40,14 @@ export class IdentityService {
 
     changeProject(currentProject: project){
         this.selectedProject.next(currentProject)
+    }
+
+    changeProjectList(userProjects: projects){
+        this.userProjectList.next(userProjects)
+    }
+
+    changeLoginStatus(loggedInStatus: boolean){
+        this.userLoggedIn.next(loggedInStatus)
     }
 
 
@@ -138,10 +150,13 @@ export class IdentityService {
 
         return this.http.get(authURL, postopts)
             .map((res: Response) => {
-                    
+
+                    this.changeProjectList(res.json().projects);
                     this.changeProject(res.json().projects[150].name);
-                    console.log(this.currentProject);
-                    return res.json().projects as projects;
+                    console.log('Project List is as follows: ');
+                    console.log(this.userProjectList.getValue());
+                    console.log(this.selectedProject.getValue());
+                    //return res.json().projects as projects;
                     // return projects;
             });
 
@@ -231,22 +246,24 @@ export class IdentityService {
                 this.user.catalog = res.json().token.catalog;
                 this.user.roles = res.json().token.roles;
                 this.user.expires = res.json().token.expires_at;
-                this.loggedIn = true;
+                this.changeLoginStatus(true);
                 //this.k5currentScopedToken = res;
                 this.k5currentScopedToken = res;
 
                 // retrieve Global token
                 this.getCentralPortalToken(username, password, contract).subscribe();
 
-                this.getProjectList().subscribe(value => {
-                                            console.log('Bananas');
-                                            this.k5projects = value;
-                                            console.log('New Project Name BElow');
-                                            console.log(this.currentProject);
-                                            //this.projects = value;
-                                            // sessionStorage.setItem('gjl-currentUserProjects', JSON.stringify(this.k5projects));
-                                             });
-
+                // this.getProjectList().subscribe(value => {
+                //                             console.log('Bananas ');
+                //                             console.log(value);
+                //                             this.changeProjectList(value);
+                //                             console.log('New Project Name BElow');
+                //                             console.log(this.selectedProject.getValue());
+                                            
+                //                             //this.projects = value;
+                //                             // sessionStorage.setItem('gjl-currentUserProjects', JSON.stringify(this.k5projects));
+                //                              });
+                this.getProjectList().subscribe();
 
 
                 if (this.user.token != null) {
@@ -266,7 +283,7 @@ export class IdentityService {
         // remove user from local storage to log user out
         sessionStorage.removeItem('gjl-currentUsertoken');
         sessionStorage.removeItem('gjl-currentUserProjects');
-        this.loggedIn = false;
+        this.changeLoginStatus(false);
     }
 }
 

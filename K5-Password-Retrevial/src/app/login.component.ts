@@ -14,12 +14,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loggedIn : boolean = false;
   failedLogIn : boolean = false;
-  projects :any;
+  //projects :any;
 
   constructor(private identityService: IdentityService) { }
 
   ngOnInit() {
-    
+    this.identityService.loggedIn.subscribe(status => this.loggedIn = status)
+
     this.loginForm = new FormGroup({
       'loginData': new FormGroup({
         'user': new FormControl(null, [Validators.required]),
@@ -37,19 +38,19 @@ export class LoginComponent implements OnInit {
                                                 this.loginForm.get('loginData.region').value)
                                                 .subscribe(
                                                     data => {
-                                                        this.identityService.loggedIn = true;
-                                                        this.failedLogIn = false;
-                                                        this.loggedIn = true;
-                                                        this.identityService.getProjectList().subscribe(newProjectList => {
-                                                          this.projects = newProjectList;
-                                                        });
+                                                        //this.identityService.loggedIn = true;
+                                                        //this.failedLogIn = false;
+                                                        //this.loggedIn = true;
+                                                        // this.identityService.getProjectList().subscribe(newProjectList => {
+                                                        //   this.projects = newProjectList;
+                                                        // });
 
                                                     },
                                                     error => {
                                                         //this.alertService.error(error);
                                                         //this.loading = false;
                                                         console.log('bang - something failed during login');
-                                                        this.failedLogIn = true;
+                                                        //this.failedLogIn = true;
                                                         this.loginForm.reset();
                                                         
                                                     });
@@ -60,7 +61,7 @@ export class LoginComponent implements OnInit {
   onLogout() {
     this.identityService.logout();
     this.loginForm.reset();
-    this.loggedIn = false;
+    //this.loggedIn = false;
 
   }  
 }

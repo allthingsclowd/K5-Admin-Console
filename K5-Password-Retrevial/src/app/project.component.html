@@ -1,5 +1,5 @@
 <form [formGroup]="projectForm" >      
-  <div formGroupName="projectData" *ngIf="loggedIn">
+  <div formGroupName="projectData" *ngIf="loggedIn && projects!==null">
         <div  class="form-group">
           <label for="project">
             Please select a project

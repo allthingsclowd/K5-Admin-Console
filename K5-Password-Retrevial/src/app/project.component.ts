@@ -11,7 +11,7 @@ import { ComputeService } from './services/compute.service';
 })
 export class ProjectComponent implements OnInit {
   projectForm: FormGroup;
-  userLoggedin: boolean = false;
+  loggedIn: boolean = false;
   projects: projects = null;
   currentProject: project = null;
 
@@ -19,16 +19,25 @@ export class ProjectComponent implements OnInit {
               private computeService: ComputeService) { }
 
   ngOnInit() {
+    this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
+    this.identityService.userProjects.subscribe(currentProjects => this.projects = currentProjects);
+    this.identityService.currentProject.subscribe(project => this.currentProject = project);
+
     this.projectForm = new FormGroup({
       'projectData': new FormGroup({
         'project': new FormControl(null, [Validators.required])
       })      
     });
-    this.userLoggedin = this.identityService.loggedIn;
-    this.projects = this.identityService.k5projects;
+    //this.projects = this.identityService.k5projects;
+    console.log("Projects, Project, Logged In Status are as follows (next three lines) : ");
+    console.log(this.projects);
+    console.log(this.currentProject);
+    console.log(this.loggedIn);
   }
 
   projectChange(){
+
+    this.identityService.changeProject(this.projectForm.get('projectData.project').value);
     this.identityService.getProjectScopedToken(this.projectForm.get('projectData.project').value)
       .subscribe( data => {
         console.log('new project token');
@@ -41,6 +50,10 @@ export class ProjectComponent implements OnInit {
             
          // });
       });
+      console.log("PROJECT CHANGE SELECTED Projects, Project, Logged In Status are as follows (next three lines) : ");
+      console.log(this.projects);
+      console.log(this.currentProject);
+      console.log(this.loggedIn);
     
   }
 }
