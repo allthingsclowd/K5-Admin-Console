@@ -152,10 +152,10 @@ export class IdentityService {
             .map((res: Response) => {
 
                     this.changeProjectList(res.json().projects);
-                    this.changeProject(res.json().projects[150].name);
+                    this.changeProject(res.json().projects[150]);
                     console.log('Project List is as follows: ');
                     console.log(this.userProjectList.getValue());
-                    console.log(this.selectedProject.getValue());
+                    console.log(this.selectedProject.getValue().name);
                     //return res.json().projects as projects;
                     // return projects;
             });

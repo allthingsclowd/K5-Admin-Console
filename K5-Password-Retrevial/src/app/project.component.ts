@@ -21,15 +21,15 @@ export class ProjectComponent implements OnInit {
   ngOnInit() {
     this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
     this.identityService.userProjects.subscribe(currentProjects => this.projects = currentProjects);
-    this.identityService.currentProject.subscribe(project => this.currentProject = project);
-
+    this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
+    
     this.projectForm = new FormGroup({
       'projectData': new FormGroup({
         'project': new FormControl(null, [Validators.required])
       })      
     });
     //this.projects = this.identityService.k5projects;
-    console.log("Projects, Project, Logged In Status are as follows (next three lines) : ");
+    console.log("NGONINIT on Projects Component - Projects, Project, Logged In Status are as follows (next three lines) : ");
     console.log(this.projects);
     console.log(this.currentProject);
     console.log(this.loggedIn);
@@ -38,7 +38,7 @@ export class ProjectComponent implements OnInit {
   projectChange(){
 
     this.identityService.changeProject(this.projectForm.get('projectData.project').value);
-    this.identityService.getProjectScopedToken(this.projectForm.get('projectData.project').value)
+    this.identityService.getProjectScopedToken((this.projectForm.get('projectData.project').value).id)
       .subscribe( data => {
         console.log('new project token');
         console.log(data);

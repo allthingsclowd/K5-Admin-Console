@@ -11,11 +11,11 @@
             name="project"
             (change)="projectChange()">
             <option [value]="null">Choose a project</option>
-            <option *ngFor="let project of projects | sortObjectsByName" [value]="project.id">{{project.name}}</option>
-            
+            <option *ngFor="let project of projects | sortObjectsByName" [value]="project">{{project.name}}</option>
+            <!-- <option *ngFor="let project of projects " [value]="project.id">{{project.name}}</option> -->
           </select>
           <span
-            *ngIf="!passwordForm.get('serverData.project').valid && passwordForm.get('serverData.project').touched"
+            *ngIf="!passwordForm.get('projectData.project').valid && passwordForm.get('projectData.project').touched"
             class="help-block">Please select a project from the list
           </span>					
         </div>
