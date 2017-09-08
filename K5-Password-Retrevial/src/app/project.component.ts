@@ -1,4 +1,4 @@
-import { projects, project } from './model/user';
+import { project } from './model/user';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IdentityService } from './services/identity.service';
@@ -11,9 +11,9 @@ import { ComputeService } from './services/compute.service';
 })
 export class ProjectComponent implements OnInit {
   projectForm: FormGroup;
-  loggedIn: boolean = false;
-  projects: projects = null;
-  currentProject: project = null;
+  loggedIn: boolean;
+  projects: project[];
+  currentProject: project;
 
   constructor(private identityService: IdentityService,
               private computeService: ComputeService) { }
@@ -22,40 +22,48 @@ export class ProjectComponent implements OnInit {
     this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
     this.identityService.userProjects.subscribe(currentProjects => this.projects = currentProjects);
     this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
-    
+
     this.projectForm = new FormGroup({
       'projectData': new FormGroup({
         'project': new FormControl(null, [Validators.required])
-      })      
+      })
     });
-    //this.projects = this.identityService.k5projects;
-    console.log("NGONINIT on Projects Component - Projects, Project, Logged In Status are as follows (next three lines) : ");
+    // this.projects = this.identityService.k5projects;
+    console.log('NGONINIT on Projects Component - Projects, Project, Logged In Status are as follows (next three lines) : ');
     console.log(this.projects);
+//     for (let index in this.projects) {
+//       console.log(this.projects[index].name);
+//   }
+//   for (let project of this.projects.project) {
+//     console.log(project.name);
+// }
     console.log(this.currentProject);
     console.log(this.loggedIn);
   }
 
-  projectChange(){
+  projectChange() {
 
     this.identityService.changeProject(this.projectForm.get('projectData.project').value);
-    console.log("Selected Project ID to be verified...");
+    console.log('333333333333. Selected Project ID to be scoped to...');
     console.log((this.projectForm.get('projectData.project').value).id);
+    console.log((this.projectForm.get('projectData.project').value).name);
+    console.log((this.projectForm.get('projectData.project').value));
     this.identityService.getProjectScopedToken((this.projectForm.get('projectData.project').value).id)
       .subscribe( data => {
         console.log('new project token');
         console.log(data);
-        //this.currentScopedToken = data;
+        // this.currentScopedToken = data;
         // this.computeService.getServerList(data)
         //   .subscribe( serverList => {
         //     this.servers = serverList.json().servers;
         //     console.log(this.servers);
-            
+
          // });
       });
-      console.log("PROJECT CHANGE SELECTED Projects, Project, Logged In Status are as follows (next three lines) : ");
+      console.log('PROJECT CHANGE SELECTED Projects, Project, Logged In Status are as follows (next three lines) : ');
       console.log(this.projects);
       console.log(this.currentProject);
       console.log(this.loggedIn);
-    
+
   }
 }

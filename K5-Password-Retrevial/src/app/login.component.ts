@@ -12,8 +12,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
   regions = ['uk-1', 'fi-1', 'de-1', 'es-1', 'us-1'];
   loginForm: FormGroup;
-  loggedIn : boolean = false;
-  failedLogIn : boolean = false;
+  loggedIn: boolean = false;
+  failedLogIn: boolean = false;
   //projects :any;
 
   constructor(private identityService: IdentityService) { }
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
         'password': new FormControl(null, [Validators.required]),
         'contract': new FormControl(null, [Validators.required]),
         'region': new FormControl(null, [Validators.required])
-      })      
+      })
     });    
   }
 
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
                                                     data => {
                                                         //this.identityService.loggedIn = true;
                                                         //this.failedLogIn = false;
-                                                        //this.loggedIn = true;
+                                                        console.log("Login.ts -> Logged In");
                                                         // this.identityService.getProjectList().subscribe(newProjectList => {
                                                         //   this.projects = newProjectList;
                                                         // });

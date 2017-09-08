@@ -1,4 +1,4 @@
-import { User, project, projects, ProjectToken } from './../model/user';
+import { User, project, ProjectToken } from './../model/user';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, RequestMethod, Request, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -11,20 +11,20 @@ import { UtilityService } from './utility.service';
 @Injectable()
 export class IdentityService {
     user = new User();
-    
-    //k5projects: projects;
-    private userProjectList = new BehaviorSubject<projects>(null);
+
+    // k5projects: projects;
+    private userProjectList = new BehaviorSubject<project[]>(undefined);
     userProjects = this.userProjectList.asObservable();
     k5response: Response;
     k5Globalresponse: Response;
-    //loggedIn :boolean = false; 
+    // loggedIn :boolean = false;
     private userLoggedIn = new BehaviorSubject<boolean>(false);
     loggedIn = this.userLoggedIn.asObservable();
-    //currentProject: project;
-    private selectedProject = new BehaviorSubject<project>(null);
+    // currentProject: project;
+    private selectedProject = new BehaviorSubject<project>(undefined);
     currentProject = this.selectedProject.asObservable();
-    //projects :projects;
-    k5currentScopedToken :Response;
+    // projects :projects;
+    k5currentScopedToken: Response;
 
     constructor(private http: Http,
                private utilityService: UtilityService) {
@@ -38,16 +38,16 @@ export class IdentityService {
         // });
     }
 
-    changeProject(currentProject: project){
-        this.selectedProject.next(currentProject)
+    changeProject(currentProject: project) {
+        this.selectedProject.next(currentProject);
     }
 
-    changeProjectList(userProjects: projects){
-        this.userProjectList.next(userProjects)
+    changeProjectList(userProjects: project[]) {
+        this.userProjectList.next(userProjects);
     }
 
-    changeLoginStatus(loggedInStatus: boolean){
-        this.userLoggedIn.next(loggedInStatus)
+    changeLoginStatus(loggedInStatus: boolean) {
+        this.userLoggedIn.next(loggedInStatus);
     }
 
 
@@ -74,7 +74,7 @@ export class IdentityService {
 
         return this.http.get(authURL, postopts)
             .map((res: any) => {
-                //console.log('ObjectList => ' + JSON.stringify(res));
+                // console.log('ObjectList => ' + JSON.stringify(res));
                 return res;
              });
 
@@ -151,12 +151,18 @@ export class IdentityService {
         return this.http.get(authURL, postopts)
             .map((res: Response) => {
 
+
+
                     this.changeProjectList(res.json().projects);
                     this.changeProject(res.json().projects[150]);
-                    console.log('Project List is as follows: ');
+                    console.log('111111111. Get Project List with projects and actual project as follows: ');
+                    console.log('All Unparsed Projects');
+                    console.log(res);
+                    console.log(res.json());
+                    console.log(res.json().projects);
                     console.log(this.userProjectList.getValue());
                     console.log(this.selectedProject.getValue().name);
-                    //return res.json().projects as projects;
+                    // return res.json().projects as projects;
                     // return projects;
             });
 
@@ -196,7 +202,7 @@ export class IdentityService {
                 this.k5Globalresponse = gres;
                 // retrieve the K5/OpenStack authentication token from the response header
                 this.user.globalToken = gres.headers.get('X-Access-Token');
-                console.log('Central Portal Token => \n'+ JSON.stringify(gres) );
+                console.log('Central Portal Token => \n' + JSON.stringify(gres) );
 
            });
 
@@ -247,7 +253,7 @@ export class IdentityService {
                 this.user.roles = res.json().token.roles;
                 this.user.expires = res.json().token.expires_at;
                 this.changeLoginStatus(true);
-                //this.k5currentScopedToken = res;
+                // this.k5currentScopedToken = res;
                 this.k5currentScopedToken = res;
 
                 // retrieve Global token
@@ -259,7 +265,7 @@ export class IdentityService {
                 //                             this.changeProjectList(value);
                 //                             console.log('New Project Name BElow');
                 //                             console.log(this.selectedProject.getValue());
-                                            
+
                 //                             //this.projects = value;
                 //                             // sessionStorage.setItem('gjl-currentUserProjects', JSON.stringify(this.k5projects));
                 //                              });
@@ -277,7 +283,6 @@ export class IdentityService {
 
     }
 
-    
 
     logout() {
         // remove user from local storage to log user out

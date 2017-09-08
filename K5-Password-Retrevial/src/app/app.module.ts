@@ -14,6 +14,8 @@ import { ServerComponent } from './server.component';
 import { NetworkComponent } from './network.component';
 import { RouterComponent } from './router.component';
 import { ProjectComponent } from './project.component';
+import { DisplayObjectPipe } from './services/display-object.pipe';
+import { ConvertSubset2ArrayPipe } from './services/convert-subset2-array.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ProjectComponent } from './project.component';
     ServerComponent,
     NetworkComponent,
     RouterComponent,
-    ProjectComponent
+    ProjectComponent,
+    DisplayObjectPipe,
+    ConvertSubset2ArrayPipe
   ],
   imports: [
     BrowserModule,

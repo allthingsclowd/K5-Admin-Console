@@ -54,7 +54,7 @@
             formControlName="region"						
             name="region">
             <option [value]="null">Choose a region</option>
-            <option *ngFor="let region of regions | sortObjectsByName" [value]="region">{{region}}</option>
+            <option *ngFor="let region of regions" [value]="region">{{region}}</option>
             
           </select>
           <span

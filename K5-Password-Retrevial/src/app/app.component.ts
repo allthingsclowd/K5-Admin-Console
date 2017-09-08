@@ -1,4 +1,5 @@
 import { ComputeService } from './services/compute.service';
+import { projects, project } from './model/user';
 import { IdentityService } from './services/identity.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { Component, OnInit, OnChanges } from '@angular/core';
@@ -11,12 +12,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  loggedIn: boolean = false;
+  userProjects: project[] = null;
 
 
-  constructor() {}
+  constructor(private identityService: IdentityService) {}
 
 
   ngOnInit() {
+    this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
+    this.identityService.userProjects.subscribe(currentProjects => this.userProjects = currentProjects);
 
   }
 

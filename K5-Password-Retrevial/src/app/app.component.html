@@ -26,7 +26,7 @@
 			</li>
 		</ul>
 		<app-login></app-login>
-		<app-project></app-project> 
+		<app-project *ngIf="loggedIn && userProjects" ></app-project> 
 		<!-- <app-server></app-server>
 		<app-network></app-network>
 		<app-router></app-router> -->
