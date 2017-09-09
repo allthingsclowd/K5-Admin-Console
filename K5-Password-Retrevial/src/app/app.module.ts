@@ -16,6 +16,7 @@ import { RouterComponent } from './router.component';
 import { ProjectComponent } from './project.component';
 import { DisplayObjectPipe } from './services/display-object.pipe';
 import { ConvertSubset2ArrayPipe } from './services/convert-subset2-array.pipe';
+import { RemoveQuotesPipe } from './services/remove-quotes.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ConvertSubset2ArrayPipe } from './services/convert-subset2-array.pipe';
     RouterComponent,
     ProjectComponent,
     DisplayObjectPipe,
-    ConvertSubset2ArrayPipe
+    ConvertSubset2ArrayPipe,
+    RemoveQuotesPipe
   ],
   imports: [
     BrowserModule,

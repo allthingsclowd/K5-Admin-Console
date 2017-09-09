@@ -154,7 +154,7 @@ export class IdentityService {
 
 
                     this.changeProjectList(res.json().projects);
-                    this.changeProject(res.json().projects[150]);
+                    this.changeProject(res.json().projects[0]);
                     console.log('111111111. Get Project List with projects and actual project as follows: ');
                     console.log('All Unparsed Projects');
                     console.log(res);

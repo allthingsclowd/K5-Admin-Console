@@ -1,5 +1,5 @@
-<form [formGroup]="projectForm" >
-  <div>
+
+  <!-- <div>
     <p>Here's all the projects </p>
     <hr> 
     <p>Projects == {{(projects[1].name|json)}} </p>
@@ -10,8 +10,8 @@
       </li>
     </ul>
   </div>     
-  <!-- <div formGroupName="projectData">
-        <div  class="form-group">
+  <div>
+        
           <label for="project">
             Please select a project
           </label>
@@ -22,16 +22,36 @@
             name="project"
             (change)="projectChange()">
             <option [value]="null">Choose a project</option>
-            <option *ngFor="#userProject of projects | async; let c = count; let i = index;" [value]="userProject"> Project {{i}} of {{c}} name is {{userProject}}</option> -->
-            <!-- <option *ngFor="let project of projects | sortObjectsByName" [value]="project">{{project.name}}</option> -->
-            <!-- <option *ngFor="let project of projects " [value]="project.id">{{project.name}}</option> -->
-          <!-- </select>
-          <span
+            <option *ngFor='let entry of projects | convertSubset2Array | sortObjectsByName' [value]="entry.value.id|json"> Project {{entry.value.name|json}}</option>
+          </select> -->
+          <!-- <span
             *ngIf="!passwordForm.get('projectData.project').valid && passwordForm.get('projectData.project').touched"
             class="help-block">Please select a project from the list
-          </span>					
-        </div>
-
+          </span>					 -->
+               
+      <!-- </div> -->
+      <ul class="btn-group nav navbar-nav">
         
-      </div> -->
-</form>
+      
+      <!-- Split button -->
+
+        <button type="button" class="btn btn-info navbar-btn">{{currentProject.name | json | removeQuotes}}</button>
+        <!-- <button *ngIf='currentProject.value.name' type="button" class="btn btn-info navbar-btn">{{currentProject.value.name|json}}</button> -->
+        <button type="button" class="btn btn-info navbar-btn"><span class="badge">{{projects.length}}</span></button>
+        <button type="button" class="btn btn-info dropdown-toggle navbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-hover scrollable-menu" >
+          <!-- <div *ngFor='let entry of projects | convertSubset2Array | sortObjectsByName'> -->
+            <!-- <li    value="entry.value.id|json"
+                    (click)="projectChange(entry)">{{entry.value.name|json}}</li>
+          </div> -->
+          <div *ngFor='let project of projects | sortObjectsByName'>
+            <li    value="project.id | json | removeQuotes"
+                    (click)="projectChange(project)">{{project.name | json | removeQuotes}}</li>
+          </div>
+        </ul>
+    
+    </ul>

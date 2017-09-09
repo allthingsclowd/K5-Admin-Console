@@ -1,6 +1,6 @@
 import { project } from './model/user';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+// import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IdentityService } from './services/identity.service';
 import { ComputeService } from './services/compute.service';
 
@@ -10,7 +10,7 @@ import { ComputeService } from './services/compute.service';
   styleUrls: ['./project.component.css']
 })
 export class ProjectComponent implements OnInit {
-  projectForm: FormGroup;
+  // projectForm: FormGroup;
   loggedIn: boolean;
   projects: project[];
   currentProject: project;
@@ -23,11 +23,11 @@ export class ProjectComponent implements OnInit {
     this.identityService.userProjects.subscribe(currentProjects => this.projects = currentProjects);
     this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
 
-    this.projectForm = new FormGroup({
-      'projectData': new FormGroup({
-        'project': new FormControl(null, [Validators.required])
-      })
-    });
+    // this.projectForm = new FormGroup({
+    //  'projectData': new FormGroup({
+    //    'project': new FormControl(null, [Validators.required])
+    //  })
+    // });
     // this.projects = this.identityService.k5projects;
     console.log('NGONINIT on Projects Component - Projects, Project, Logged In Status are as follows (next three lines) : ');
     console.log(this.projects);
@@ -41,14 +41,14 @@ export class ProjectComponent implements OnInit {
     console.log(this.loggedIn);
   }
 
-  projectChange() {
+  projectChange(selectedProject) {
 
-    this.identityService.changeProject(this.projectForm.get('projectData.project').value);
+    this.identityService.changeProject(selectedProject);
     console.log('333333333333. Selected Project ID to be scoped to...');
-    console.log((this.projectForm.get('projectData.project').value).id);
-    console.log((this.projectForm.get('projectData.project').value).name);
-    console.log((this.projectForm.get('projectData.project').value));
-    this.identityService.getProjectScopedToken((this.projectForm.get('projectData.project').value).id)
+    console.log(selectedProject.id);
+    console.log(selectedProject.name);
+    console.log(selectedProject);
+    this.identityService.getProjectScopedToken(selectedProject.id)
       .subscribe( data => {
         console.log('new project token');
         console.log(data);
