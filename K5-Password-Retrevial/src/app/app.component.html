@@ -4,48 +4,13 @@
 			<img alt="Fujitsu K5 Logo" src="http://www.fujitsu.com/uk/Images/K5-climber-580x224_tcm23-2619235.jpg" class="img-rounded">
 		</div>
 	</div>
-    <div class="container-fluid" id="mainTabbedWindow">
-		<ul class="nav nav-tabs">
-			<li class="nav-item">
-				<a class="nav-link active" href="#Creds">Credentials</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#Projects">Projects</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#Servers">Servers</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#Networks">Networks</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#Routers">Routers</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#SecurityGroups">Security Groups</a>
-			</li>
-		</ul>
-		<app-login></app-login>
-		<app-project *ngIf="loggedIn && userProjects" ></app-project> 
-		<!-- <app-server></app-server>
-		<app-network></app-network>
-		<app-router></app-router> -->
-		<!-- <div class="tab-content clearfix">
-			<div class="tab-pane" id="Creds">
-
-			</div>
-			<div class="tab-pane active" id="Servers">
-          		<h3>Server Content Goes Here</h3>
-			</div>
-			<div class="tab-pane" id="Networks">
-          		<h3>Network Content Goes Here</h3>
-			</div>
-			<div class="tab-pane" id="Routers">
-          		<h3>Router Content Goes Here</h3>
-			</div>
-			<div class="tab-pane" id="SecurityGroups">
-          		<h3>Security Group Content Goes Here</h3>
-			</div>
-		</div> -->
+    <div class="container-fluid">
+		<app-login *ngIf="!loggedIn"></app-login>
+		<div>
+			
+			<app-project *ngIf="loggedIn && userProjects" ></app-project> 
+			<app-logout *ngIf="loggedIn"></app-logout>
+		</div>
+		<app-project-panel *ngIf="loggedIn && userProjects"></app-project-panel>
 	</div>
 

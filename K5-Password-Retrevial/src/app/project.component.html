@@ -1,35 +1,4 @@
 
-  <!-- <div>
-    <p>Here's all the projects </p>
-    <hr> 
-    <p>Projects == {{(projects[1].name|json)}} </p>
-    <hr>
-    <ul>
-      <li *ngFor="let entry of projects | convertSubset2Array | sortObjectsByName">           
-        Key: {{entry.key}}, value: {{entry.value.name|json}}
-      </li>
-    </ul>
-  </div>     
-  <div>
-        
-          <label for="project">
-            Please select a project
-          </label>
-          <select
-            id="project"
-            class="form-control"
-            formControlName="project"						
-            name="project"
-            (change)="projectChange()">
-            <option [value]="null">Choose a project</option>
-            <option *ngFor='let entry of projects | convertSubset2Array | sortObjectsByName' [value]="entry.value.id|json"> Project {{entry.value.name|json}}</option>
-          </select> -->
-          <!-- <span
-            *ngIf="!passwordForm.get('projectData.project').valid && passwordForm.get('projectData.project').touched"
-            class="help-block">Please select a project from the list
-          </span>					 -->
-               
-      <!-- </div> -->
       <ul class="btn-group nav navbar-nav">
         
       
@@ -43,7 +12,7 @@
             <span class="sr-only">Toggle Dropdown</span>
         </button>
 
-        <ul class="dropdown-menu dropdown-hover scrollable-menu" >
+        <ul class="wrapper selection dropdown-menu dropdown-hover scrollable-menu" >
           <!-- <div *ngFor='let entry of projects | convertSubset2Array | sortObjectsByName'> -->
             <!-- <li    value="entry.value.id|json"
                     (click)="projectChange(entry)">{{entry.value.name|json}}</li>

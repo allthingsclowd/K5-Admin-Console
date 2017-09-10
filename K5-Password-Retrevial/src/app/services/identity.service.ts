@@ -13,18 +13,24 @@ export class IdentityService {
     user = new User();
 
     // k5projects: projects;
-    private userProjectList = new BehaviorSubject<project[]>(undefined);
+    private userProjectList = new BehaviorSubject<project[]>(null);
     userProjects = this.userProjectList.asObservable();
-    k5response: Response;
-    k5Globalresponse: Response;
+    private userRegionalToken = new BehaviorSubject<Response>(null);
+    userRToken = this.userRegionalToken.asObservable();
+    private userGlobalToken = new BehaviorSubject<Response>(null);
+    userGToken = this.userGlobalToken.asObservable();
+    // k5response: Response;
+    // k5Globalresponse: Response;
     // loggedIn :boolean = false;
     private userLoggedIn = new BehaviorSubject<boolean>(false);
     loggedIn = this.userLoggedIn.asObservable();
     // currentProject: project;
-    private selectedProject = new BehaviorSubject<project>(undefined);
+    private selectedProject = new BehaviorSubject<project>(null);
     currentProject = this.selectedProject.asObservable();
+    private userProjectToken = new BehaviorSubject<Response>(null);
+    userPToken = this.userProjectToken.asObservable();
     // projects :projects;
-    k5currentScopedToken: Response;
+    // k5currentScopedToken: Response;
 
     constructor(private http: Http,
                private utilityService: UtilityService) {
@@ -50,18 +56,29 @@ export class IdentityService {
         this.userLoggedIn.next(loggedInStatus);
     }
 
+    changeRegionalToken(userRToken: Response) {
+        this.userRegionalToken.next(userRToken);
+    }
+
+    changeGlobalToken(userGToken: Response) {
+        this.userGlobalToken.next(userGToken);
+    }
+
+    changeProjectToken(userPToken: Response) {
+        this.userProjectToken.next(userPToken);
+    }
 
     getKeystoneObjectList(objectType: string) {
-        const k5token = this.k5response;
-        console.log('Keystone Token Details ' + JSON.stringify(k5token));
+        // const k5token = this.k5response;
+        console.log('Keystone Token Details ' + JSON.stringify(this.userRegionalToken.getValue()));
         console.log('Keystone ObjectType Details ' + objectType);
-        const identityURL = this.utilityService.getEndpoint(k5token, 'identityv3');
+        const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
         const endpointDetail = identityURL.concat('/', objectType, '?domain_id=', this.user.contractId);
         // With CORS Proxy Service in use here
         const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
 
         // retrieve the K5/OpenStack authentication token from the response header
-        const token = k5token.headers.get('x-subject-token');
+        const token = this.userRegionalToken.getValue().headers.get('x-subject-token');
         console.log('Getting KeystoneObject List');
 
         const postheaders: Headers = new Headers();
@@ -82,8 +99,8 @@ export class IdentityService {
 
     getProjectScopedToken(projectId: string) {
 
-        const k5token = this.k5response;
-        const identityURL = this.utilityService.getEndpoint(k5token, 'identityv3');
+        // const k5token = this.k5response;
+        const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
         const endpointDetail = identityURL.concat('/auth/tokens');
         // With CORS Proxy Service in use here
         const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
@@ -93,7 +110,7 @@ export class IdentityService {
                             { 'methods':
                                 [ 'token'],
                                 'token':
-                                    { 'id': k5token.headers.get('x-subject-token') }
+                                    { 'id': this.userRegionalToken.getValue().headers.get('x-subject-token') }
                             }, 'scope':
                                     { 'project':
                                         { 'id': projectId  }
@@ -112,12 +129,12 @@ export class IdentityService {
 
         return this.http.post(authURL, bodyString, postopts)
             .map((res: any) => {
-                const projectToken = new ProjectToken();
+                // const projectToken = new ProjectToken();
 
                 // retrieve the K5/OpenStack authentication token from the response header
-                projectToken.scopedToken = res.headers.get('x-subject-token');
-                projectToken.projectId = projectId;
-                this.k5currentScopedToken = res;
+                // projectToken.scopedToken = res.headers.get('x-subject-token');
+                // projectToken.projectId = projectId;
+                this.changeProjectToken(res);
 
                 return res;
             });
@@ -126,18 +143,18 @@ export class IdentityService {
 
     getProjectList() {
 
-        const k5token = this.k5response;
-        console.log(this.currentProject);
-        const identityURL = this.utilityService.getEndpoint(k5token, 'identityv3');
+        // const k5token = this.k5response;
+        // console.log(this.currentProject);
+        const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
 
-        const endpointDetail = identityURL.concat('/users/', k5token.json().token.user.id, '/projects');
+        const endpointDetail = identityURL.concat('/users/', this.userRegionalToken.getValue().json().token.user.id, '/projects');
         console.log(endpointDetail);
         // With CORS Proxy Service in use here
         const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
         console.log(authURL);
 
         // retrieve the K5/OpenStack authentication token from the response header
-        const token = k5token.headers.get('x-subject-token');
+        const token = this.userRegionalToken.getValue().headers.get('x-subject-token');
         console.log('Getting Project List');
 
         const postheaders: Headers = new Headers();
@@ -157,9 +174,9 @@ export class IdentityService {
                     this.changeProject(res.json().projects[0]);
                     console.log('111111111. Get Project List with projects and actual project as follows: ');
                     console.log('All Unparsed Projects');
-                    console.log(res);
-                    console.log(res.json());
-                    console.log(res.json().projects);
+                    // console.log(res);
+                    // console.log(res.json());
+                    // console.log(res.json().projects);
                     console.log(this.userProjectList.getValue());
                     console.log(this.selectedProject.getValue().name);
                     // return res.json().projects as projects;
@@ -171,7 +188,7 @@ export class IdentityService {
     }
 
 
-    // Get unscoped K5 regional token
+    // Get unscoped K5 global token
     getCentralPortalToken(username: string, password: string, contract: string) {
         // Without CORS Proxy Service in use
         const identityURL = 'https://auth-api.jp-east-1.paas.cloud.global.fujitsu.com/API/paas/auth/token';
@@ -199,10 +216,11 @@ export class IdentityService {
         return this.http.post(authURL, bodyString, postopts)
             .map((gres: Response) => {
 
-                this.k5Globalresponse = gres;
+                this.changeGlobalToken(gres);
+                // this.k5Globalresponse = gres;
                 // retrieve the K5/OpenStack authentication token from the response header
-                this.user.globalToken = gres.headers.get('X-Access-Token');
-                console.log('Central Portal Token => \n' + JSON.stringify(gres) );
+                // this.user.globalToken = gres.headers.get('X-Access-Token');
+                console.log('Central Portal Token => \n' + JSON.stringify(this.userGToken) );
 
            });
 
@@ -241,20 +259,20 @@ export class IdentityService {
         return this.http.post(authURL, bodyString, postopts)
             .map((res: Response) => {
 
-                this.k5response = res;
+                this.changeRegionalToken(res);
                 // retrieve the K5/OpenStack authentication token from the response header
-                this.user.token = res.headers.get('x-subject-token');
+                // this.user.token = res.headers.get('x-subject-token');
 
-                // retrieve the remainder of the values from the response body
-                this.user.name = res.json().token.user.name;
-                this.user.contractId = res.json().token.project.domain.id;
-                this.user.id = res.json().token.user.id;
-                this.user.catalog = res.json().token.catalog;
-                this.user.roles = res.json().token.roles;
-                this.user.expires = res.json().token.expires_at;
+                // // retrieve the remainder of the values from the response body
+                // this.user.name = res.json().token.user.name;
+                // this.user.contractId = res.json().token.project.domain.id;
+                // this.user.id = res.json().token.user.id;
+                // this.user.catalog = res.json().token.catalog;
+                // this.user.roles = res.json().token.roles;
+                // this.user.expires = res.json().token.expires_at;
                 this.changeLoginStatus(true);
                 // this.k5currentScopedToken = res;
-                this.k5currentScopedToken = res;
+                // this.k5currentScopedToken = res;
 
                 // retrieve Global token
                 this.getCentralPortalToken(username, password, contract).subscribe();
@@ -272,11 +290,11 @@ export class IdentityService {
                 this.getProjectList().subscribe();
 
 
-                if (this.user.token != null) {
-                    // store user details local storage to keep user logged in between page refreshes
-                    sessionStorage.setItem('gjl-currentUsertoken', JSON.stringify(this.user));
-                    sessionStorage.setItem('gjl-currenttoken', JSON.stringify(res));
-                }
+                // if (this.user.token != null) {
+                //     // store user details local storage to keep user logged in between page refreshes
+                //     sessionStorage.setItem('gjl-currentUsertoken', JSON.stringify(this.user));
+                //     sessionStorage.setItem('gjl-currenttoken', JSON.stringify(res));
+                // }
             });
 
 
@@ -286,8 +304,8 @@ export class IdentityService {
 
     logout() {
         // remove user from local storage to log user out
-        sessionStorage.removeItem('gjl-currentUsertoken');
-        sessionStorage.removeItem('gjl-currentUserProjects');
+        // sessionStorage.removeItem('gjl-currentUsertoken');
+        // sessionStorage.removeItem('gjl-currentUserProjects');
         this.changeLoginStatus(false);
     }
 }

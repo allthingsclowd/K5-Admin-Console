@@ -3,7 +3,7 @@ import { projects, project } from './model/user';
 import { IdentityService } from './services/identity.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+// import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -14,6 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class AppComponent implements OnInit {
   loggedIn: boolean = false;
   userProjects: project[] = null;
+  currentProject: project = null;
 
 
   constructor(private identityService: IdentityService) {}
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
     this.identityService.userProjects.subscribe(currentProjects => this.userProjects = currentProjects);
+    this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
 
   }
 

@@ -1,22 +1,35 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Http, RequestMethod, Request, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { User, projects, ProjectToken } from '../model/user';
+import { User, project, projects, ProjectToken } from '../model/user';
 import { IdentityService } from '../services/identity.service';
 import { UtilityService } from '../services/utility.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class ComputeService {
-   // user = new User();
-    //k5projects: projects;
-    //k5response: any;
+export class ComputeService implements OnInit {
+    private userServerList = new BehaviorSubject<any>(null);
+    userServers = this.userServerList.asObservable();
+    // private userProjectToken = new BehaviorSubject<Response>(null);
+    // userPToken = this.userProjectToken.asObservable();
+    currentProject: project = null;
+    currentProjectToken: Response = null;
 
     constructor(private http: Http,
                 private authService: IdentityService,
-                private utilitiesService: UtilityService) { }
+                private utilitiesService: UtilityService,
+                private identityService: IdentityService) { }
 
+    ngOnInit() {
+        this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
+        this.identityService.userPToken.subscribe(projectScopedToken => this.currentProjectToken = projectScopedToken);
+        }
+
+    changeServerList(userServers: any) {
+        this.userServerList.next(userServers);
+    }
 
     getServerList(k5scopedtoken: any) {
 
@@ -37,7 +50,8 @@ export class ComputeService {
             .map((res: any) => {
                 console.log('nova server list');
                 console.log(res.json().servers);
-                return res;
+                this.changeServerList(res.json().servers);
+                // return res;
                 });
 
     }

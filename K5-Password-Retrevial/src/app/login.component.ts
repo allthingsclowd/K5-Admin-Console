@@ -58,10 +58,5 @@ export class LoginComponent implements OnInit {
     //this.passwordForm.reset();
   }
 
-  onLogout() {
-    this.identityService.logout();
-    this.loginForm.reset();
-    //this.loggedIn = false;
-
-  }  
+ 
 }

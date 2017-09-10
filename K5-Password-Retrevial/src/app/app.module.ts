@@ -17,6 +17,8 @@ import { ProjectComponent } from './project.component';
 import { DisplayObjectPipe } from './services/display-object.pipe';
 import { ConvertSubset2ArrayPipe } from './services/convert-subset2-array.pipe';
 import { RemoveQuotesPipe } from './services/remove-quotes.pipe';
+import { LogoutComponent } from './logout.component';
+import { ProjectPanelComponent } from './project-panel.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { RemoveQuotesPipe } from './services/remove-quotes.pipe';
     ProjectComponent,
     DisplayObjectPipe,
     ConvertSubset2ArrayPipe,
-    RemoveQuotesPipe
+    RemoveQuotesPipe,
+    LogoutComponent,
+    ProjectPanelComponent
   ],
   imports: [
     BrowserModule,
