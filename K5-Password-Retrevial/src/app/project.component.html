@@ -1,11 +1,9 @@
 
-      <ul class="btn-group nav navbar-nav">
-        
+      <ul class="btn-group nav navbar-nav">   
       
       <!-- Split button -->
 
         <button type="button" class="btn btn-info navbar-btn">{{currentProject.name | json | removeQuotes}}</button>
-        <!-- <button *ngIf='currentProject.value.name' type="button" class="btn btn-info navbar-btn">{{currentProject.value.name|json}}</button> -->
         <button type="button" class="btn btn-info navbar-btn"><span class="badge">{{projects.length}}</span></button>
         <button type="button" class="btn btn-info dropdown-toggle navbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
@@ -13,10 +11,6 @@
         </button>
 
         <ul class="wrapper selection dropdown-menu dropdown-hover scrollable-menu" >
-          <!-- <div *ngFor='let entry of projects | convertSubset2Array | sortObjectsByName'> -->
-            <!-- <li    value="entry.value.id|json"
-                    (click)="projectChange(entry)">{{entry.value.name|json}}</li>
-          </div> -->
           <div *ngFor='let project of projects | sortObjectsByName'>
             <li    value="project.id | json | removeQuotes"
                     (click)="projectChange(project)">{{project.name | json | removeQuotes}}</li>

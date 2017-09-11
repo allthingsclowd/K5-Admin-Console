@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { UtilityService } from './utility.service';
+import { ComputeService } from './compute.service';
 
 @Injectable()
 export class IdentityService {
@@ -29,19 +30,13 @@ export class IdentityService {
     currentProject = this.selectedProject.asObservable();
     private userProjectToken = new BehaviorSubject<Response>(null);
     userPToken = this.userProjectToken.asObservable();
-    // projects :projects;
+    servers: any = null;
     // k5currentScopedToken: Response;
 
     constructor(private http: Http,
-               private utilityService: UtilityService) {
-        // this.currentProject.subscribe((project: project) => {
-        //     console.log('Get new token' + project.id);
-        //     this.getProjectScopedToken(project.id).subscribe((currentToken) => {
-        //         this.k5currentScopedToken.emit(currentToken);
-        //         console.log('got rescoped token');
-
-        //     });
-        // });
+                private utilityService: UtilityService,
+                private computeService: ComputeService) {
+                    this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
 
     changeProject(currentProject: project) {
@@ -100,6 +95,8 @@ export class IdentityService {
     getProjectScopedToken(projectId: string) {
 
         // const k5token = this.k5response;
+        console.log('New Scoped Project Pre-Response');
+        console.log(this.userRegionalToken.getValue());
         const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
         const endpointDetail = identityURL.concat('/auth/tokens');
         // With CORS Proxy Service in use here
@@ -134,9 +131,17 @@ export class IdentityService {
                 // retrieve the K5/OpenStack authentication token from the response header
                 // projectToken.scopedToken = res.headers.get('x-subject-token');
                 // projectToken.projectId = projectId;
-                this.changeProjectToken(res);
+                console.log('New Project Scoped Token response ->');
+                console.log(res);
 
-                return res;
+                this.changeProjectToken(res);
+                this.computeService.getServerList(res);
+                console.log('New Project Scoped Token observable ->');
+                console.log(this.userProjectToken.getValue());
+                //console.log('New Server List ->');
+                //console.log(this.servers.getValue());
+
+                //return res;
             });
 
     }

@@ -13,7 +13,7 @@ export class ProjectComponent implements OnInit {
   // projectForm: FormGroup;
   loggedIn: boolean;
   projects: project[];
-  currentProject: project;
+  currentProject: project = null;
 
   constructor(private identityService: IdentityService,
               private computeService: ComputeService) { }

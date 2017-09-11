@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { Http, RequestMethod, Request, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { User, project, projects, ProjectToken } from '../model/user';
@@ -9,29 +9,31 @@ import 'rxjs/add/operator/catch';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class ComputeService implements OnInit {
+export class ComputeService {
     private userServerList = new BehaviorSubject<any>(null);
     userServers = this.userServerList.asObservable();
+    private userServerDetails = new BehaviorSubject<any>(null);
+    serverDetails = this.userServerDetails.asObservable();
     // private userProjectToken = new BehaviorSubject<Response>(null);
     // userPToken = this.userProjectToken.asObservable();
     currentProject: project = null;
     currentProjectToken: Response = null;
 
     constructor(private http: Http,
-                private authService: IdentityService,
-                private utilitiesService: UtilityService,
-                private identityService: IdentityService) { }
+                private utilitiesService: UtilityService) { }
 
-    ngOnInit() {
-        this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
-        this.identityService.userPToken.subscribe(projectScopedToken => this.currentProjectToken = projectScopedToken);
-        }
 
     changeServerList(userServers: any) {
         this.userServerList.next(userServers);
     }
 
+    changeServerDetails(serverDetails: any) {
+        this.userServerDetails.next(serverDetails);
+    }
+
     getServerList(k5scopedtoken: any) {
+        console.log('compute token');
+        console.log(k5scopedtoken);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
         computeURL = computeURL.concat('/servers/detail');
@@ -48,11 +50,16 @@ export class ComputeService implements OnInit {
 
         return this.http.get(proxiedURL, headeropts)
             .map((res: any) => {
-                console.log('nova server list');
+                console.log('New Server List ->');
                 console.log(res.json().servers);
                 this.changeServerList(res.json().servers);
+
                 // return res;
-                });
+                })
+            .subscribe(
+                    data => console.log(data),
+                    err => console.log(err),
+                    () => console.log('yay'));
 
     }
 
@@ -74,9 +81,14 @@ export class ComputeService implements OnInit {
         return this.http.get(proxiedURL, headeropts)
             .map((res: any) => {
                 console.log('nova server details');
-                console.log(res.json());
+                console.log(res.json().server);
+                this.changeServerDetails(res.json().server);
                 return res;
-                });
+                })
+            .subscribe(
+                        data => console.log(data),
+                        err => console.log(err),
+                        () => console.log('yay'));
 
     }
 
