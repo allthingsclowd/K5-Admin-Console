@@ -1,12 +1,13 @@
 .wrapper{
     border: 1px;
-    height: 150px;
+    height: 250px;
     overflow-x: hidden;
     overflow-y: scroll;
-    width: 150px;
+    width: 250px;
  }
  .wrapper .selection{
-   width:150px;
+   float: none;
+   width:250px;
    border:1px solid #ccc
  }
 
@@ -19,3 +20,13 @@
   font-size: 20px;
   border-radius: 10px;
 }
+
+/* .navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+} */

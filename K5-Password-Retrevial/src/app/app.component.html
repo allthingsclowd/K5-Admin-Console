@@ -8,8 +8,10 @@
 		<app-login *ngIf="!loggedIn"></app-login>
 		<div>
 			<div class="row">
-				<app-logout *ngIf="loggedIn"></app-logout>
-				<app-project *ngIf="loggedIn && userProjects" ></app-project>				
+					<div class="col-md-12 text-center">
+						<!-- <app-logout *ngIf="loggedIn"></app-logout> -->
+						<app-project *ngIf="loggedIn && userProjects" ></app-project>
+					</div>				
 			</div>
 		</div>
 		<app-project-panel *ngIf="loggedIn && userProjects"></app-project-panel>

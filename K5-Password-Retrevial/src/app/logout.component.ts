@@ -18,6 +18,6 @@ export class LogoutComponent implements OnInit {
     // this.loginForm.reset();
     // this.loggedIn = false;
 
-  } 
+  }
 
 }

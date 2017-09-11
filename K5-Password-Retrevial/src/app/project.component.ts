@@ -41,6 +41,13 @@ export class ProjectComponent implements OnInit {
     console.log(this.loggedIn);
   }
 
+  onLogout() {
+    this.identityService.logout();
+    // this.loginForm.reset();
+    // this.loggedIn = false;
+
+  }
+
   projectChange(selectedProject) {
 
     this.identityService.changeProject(selectedProject);

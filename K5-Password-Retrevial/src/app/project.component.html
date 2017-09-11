@@ -1,10 +1,12 @@
-   <ul class="center-block btn-group nav navbar-nav">   
+
+   <ul class="btn-group">   
       
       <!-- Split button -->
-
-        <button type="button" class="center-block btn-xl btn btn-info navbar-btn">{{currentProject.name | json | removeQuotes}}</button>
-        <button type="button" class="center-block btn-xl btn btn-info navbar-btn"><span class="badge">{{projects.length}}</span></button>
-        <button type="button" class="center-block btn-xl btn btn-info dropdown-toggle navbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        
+        <button type="button" class="btn-xl btn btn-danger" (click)="onLogout()">Logout</button>
+        <button type="button" class="btn-xl btn btn-info">{{currentProject.name | json | removeQuotes}}</button>
+        <button type="button" class="btn-xl btn btn-info"><span class="badge">{{projects.length}}</span></button>
+        <button type="button" class="btn-xl btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
@@ -17,3 +19,4 @@
         </ul>
     
     </ul>
+
