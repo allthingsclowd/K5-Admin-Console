@@ -1,100 +1,79 @@
 <div *ngIf='currentProjectT' class="container-fluid">
-	<div class="row">
-		<div *ngIf='userServers' class="col-md-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						Servers <span class="badge">{{userServers.length}}</span>
-					</h3>
-				</div>
-				<div class="panel-body">
-          <div *ngFor='let server of userServers | sortObjectsByName'>
-            <li    value="server.id | json | removeQuotes"
-                    (click)="serverChange(server)">{{server.name | json | removeQuotes}}</li>
+  <div class="col-md-12">
+      <div class="panel with-nav-tabs panel-info">
+          <div class="panel-heading">
+                  <ul class="nav nav-tabs">
+                      <li *ngIf='userServers' class="active"><a href="#tab1primary" data-toggle="tab">Compute</a></li>
+                      <li><a href="#tab2primary" data-toggle="tab">Primary 2</a></li>
+                      <li><a href="#tab3primary" data-toggle="tab">Primary 3</a></li>
+                  </ul>
           </div>
-				</div>
-				<div *ngIf='serverDetails' class="fixed-panel panel-footer">
-          Server Details
-					{{serverDetails|json}}
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Panel title
-              </h3>
-            </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              Panel footer
-            </div>
+          <div class="panel-body">
+              <div class="tab-content">
+                  <div class="tab-pane fade in active" id="tab1primary">
+                      <div *ngIf='currentProjectT' class="container-fluid">
+                          <div class="row">
+                            <div *ngIf='userServers' class="col-md-4">
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h3 class="panel-title">
+                                    Servers <span class="badge">{{userServers.length}}</span>
+                                  </h3>
+                                </div>
+                                <div class="fixed-panel panel-body">
+                                  <div *ngFor='let server of userServers | sortObjectsByName'>
+                                    <li    value="server.id | json | removeQuotes"
+                                            (click)="serverChange(server)">{{server.name | json | removeQuotes}}</li>
+                                  </div>
+                                </div>
+                                <div class="panel-footer">
+                        
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div *ngIf='serverDetails' class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h3 class="panel-title">
+                                        Details of {{serverDetails.name|json | removeQuotes}}
+                                      </h3>
+                                    </div>
+                                    <div class="fixed-panel panel-body">
+                                        {{serverDetails|json | removeQuotes}}
+                                    </div>
+                                    <div class="panel-footer">
+                                        {{serverDetails.flavor.id|json | removeQuotes}}
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div *ngIf='serverDetails' class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h3 class="panel-title">
+                                          Console boot logs for {{serverDetails.name|json | removeQuotes}}
+                                      </h3>
+                                    </div>
+                                    <div class="term-container fixed-panel panel-body">
+                                        {{serverLogs}}
+                                    </div>
+                                    <div class="panel-footer">
+                                      Panel footer
+                                    </div>
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="tab-pane fade" id="tab2primary">
+                    Network
+                  </div>
+                  <div class="tab-pane fade" id="tab3primary">
+                    Stack
+                  </div>
+              </div>
           </div>
-		</div>
-		<div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Panel title
-              </h3>
-            </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              Panel footer
-            </div>
-          </div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Panel title
-              </h3>
-            </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              Panel footer
-            </div>
-          </div>
-		</div>
-		<div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Panel title
-              </h3>
-            </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              Panel footer
-            </div>
-          </div>
-		</div>
-		<div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Panel title
-              </h3>
-            </div>
-            <div class="panel-body">
-              Panel content
-            </div>
-            <div class="panel-footer">
-              Panel footer
-            </div>
-          </div>
-		</div>
-	</div>
+      </div>
+  </div>
 </div>
+
+

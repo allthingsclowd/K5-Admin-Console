@@ -1,15 +1,16 @@
     <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-4">
-			<img alt="Fujitsu K5 Logo" src="http://www.fujitsu.com/uk/Images/K5-climber-580x224_tcm23-2619235.jpg" class="img-rounded">
+		<div class="col-md-12">
+			<img alt="Fujitsu K5 Logo" src="http://www.fujitsu.com/uk/Images/K5-climber-580x224_tcm23-2619235.jpg" class="img-responsive center-block img-rounded">
 		</div>
 	</div>
     <div class="container-fluid">
 		<app-login *ngIf="!loggedIn"></app-login>
 		<div>
-			
-			<app-project *ngIf="loggedIn && userProjects" ></app-project> 
-			<app-logout *ngIf="loggedIn"></app-logout>
+			<div class="row">
+				<app-logout *ngIf="loggedIn"></app-logout>
+				<app-project *ngIf="loggedIn && userProjects" ></app-project>				
+			</div>
 		</div>
 		<app-project-panel *ngIf="loggedIn && userProjects"></app-project-panel>
 	</div>

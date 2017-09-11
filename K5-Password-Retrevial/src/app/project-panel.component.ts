@@ -11,7 +11,8 @@ import { Component, OnInit } from '@angular/core';
 export class ProjectPanelComponent implements OnInit {
   userServers: any = null;
   currentProjectT: any = null;
-  serverDetails: any = null
+  serverDetails: any = null;
+  serverLogs: any = null;
   currentServer: any = null;
 
   constructor(private computeService: ComputeService,
@@ -22,14 +23,17 @@ export class ProjectPanelComponent implements OnInit {
     this.identityService.userPToken.subscribe(currentProjectToken => this.currentProjectT = currentProjectToken);
     this.computeService.userServers.subscribe(servers => this.userServers = servers);
     this.computeService.serverDetails.subscribe(server => this.serverDetails = server);
+    this.computeService.serverLogs.subscribe(logs => this.serverLogs = logs);
     console.log('Servers => ');
     console.log(this.userServers);
   }
   
   serverChange(server) {
-    this.computeService.getServerDetails(this.currentProjectT,server);
+    this.computeService.getServerDetails(this.currentProjectT, server);
+    this.computeService.getServerLogs(this.currentProjectT, server);
     console.log('Change Server => ');
     console.log(this.serverDetails);
+    console.log(this.serverLogs);
 
   }
 }

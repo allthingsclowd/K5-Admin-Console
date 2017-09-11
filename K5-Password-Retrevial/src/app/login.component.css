@@ -1,0 +1,12 @@
+.btn-xl {
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+
+  .center {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;  
+  }
