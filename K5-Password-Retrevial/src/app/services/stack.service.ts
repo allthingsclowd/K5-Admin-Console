@@ -14,6 +14,8 @@ export class StackService {
   userStacks = this.userStackList.asObservable();
   private userStackDetails = new BehaviorSubject<any>(null);
   stackDetails = this.userStackDetails.asObservable();
+  private userStackOutputs = new BehaviorSubject<any>(null);
+  stackOutputs = this.userStackOutputs.asObservable();
   currentProject: project = null;
   currentProjectToken: Response = null;
 
@@ -23,6 +25,10 @@ export class StackService {
   changeStackList(userStacks: any) {
       this.userStackList.next(userStacks);
   }
+
+  changeStackOutputs(stackOutputs: any) {
+    this.userStackOutputs.next(stackOutputs);
+}
 
   changeStackDetails(stackDetails: any) {
       this.userStackDetails.next(stackDetails);
@@ -78,6 +84,8 @@ export class StackService {
               console.log('Heat Stack Details');
               console.log(res.json());
               this.changeStackDetails(res.json());
+              // added following 'hack' as the outputs API call is not currently implemented on FJ K5 IaaS
+              this.changeStackOutputs(res.json().stack.outputs);
               // return res;
               })
           .subscribe(
@@ -87,4 +95,34 @@ export class StackService {
 
   }
 
+  // API not currently implemented on Fujitsu K5 IaaS 12/09/2017 - Graham Land
+  // Just grab the outputs from the server details
+  getStackOutputs(k5scopedtoken: any, stack: any) {
+    
+          let stackURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'orchestration');
+          stackURL = stackURL.concat('/stacks/', stack.stack_name, '/', stack.id, '/outputs');
+          // With CORS Proxy Service in use here
+          const proxiedURL = this.utilitiesService.sendViaCORSProxy(stackURL);
+    
+          const getheaders: Headers = new Headers();
+          getheaders.append('Content-Type', 'application/json');
+          getheaders.append('Accept', 'application/json');
+          getheaders.append('X-Auth-Token', k5scopedtoken.headers.get('x-subject-token'));
+    
+          const headeropts: RequestOptions = new RequestOptions();
+          headeropts.headers = getheaders;
+    
+          return this.http.get(proxiedURL, headeropts)
+              .map((res: any) => {
+                  console.log('Heat Stack Outputs');
+                  console.log(res.json().outputs);
+                  this.changeStackOutputs(res.json().outputs);
+                  // return res;
+                  })
+              .subscribe(
+                          data => console.log(data),
+                          err => console.log(err),
+                          () => console.log('yay'));
+    
+      }  
 }

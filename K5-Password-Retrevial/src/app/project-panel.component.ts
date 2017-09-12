@@ -17,6 +17,7 @@ export class ProjectPanelComponent implements OnInit {
   currentServer: any = null;
   stackDetails: any = null;
   userStacks: any = null;
+  stackOutputs: any = null;
 
   constructor(private computeService: ComputeService,
               private identityService: IdentityService,
@@ -30,6 +31,7 @@ export class ProjectPanelComponent implements OnInit {
     this.computeService.serverLogs.subscribe(logs => this.serverLogs = logs);
     this.stackService.stackDetails.subscribe(stackDetail => this.stackDetails = stackDetail);
     this.stackService.userStacks.subscribe(stacks => this.userStacks = stacks);
+    this.stackService.stackOutputs.subscribe(outputs => this.stackOutputs = outputs);
   }
 
   serverChange(server) {
@@ -42,6 +44,8 @@ export class ProjectPanelComponent implements OnInit {
 
   stackChange(stack) {
     this.stackService.getStackDetails(this.currentProjectT, stack);
+    // outputs API call not currently implemented on K5
+    // this.stackService.getStackOutputs(this.currentProjectT, stack);
     console.log('Change Stack => ');
     console.log(this.stackDetails);
   }
