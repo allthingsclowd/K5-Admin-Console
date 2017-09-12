@@ -2,6 +2,7 @@ import { PasswordManagementService } from './services/password-management.servic
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
 import { UtilityService } from './services/utility.service';
+import { StackService } from './services/stack.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -40,7 +41,7 @@ import { ProjectPanelComponent } from './project-panel.component';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [IdentityService, UtilityService, ComputeService, PasswordManagementService],
+  providers: [IdentityService, UtilityService, StackService, ComputeService, PasswordManagementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

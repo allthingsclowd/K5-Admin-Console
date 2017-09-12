@@ -1,3 +1,4 @@
+import { StackService } from './services/stack.service';
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
 import { project } from './model/user';
@@ -14,26 +15,34 @@ export class ProjectPanelComponent implements OnInit {
   serverDetails: any = null;
   serverLogs: any = null;
   currentServer: any = null;
+  stackDetails: any = null;
+  userStacks: any = null;
 
   constructor(private computeService: ComputeService,
-              private identityService: IdentityService) { }
+              private identityService: IdentityService,
+              private stackService: StackService) { }
 
   ngOnInit() {
-    //this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
+
     this.identityService.userPToken.subscribe(currentProjectToken => this.currentProjectT = currentProjectToken);
     this.computeService.userServers.subscribe(servers => this.userServers = servers);
     this.computeService.serverDetails.subscribe(server => this.serverDetails = server);
     this.computeService.serverLogs.subscribe(logs => this.serverLogs = logs);
-    console.log('Servers => ');
-    console.log(this.userServers);
+    this.stackService.stackDetails.subscribe(stackDetail => this.stackDetails = stackDetail);
+    this.stackService.userStacks.subscribe(stacks => this.userStacks = stacks);
   }
-  
+
   serverChange(server) {
     this.computeService.getServerDetails(this.currentProjectT, server);
     this.computeService.getServerLogs(this.currentProjectT, server);
     console.log('Change Server => ');
     console.log(this.serverDetails);
     console.log(this.serverLogs);
+  }
 
+  stackChange(stack) {
+    this.stackService.getStackDetails(this.currentProjectT, stack);
+    console.log('Change Stack => ');
+    console.log(this.stackDetails);
   }
 }

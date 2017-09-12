@@ -1,3 +1,4 @@
+import { StackService } from './stack.service';
 import { User, project, ProjectToken } from './../model/user';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, RequestMethod, Request, Headers, Response, RequestOptions } from '@angular/http';
@@ -35,8 +36,10 @@ export class IdentityService {
 
     constructor(private http: Http,
                 private utilityService: UtilityService,
-                private computeService: ComputeService) {
-                    this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
+                private computeService: ComputeService,
+                private stackService: StackService) {
+
+        this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
 
     changeProject(currentProject: project) {
@@ -136,6 +139,7 @@ export class IdentityService {
 
                 this.changeProjectToken(res);
                 this.computeService.getServerList(res);
+                this.stackService.getStackList(res);
                 console.log('New Project Scoped Token observable ->');
                 console.log(this.userProjectToken.getValue());
                 //console.log('New Server List ->');

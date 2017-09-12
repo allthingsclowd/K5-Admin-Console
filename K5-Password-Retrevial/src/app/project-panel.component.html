@@ -3,14 +3,14 @@
       <div class="panel with-nav-tabs panel-info">
           <div class="panel-heading">
                   <ul class="nav nav-tabs">
-                      <li *ngIf='userServers' class="active"><a href="#tab1primary" data-toggle="tab">Compute</a></li>
-                      <li><a href="#tab2primary" data-toggle="tab">Primary 2</a></li>
-                      <li><a href="#tab3primary" data-toggle="tab">Primary 3</a></li>
+                      <li *ngIf='userServers' class="active"><a href="#tab1compute" data-toggle="tab">Compute</a></li>
+                      <li *ngIf='userStacks'> <a href="#tab2stack" data-toggle="tab">Stack</a></li>
+                      <li *ngIf='userNetworks'> <a href="#tab3primary" data-toggle="tab">Network</a></li>
                   </ul>
           </div>
           <div class="panel-body">
               <div class="tab-content">
-                  <div class="tab-pane fade in active" id="tab1primary">
+                  <div class="tab-pane fade in active" id="tab1compute">
                       <div *ngIf='currentProjectT' class="container-fluid">
                           <div class="row">
                             <div *ngIf='userServers' class="col-md-4">
@@ -64,11 +64,47 @@
                           </div>
                         </div>
                   </div>
-                  <div class="tab-pane fade" id="tab2primary">
-                    Network
+                  <div class="tab-pane fade" id="tab2stack">
+                      <div *ngIf='currentProjectT' class="container-fluid">
+                          <div class="row">
+                            <div *ngIf='userStacks' class="col-md-4">
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h3 class="panel-title">
+                                    Stacks <span class="badge">{{userStacks.length}}</span>
+                                  </h3>
+                                </div>
+                                <div class="fixed-panel panel-body">
+                                  <div *ngFor='let stack of userStacks | sortObjectsByName'>
+                                    <li    value="stack.id | json | removeQuotes"
+                                            (click)="stackChange(stack)">{{stack.stack_name | json| removeQuotes}}</li>
+                                  </div>
+                                </div>
+                                <div class="panel-footer">
+                        
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div *ngIf='stackDetails' class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h3 class="panel-title">
+                                        Details of {{stackDetails.stack.stack_name|json| removeQuotes}}
+                                      </h3>
+                                    </div>
+                                    <div class="fixed-panel panel-body">
+                                        {{stackDetails|json | removeQuotes}}
+                                    </div>
+                                    <div class="panel-footer">
+                                        
+                                    </div>
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
                   </div>
                   <div class="tab-pane fade" id="tab3primary">
-                    Stack
+                    Network
                   </div>
               </div>
           </div>
