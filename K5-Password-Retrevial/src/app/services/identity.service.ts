@@ -17,6 +17,14 @@ export class IdentityService {
     // k5projects: projects;
     private userProjectList = new BehaviorSubject<project[]>(null);
     userProjects = this.userProjectList.asObservable();
+    private contractProjectList = new BehaviorSubject<project[]>(null);
+    contractProjects = this.contractProjectList.asObservable();
+    private contractUserList = new BehaviorSubject<project[]>(null);
+    contractUsers = this.contractUserList.asObservable();
+    private contractRoleList = new BehaviorSubject<project[]>(null);
+    contractRoles = this.contractRoleList.asObservable();
+    private contractGroupList = new BehaviorSubject<project[]>(null);
+    contractGroups = this.contractGroupList.asObservable();
     private userRegionalToken = new BehaviorSubject<Response>(null);
     userRToken = this.userRegionalToken.asObservable();
     private userGlobalToken = new BehaviorSubject<Response>(null);
@@ -40,6 +48,19 @@ export class IdentityService {
                 private stackService: StackService) {
 
         this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
+    }
+
+    changeContractUsers(contractUsers: any) {
+        this.selectedProject.next(contractUsers);
+    }
+    changeContractGroups(contractGroups: any) {
+        this.selectedProject.next(contractGroups);
+    }
+    changeContractRoles(contractRoles: any) {
+        this.selectedProject.next(contractRoles);
+    }
+    changeContractProjects(contractProjects: any) {
+        this.selectedProject.next(contractProjects);
     }
 
     changeProject(currentProject: project) {
@@ -68,16 +89,19 @@ export class IdentityService {
 
     getKeystoneObjectList(objectType: string) {
         // const k5token = this.k5response;
-        console.log('Keystone Token Details ' + JSON.stringify(this.userRegionalToken.getValue()));
+        // console.log('Keystone Token Details ' + JSON.stringify(this.userRegionalToken.getValue()));
         console.log('Keystone ObjectType Details ' + objectType);
         const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
-        const endpointDetail = identityURL.concat('/', objectType, '?domain_id=', this.user.contractId);
+        const endpointDetail = identityURL.concat(  '/',
+                                                    objectType,
+                                                    '?domain_id=',
+                                                    this.userRegionalToken.getValue().json().token.user.domain.id);
         // With CORS Proxy Service in use here
         const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
 
         // retrieve the K5/OpenStack authentication token from the response header
         const token = this.userRegionalToken.getValue().headers.get('x-subject-token');
-        console.log('Getting KeystoneObject List');
+        console.log('Getting KeystoneObject List' + JSON.stringify(authURL));
 
         const postheaders: Headers = new Headers();
         postheaders.append('Content-Type', 'application/json');
@@ -88,10 +112,36 @@ export class IdentityService {
         postopts.headers = postheaders;
 
         return this.http.get(authURL, postopts)
-            .map((res: any) => {
-                // console.log('ObjectList => ' + JSON.stringify(res));
-                return res;
-             });
+            .map((res: Response) => {
+                console.log('ObjectList => ' + JSON.stringify(res));
+                switch(objectType) { 
+                    case 'roles': { 
+                        this.changeContractRoles(res); 
+                        break; 
+                    } 
+                    case 'projects': { 
+                        this.changeContractProjects(res);
+                        break; 
+                    }
+                    case 'groups': { 
+                        this.changeContractGroups(res); 
+                        break; 
+                    } 
+                    case 'users': { 
+                        this.changeContractUsers(res);
+                        break; 
+                    }
+                    default: { 
+                        return res; 
+
+                     }
+                }
+                //return res;
+             })
+             .subscribe(
+                         data => console.log(data),
+                         err => console.log(err),
+                         () => console.log('successfully completed object list'));
 
     }
 
@@ -149,6 +199,7 @@ export class IdentityService {
             });
 
     }
+
 
     getProjectList() {
 
@@ -296,6 +347,10 @@ export class IdentityService {
                 //                             //this.projects = value;
                 //                             // sessionStorage.setItem('gjl-currentUserProjects', JSON.stringify(this.k5projects));
                 //                              });
+                this.getKeystoneObjectList('projects');
+                this.getKeystoneObjectList('users');
+                this.getKeystoneObjectList('roles');
+                this.getKeystoneObjectList('groups');
                 this.getProjectList().subscribe();
 
 

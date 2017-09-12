@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   loggedIn: boolean = false;
   userProjects: project[] = null;
   currentProject: project = null;
+  contractProjects: any = null;
 
 
   constructor(private identityService: IdentityService) {}
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
     this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
     this.identityService.userProjects.subscribe(currentProjects => this.userProjects = currentProjects);
     this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
+    this.identityService.contractProjects.subscribe(projects => this.contractProjects = projects);
 
   }
 

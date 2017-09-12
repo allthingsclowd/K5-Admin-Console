@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
                                                         // this.identityService.getProjectList().subscribe(newProjectList => {
                                                         //   this.projects = newProjectList;
                                                         // });
+                                                        // this.identityService.getK5UnScopedDetails();
 
                                                     },
                                                     error => {
