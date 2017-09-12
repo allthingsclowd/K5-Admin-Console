@@ -3,8 +3,8 @@
       <div class="panel with-nav-tabs panel-info">
           <div class="panel-heading">
                   <ul class="nav nav-tabs">
-                      <li *ngIf='userServers' class="active"><a href="#tab1compute" data-toggle="tab">Compute</a></li>
-                      <li *ngIf='userStacks'> <a href="#tab2stack" data-toggle="tab">Stack</a></li>
+                      <li *ngIf='userServers' class="active"><a href="#tab1compute" data-toggle="tab">Compute <span class="badge">{{userServers.length}}</span></a></li>
+                      <li *ngIf='userStacks'> <a href="#tab2stack" data-toggle="tab">Stack <span class="badge">{{userStacks.length}}</span></a></li>
                       <li *ngIf='userNetworks'> <a href="#tab3primary" data-toggle="tab">Network</a></li>
                   </ul>
           </div>
@@ -17,7 +17,7 @@
                               <div class="panel panel-default">
                                 <div class="panel-heading">
                                   <h3 class="panel-title">
-                                    Servers <span class="badge">{{userServers.length}}</span>
+                                    Servers 
                                   </h3>
                                 </div>
                                 <div class="fixed-panel panel-body">
@@ -71,11 +71,11 @@
                               <div class="panel panel-default">
                                 <div class="panel-heading">
                                   <h3 class="panel-title">
-                                    Stacks <span class="badge">{{userStacks.length}}</span>
+                                    Stacks 
                                   </h3>
                                 </div>
                                 <div class="fixed-panel panel-body">
-                                  <div *ngFor='let stack of userStacks | sortObjectsByName'>
+                                  <div *ngFor='let stack of userStacks | stackSorter'>
                                     <li    value="stack.id | json | removeQuotes"
                                             (click)="stackChange(stack)">{{stack.stack_name | json| removeQuotes}}</li>
                                   </div>

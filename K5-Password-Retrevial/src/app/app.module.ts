@@ -20,6 +20,7 @@ import { ConvertSubset2ArrayPipe } from './services/convert-subset2-array.pipe';
 import { RemoveQuotesPipe } from './services/remove-quotes.pipe';
 import { LogoutComponent } from './logout.component';
 import { ProjectPanelComponent } from './project-panel.component';
+import { StackSorterPipe } from './services/stack-sorter.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ProjectPanelComponent } from './project-panel.component';
     ConvertSubset2ArrayPipe,
     RemoveQuotesPipe,
     LogoutComponent,
-    ProjectPanelComponent
+    ProjectPanelComponent,
+    StackSorterPipe
   ],
   imports: [
     BrowserModule,
