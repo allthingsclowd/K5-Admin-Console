@@ -65,6 +65,21 @@ export class UtilityService {
 
     }
 
+    getItemName(itemList: Response, itemID: number) {
+        let itemName = 'None';
+        
+        for (let item in itemList.json()) {
+            if (itemList.json()[item].id === itemID) {
+                console.log('\n\n\n\===== OBJECT  LIST ======\n\n\n' + JSON.stringify(itemList.json()));
+                itemName = itemList.json()[item].name;
+                break;
+            }
+        }
+
+        return itemName;
+
+    }
+
     sendViaCORSProxy(URL: string) {
         console.log(URL);
         // CORS PROXY URL

@@ -15,15 +15,16 @@ export class IdentityService {
     user = new User();
 
     // k5projects: projects;
+    
     private userProjectList = new BehaviorSubject<project[]>(null);
     userProjects = this.userProjectList.asObservable();
-    private contractProjectList = new BehaviorSubject<project[]>(null);
+    private contractProjectList = new BehaviorSubject<any>(null);
     contractProjects = this.contractProjectList.asObservable();
-    private contractUserList = new BehaviorSubject<project[]>(null);
+    private contractUserList = new BehaviorSubject<any>(null);
     contractUsers = this.contractUserList.asObservable();
-    private contractRoleList = new BehaviorSubject<project[]>(null);
+    private contractRoleList = new BehaviorSubject<any>(null);
     contractRoles = this.contractRoleList.asObservable();
-    private contractGroupList = new BehaviorSubject<project[]>(null);
+    private contractGroupList = new BehaviorSubject<any>(null);
     contractGroups = this.contractGroupList.asObservable();
     private userRegionalToken = new BehaviorSubject<Response>(null);
     userRToken = this.userRegionalToken.asObservable();
@@ -41,6 +42,8 @@ export class IdentityService {
     userPToken = this.userProjectToken.asObservable();
     private projectRoleAssignments = new BehaviorSubject<Response>(null);
     roleAssignments = this.projectRoleAssignments.asObservable();
+    private usersInGroupList = new BehaviorSubject<Response>(null);
+    usersInGroup = this.usersInGroupList.asObservable();
     servers: any = null;
     // k5currentScopedToken: Response;
 
@@ -51,9 +54,16 @@ export class IdentityService {
 
         this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
+
+    changeUsersInGroup(users: any) {
+        this.usersInGroupList.next(users);
+    }
+
+
     changeRoleAssignments(roleAssignments: any) {
         this.projectRoleAssignments.next(roleAssignments);
     }
+
 
     changeContractUsers(contractUsers: any) {
         this.contractUserList.next(contractUsers);
@@ -235,7 +245,7 @@ export class IdentityService {
                 const identityURL = this.utilityService.getEndpoint(this.userProjectToken.getValue(), 'identityv3');
                 const endpointDetail = identityURL.concat('/role_assignments?scope.project.id=',
                 this.userProjectToken.getValue().json().token.project.id,
-                '&include_names=true');
+                '&include_names');
         
                 console.log(endpointDetail);
                 // With CORS Proxy Service in use here
@@ -270,6 +280,45 @@ export class IdentityService {
         
     }
 
+    getUsersInGroup(group) {
+                console.log(group.group.id);
+                // const k5token = this.k5response;
+                // console.log(this.currentProject);
+                const identityURL = this.utilityService.getEndpoint(this.userProjectToken.getValue(), 'identityv3');
+                const endpointDetail = identityURL.concat('/groups/', group.group.id, '/users');
+        
+                console.log(endpointDetail);
+                // With CORS Proxy Service in use here
+                const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
+                console.log(authURL);
+        
+                // retrieve the K5/OpenStack authentication token from the response header
+                const token = this.userProjectToken.getValue().headers.get('x-subject-token');
+                console.log('Getting Users in Group');
+        
+                const postheaders: Headers = new Headers();
+                postheaders.append('Content-Type', 'application/json');
+                postheaders.append('Accept', 'application/json');
+                postheaders.append('X-Auth-Token', token);
+        
+                const postopts: RequestOptions = new RequestOptions();
+                postopts.headers = postheaders;
+        
+                return this.http.get(authURL, postopts)
+                    .map((res: Response) => {
+                            console.log('New Group User List' + JSON.stringify(res));
+                            this.changeUsersInGroup(res.json().users);
+                            console.log(this.usersInGroupList.getValue());
+                            
+                            // return res.json().projects as projects;
+                            // return projects;
+                    })
+                    .subscribe(
+                            data => console.log(data),
+                            err => console.log(err),
+                            () => console.log('Group Roles Complete'));
+        
+    }    
 
     // Get unscoped K5 global token
     getCentralPortalToken(username: string, password: string, contract: string) {

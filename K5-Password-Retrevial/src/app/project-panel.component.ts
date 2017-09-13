@@ -23,6 +23,7 @@ export class ProjectPanelComponent implements OnInit {
   contractGroups: any = null;
   contractRoles: any = null;
   roleAssignment: any = null;
+  groupUsers: any = null;
 
   constructor(private computeService: ComputeService,
               private identityService: IdentityService,
@@ -32,6 +33,7 @@ export class ProjectPanelComponent implements OnInit {
   ngOnInit() {
 
     this.identityService.contractProjects.subscribe(projects => this.contractProjects = projects);
+    this.identityService.usersInGroup.subscribe(gusers => this.groupUsers = gusers);
     this.identityService.roleAssignments.subscribe(roles => this.roleAssignment = roles);
     this.identityService.contractUsers.subscribe(users => this.contractUsers = users);
     this.identityService.contractGroups.subscribe(groups => this.contractGroups = groups);
@@ -43,8 +45,8 @@ export class ProjectPanelComponent implements OnInit {
     this.stackService.stackDetails.subscribe(stackDetail => this.stackDetails = stackDetail);
     this.stackService.userStacks.subscribe(stacks => this.userStacks = stacks);
     this.stackService.stackOutputs.subscribe(outputs => this.stackOutputs = outputs);
-    console.log('GLOBAL');
-    console.log(this.contractProjects);
+    console.log('Contract Groups');
+    console.log(this.contractGroups);
   }
 
   serverChange(server) {
@@ -61,5 +63,12 @@ export class ProjectPanelComponent implements OnInit {
     // this.stackService.getStackOutputs(this.currentProjectT, stack);
     console.log('Change Stack => ');
     console.log(this.stackDetails);
+  }
+
+  groupSelection(role) {
+    console.log('Group Users Entry');
+    console.log(role);
+    this.identityService.getUsersInGroup(role);
+
   }
 }

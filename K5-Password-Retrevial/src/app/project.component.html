@@ -12,7 +12,7 @@
 
         <ul class="wrapper selection dropdown-menu dropdown-hover scrollable-menu" >
           <div *ngFor='let project of projects | sortObjectsByName'>
-            <li    value="project.id | json | removeQuotes"
+            <li  *ngIf='project.enabled'  value="project.id | json | removeQuotes"
                     (click)="projectChange(project)">{{project.name | json | removeQuotes}}</li>
           </div>
         </ul>

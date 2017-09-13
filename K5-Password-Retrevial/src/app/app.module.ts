@@ -21,6 +21,10 @@ import { RemoveQuotesPipe } from './services/remove-quotes.pipe';
 import { LogoutComponent } from './logout.component';
 import { ProjectPanelComponent } from './project-panel.component';
 import { StackSorterPipe } from './services/stack-sorter.pipe';
+import { ConvertUserIDtoNamePipe } from './services/convert-user-idto-name.pipe';
+import { ConvertRoleIDtoNamePipe } from './services/convert-role-idto-name.pipe';
+import { ConvertGroupIDtoNamePipe } from './services/convert-group-idto-name.pipe';
+import { ConvertProjectIDtoNamePipe } from './services/convert-project-idto-name.pipe';
 
 @NgModule({
   declarations: [
@@ -36,8 +40,12 @@ import { StackSorterPipe } from './services/stack-sorter.pipe';
     RemoveQuotesPipe,
     LogoutComponent,
     ProjectPanelComponent,
-    StackSorterPipe
-  ],
+    StackSorterPipe,
+    ConvertUserIDtoNamePipe,
+    ConvertRoleIDtoNamePipe,
+    ConvertGroupIDtoNamePipe,
+    ConvertProjectIDtoNamePipe,
+    ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
