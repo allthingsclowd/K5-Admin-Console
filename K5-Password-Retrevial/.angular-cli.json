@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "k5-password-retrevial"
+    "name": "K5 Live Demo Console - Angular 4"
   },
   "apps": [
     {
