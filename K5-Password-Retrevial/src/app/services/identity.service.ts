@@ -39,6 +39,8 @@ export class IdentityService {
     currentProject = this.selectedProject.asObservable();
     private userProjectToken = new BehaviorSubject<Response>(null);
     userPToken = this.userProjectToken.asObservable();
+    private projectRoleAssignments = new BehaviorSubject<Response>(null);
+    roleAssignments = this.projectRoleAssignments.asObservable();
     servers: any = null;
     // k5currentScopedToken: Response;
 
@@ -49,18 +51,21 @@ export class IdentityService {
 
         this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
+    changeRoleAssignments(roleAssignments: any) {
+        this.projectRoleAssignments.next(roleAssignments);
+    }
 
     changeContractUsers(contractUsers: any) {
-        this.selectedProject.next(contractUsers);
+        this.contractUserList.next(contractUsers);
     }
     changeContractGroups(contractGroups: any) {
-        this.selectedProject.next(contractGroups);
+        this.contractGroupList.next(contractGroups);
     }
     changeContractRoles(contractRoles: any) {
-        this.selectedProject.next(contractRoles);
+        this.contractRoleList.next(contractRoles);
     }
     changeContractProjects(contractProjects: any) {
-        this.selectedProject.next(contractProjects);
+        this.contractProjectList.next(contractProjects);
     }
 
     changeProject(currentProject: project) {
@@ -113,35 +118,9 @@ export class IdentityService {
 
         return this.http.get(authURL, postopts)
             .map((res: Response) => {
-                console.log('ObjectList => ' + JSON.stringify(res));
-                switch(objectType) { 
-                    case 'roles': { 
-                        this.changeContractRoles(res); 
-                        break; 
-                    } 
-                    case 'projects': { 
-                        this.changeContractProjects(res);
-                        break; 
-                    }
-                    case 'groups': { 
-                        this.changeContractGroups(res); 
-                        break; 
-                    } 
-                    case 'users': { 
-                        this.changeContractUsers(res);
-                        break; 
-                    }
-                    default: { 
-                        return res; 
-
-                     }
-                }
-                //return res;
-             })
-             .subscribe(
-                         data => console.log(data),
-                         err => console.log(err),
-                         () => console.log('successfully completed object list'));
+                // console.log(' Map ObjectList => ' + JSON.stringify(res));
+                return res;
+             });
 
     }
 
@@ -190,6 +169,7 @@ export class IdentityService {
                 this.changeProjectToken(res);
                 this.computeService.getServerList(res);
                 this.stackService.getStackList(res);
+                this.getRoleAssignments().subscribe();
                 console.log('New Project Scoped Token observable ->');
                 console.log(this.userProjectToken.getValue());
                 //console.log('New Server List ->');
@@ -206,8 +186,9 @@ export class IdentityService {
         // const k5token = this.k5response;
         // console.log(this.currentProject);
         const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
-
+        // role_assignments?scope.project.id={project_id}
         const endpointDetail = identityURL.concat('/users/', this.userRegionalToken.getValue().json().token.user.id, '/projects');
+        
         console.log(endpointDetail);
         // With CORS Proxy Service in use here
         const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
@@ -245,6 +226,48 @@ export class IdentityService {
 
 
 
+    }
+
+    getRoleAssignments() {
+        
+                // const k5token = this.k5response;
+                // console.log(this.currentProject);
+                const identityURL = this.utilityService.getEndpoint(this.userProjectToken.getValue(), 'identityv3');
+                const endpointDetail = identityURL.concat('/role_assignments?scope.project.id=',
+                this.userProjectToken.getValue().json().token.project.id,
+                '&include_names=true');
+        
+                console.log(endpointDetail);
+                // With CORS Proxy Service in use here
+                const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
+                console.log(authURL);
+        
+                // retrieve the K5/OpenStack authentication token from the response header
+                const token = this.userProjectToken.getValue().headers.get('x-subject-token');
+                console.log('Getting Role Assignments');
+        
+                const postheaders: Headers = new Headers();
+                postheaders.append('Content-Type', 'application/json');
+                postheaders.append('Accept', 'application/json');
+                postheaders.append('X-Auth-Token', token);
+        
+                const postopts: RequestOptions = new RequestOptions();
+                postopts.headers = postheaders;
+        
+                return this.http.get(authURL, postopts)
+                    .map((res: Response) => {
+                            console.log('New Role Assignments' + JSON.stringify(res));
+                            this.changeRoleAssignments(res.json().role_assignments);
+                            console.log(this.userProjectList.getValue());
+                            console.log(this.selectedProject.getValue().name);
+                            // return res.json().projects as projects;
+                            // return projects;
+                    });
+                    // .subscribe(
+                    //         data => console.log(data),
+                    //         err => console.log(err),
+                    //         () => console.log('Role Assignments Complete'));
+        
     }
 
 
@@ -320,45 +343,20 @@ export class IdentityService {
             .map((res: Response) => {
 
                 this.changeRegionalToken(res);
-                // retrieve the K5/OpenStack authentication token from the response header
-                // this.user.token = res.headers.get('x-subject-token');
-
-                // // retrieve the remainder of the values from the response body
-                // this.user.name = res.json().token.user.name;
-                // this.user.contractId = res.json().token.project.domain.id;
-                // this.user.id = res.json().token.user.id;
-                // this.user.catalog = res.json().token.catalog;
-                // this.user.roles = res.json().token.roles;
-                // this.user.expires = res.json().token.expires_at;
                 this.changeLoginStatus(true);
-                // this.k5currentScopedToken = res;
-                // this.k5currentScopedToken = res;
 
                 // retrieve Global token
                 this.getCentralPortalToken(username, password, contract).subscribe();
 
-                // this.getProjectList().subscribe(value => {
-                //                             console.log('Bananas ');
-                //                             console.log(value);
-                //                             this.changeProjectList(value);
-                //                             console.log('New Project Name BElow');
-                //                             console.log(this.selectedProject.getValue());
 
-                //                             //this.projects = value;
-                //                             // sessionStorage.setItem('gjl-currentUserProjects', JSON.stringify(this.k5projects));
-                //                              });
-                this.getKeystoneObjectList('projects');
-                this.getKeystoneObjectList('users');
-                this.getKeystoneObjectList('roles');
-                this.getKeystoneObjectList('groups');
+                this.getKeystoneObjectList('projects').subscribe(projects => this.changeContractProjects(projects.json().projects));
+                this.getKeystoneObjectList('users').subscribe(users => this.changeContractUsers(users.json().users));
+                this.getKeystoneObjectList('roles').subscribe(roles => this.changeContractRoles(roles.json().roles));
+                this.getKeystoneObjectList('groups').subscribe(groups => this.changeContractGroups(groups.json().groups));
+                
                 this.getProjectList().subscribe();
 
 
-                // if (this.user.token != null) {
-                //     // store user details local storage to keep user logged in between page refreshes
-                //     sessionStorage.setItem('gjl-currentUsertoken', JSON.stringify(this.user));
-                //     sessionStorage.setItem('gjl-currenttoken', JSON.stringify(res));
-                // }
             });
 
 
@@ -367,9 +365,6 @@ export class IdentityService {
 
 
     logout() {
-        // remove user from local storage to log user out
-        // sessionStorage.removeItem('gjl-currentUsertoken');
-        // sessionStorage.removeItem('gjl-currentUserProjects');
         this.changeLoginStatus(false);
     }
 }

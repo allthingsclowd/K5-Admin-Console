@@ -10,10 +10,10 @@
 			<div class="row">
 					<div class="col-md-12 text-center">
 						<!-- <app-logout *ngIf="loggedIn"></app-logout> -->
-						<app-project *ngIf="loggedIn && contractProjects" ></app-project>
+						<app-project *ngIf="loggedIn && userProjects" ></app-project>
 					</div>				
 			</div>
 		</div>
-		<app-project-panel *ngIf="loggedIn && userProjects"></app-project-panel>
+		<app-project-panel *ngIf="loggedIn && contractProjects"></app-project-panel>
 	</div>
 

@@ -22,14 +22,17 @@ export class ProjectPanelComponent implements OnInit {
   contractUsers: any = null;
   contractGroups: any = null;
   contractRoles: any = null;
+  roleAssignment: any = null;
 
   constructor(private computeService: ComputeService,
               private identityService: IdentityService,
               private stackService: StackService) { }
 
+
   ngOnInit() {
 
     this.identityService.contractProjects.subscribe(projects => this.contractProjects = projects);
+    this.identityService.roleAssignments.subscribe(roles => this.roleAssignment = roles);
     this.identityService.contractUsers.subscribe(users => this.contractUsers = users);
     this.identityService.contractGroups.subscribe(groups => this.contractGroups = groups);
     this.identityService.contractRoles.subscribe(roles => this.contractRoles = roles);
