@@ -25,6 +25,8 @@ import { ConvertUserIDtoNamePipe } from './services/convert-user-idto-name.pipe'
 import { ConvertRoleIDtoNamePipe } from './services/convert-role-idto-name.pipe';
 import { ConvertGroupIDtoNamePipe } from './services/convert-group-idto-name.pipe';
 import { ConvertProjectIDtoNamePipe } from './services/convert-project-idto-name.pipe';
+import { UserManagementComponent } from './user-management.component';
+import { UserMaintenanceService } from './services/user-maintenance.service';
 
 @NgModule({
   declarations: [
@@ -45,13 +47,14 @@ import { ConvertProjectIDtoNamePipe } from './services/convert-project-idto-name
     ConvertRoleIDtoNamePipe,
     ConvertGroupIDtoNamePipe,
     ConvertProjectIDtoNamePipe,
+    UserManagementComponent,
     ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [IdentityService, UtilityService, StackService, ComputeService, PasswordManagementService],
+  providers: [IdentityService, UtilityService, StackService, ComputeService, PasswordManagementService, UserMaintenanceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

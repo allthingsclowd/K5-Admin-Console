@@ -237,6 +237,53 @@ export class IdentityService {
 
 
     }
+    getUserInfo(user) {
+        
+                // const k5token = this.k5response;
+                // console.log(this.currentProject);
+                const identityURL = this.utilityService.getEndpoint(this.userProjectToken.getValue(), 'identityv3');
+                const endpointDetail = identityURL.concat('/users/', user.id);
+        
+                console.log(endpointDetail);
+                // With CORS Proxy Service in use here
+                const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
+                
+        
+                // retrieve the K5/OpenStack authentication token from the response header
+                const token = this.userProjectToken.getValue().headers.get('x-subject-token');
+                
+        
+                const postheaders: Headers = new Headers();
+                postheaders.append('Content-Type', 'application/json');
+                postheaders.append('Accept', 'application/json');
+                postheaders.append('X-Auth-Token', token);
+        
+                const postopts: RequestOptions = new RequestOptions();
+                postopts.headers = postheaders;
+
+        
+                return this.http.get(authURL, postopts)
+                    // .map((res: Response) => {
+
+
+                    //         // return res.json().projects as projects;
+                    //         // return projects;
+                    // })
+                    .subscribe(
+                            res => {
+                                console.log('Getting User Info via API');
+                                console.log(this.userProjectToken.getValue());
+                                console.log(authURL);
+                                console.log(postopts);
+                                console.log(postheaders);
+                                console.log('New User Info' + JSON.stringify(res));
+                                console.log(res.json());
+                                console.log(res); }
+                                ,
+                            err => console.log(err),
+                            () => console.log('Getting User Info via API Complete'));
+        
+    }
 
     getRoleAssignments() {
         
@@ -352,7 +399,8 @@ export class IdentityService {
                 // this.k5Globalresponse = gres;
                 // retrieve the K5/OpenStack authentication token from the response header
                 // this.user.globalToken = gres.headers.get('X-Access-Token');
-                console.log('Central Portal Token => \n' + JSON.stringify(this.userGToken) );
+                console.log('Central Portal Token => \n');
+                console.log(this.userGlobalToken.getValue().json());
 
            });
 

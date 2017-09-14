@@ -43,8 +43,8 @@
                                                   </div><!-- Panel Heading -->
                                                   <div class="fixed-panel panel-body"><!-- Panel Body -->
                                                     <div *ngFor='let cuser of contractUsers'>
-                                                      <li    value="cuser.id | json | removeQuotes"
-                                                              (click)="cuserChange(cuser)">{{cuser.name | json | removeQuotes}}</li>
+                                                      <li    
+                                                              (click)="userSelection(cuser)">{{cuser.name | json | removeQuotes}}</li>
                                                     </div>
                                                   </div><!-- Panel Body -->
                                             </div><!-- Panel Start -->
