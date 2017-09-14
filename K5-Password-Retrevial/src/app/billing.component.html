@@ -1,0 +1,59 @@
+<div class="container-fluid">
+		<div class="row">
+				<div class="col-md-8">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									Panel title
+								</h3>
+							</div>
+							<div class="panel-body">
+								Panel content
+								<div>
+										Start Date Chosen using 'ngModel':
+										<div>{{ startDate }}</div>
+								</div>
+								<hr>
+								<div>
+										End Date Chosen using 'ngModel':
+										<div>{{ endDate }}</div>
+								</div>
+							</div>
+							<div class="panel-footer">
+								Panel footer
+							</div>
+						</div>
+					</div>
+			<div class="col-md-2">
+				<md-input-container>
+					<input mdInput 
+								   [mdDatepicker]="startPicker" 
+								   [(ngModel)]="startDate"
+								   placeholder="Choose a start date">
+					<button ><md-datepicker-toggle mdSuffix [for]="startPicker"></md-datepicker-toggle></button>
+				</md-input-container>
+				<md-datepicker  touchUi="true" #startPicker></md-datepicker>
+			</div>
+			<div class="col-md-2">
+					<md-input-container>
+							<input mdInput 
+										   [mdDatepicker]="endPicker" 
+										   [(ngModel)]="endDate"
+										   placeholder="Choose an end date">
+							<button ><md-datepicker-toggle mdSuffix [for]="endPicker"></md-datepicker-toggle></button>
+						</md-input-container>
+						<md-datepicker touchUi="true" #endPicker></md-datepicker>
+						 
+						<button type="button" class="btn btn-info btn-lg">
+							Go!
+						</button>
+			</div>
+			
+		</div>
+	</div>
+
+
+<div>
+		Date Chosen using 'ngModel':
+		<div>{{ date }}</div>
+</div>

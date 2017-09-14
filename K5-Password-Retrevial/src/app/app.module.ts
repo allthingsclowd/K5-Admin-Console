@@ -5,8 +5,10 @@ import { UtilityService } from './services/utility.service';
 import { StackService } from './services/stack.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { MaterialModule, MdDatepickerModule, MdNativeDateModule } from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { SortObjectsByNamePipe } from './services/sort-objects-by-name.pipe';
@@ -27,6 +29,7 @@ import { ConvertGroupIDtoNamePipe } from './services/convert-group-idto-name.pip
 import { ConvertProjectIDtoNamePipe } from './services/convert-project-idto-name.pipe';
 import { UserManagementComponent } from './user-management.component';
 import { UserMaintenanceService } from './services/user-maintenance.service';
+import { BillingComponent } from './billing.component';
 
 @NgModule({
   declarations: [
@@ -48,11 +51,17 @@ import { UserMaintenanceService } from './services/user-maintenance.service';
     ConvertGroupIDtoNamePipe,
     ConvertProjectIDtoNamePipe,
     UserManagementComponent,
+    BillingComponent,
     ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    HttpModule
+    FormsModule,
+    HttpModule,
+    MaterialModule,            // <----- this module will be deprecated in the future version.
+    MdDatepickerModule,        // <----- import(must)
+    MdNativeDateModule,         // <----- import(optional)
+    BrowserAnimationsModule
   ],
   providers: [IdentityService, UtilityService, StackService, ComputeService, PasswordManagementService, UserMaintenanceService],
   bootstrap: [AppComponent]
