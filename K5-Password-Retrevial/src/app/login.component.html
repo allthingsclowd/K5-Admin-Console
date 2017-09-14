@@ -2,6 +2,20 @@
   <div class="center col-md-4">
     <form [formGroup]="loginForm" >
       <div formGroupName="loginData">
+          <div class="form-group">
+            <label for="k5contract">
+              Contract
+            </label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="k5contract"
+              formControlName="contract">
+            <span
+              *ngIf="!loginForm.get('loginData.contract').valid && loginForm.get('loginData.contract').touched"
+              class="help-block">Please enter a valid K5 contract name
+            </span>
+          </div>
         <div class="form-group">					 
           <label for="k5username">
             User
@@ -28,20 +42,6 @@
           <span
             *ngIf="!loginForm.get('loginData.password').valid && loginForm.get('loginData.password').touched"
             class="help-block">Please enter a valid K5 password
-          </span>
-        </div>
-        <div class="form-group">
-          <label for="k5contract">
-            Contract
-          </label>
-          <input 
-            type="text" 
-            class="form-control" 
-            id="k5contract"
-            formControlName="contract">
-          <span
-            *ngIf="!loginForm.get('loginData.contract').valid && loginForm.get('loginData.contract').touched"
-            class="help-block">Please enter a valid K5 contract name
           </span>
         </div>
         <div class="form-group">
