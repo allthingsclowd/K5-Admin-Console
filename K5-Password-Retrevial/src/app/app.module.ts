@@ -27,6 +27,7 @@ import { ConvertGroupIDtoNamePipe } from './services/convert-group-idto-name.pip
 import { ConvertProjectIDtoNamePipe } from './services/convert-project-idto-name.pipe';
 import { UserManagementComponent } from './user-management.component';
 import { UserMaintenanceService } from './services/user-maintenance.service';
+import { LoadbalancerComponent } from './src/app/loadbalancer.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { UserMaintenanceService } from './services/user-maintenance.service';
     ConvertGroupIDtoNamePipe,
     ConvertProjectIDtoNamePipe,
     UserManagementComponent,
+    LoadbalancerComponent,
     ],
   imports: [
     BrowserModule,

@@ -18,8 +18,8 @@ export class ComputeService {
     serverLogs = this.userServerLogs.asObservable();
     // private userProjectToken = new BehaviorSubject<Response>(null);
     // userPToken = this.userProjectToken.asObservable();
-    currentProject: project = null;
-    currentProjectToken: Response = null;
+   // currentProject: project = null;
+    // currentProjectToken: Response = null;
 
     constructor(private http: Http,
                 private utilitiesService: UtilityService) { }
@@ -103,7 +103,7 @@ export class ComputeService {
         console.log(serverid);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
-        computeURL = computeURL.concat('/servers/', serverid,'/os-server-password');
+        computeURL = computeURL.concat('/servers/', serverid, '/os-server-password');
         // With CORS Proxy Service in use here
         const proxiedURL = this.utilitiesService.sendViaCORSProxy(computeURL);
 
@@ -130,16 +130,16 @@ export class ComputeService {
         console.log(server.id);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
-        computeURL = computeURL.concat('/servers/', server.id,'/action');
+        computeURL = computeURL.concat('/servers/', server.id, '/action');
         // With CORS Proxy Service in use here
         const proxiedURL = this.utilitiesService.sendViaCORSProxy(computeURL);
         const body = {
-            "os-getConsoleOutput": {
-                "length": 1000
+            'os-getConsoleOutput': {
+                'length': 1000
             }
         };
 
-        
+
         const bodyString = JSON.stringify(body); // Stringify payload
         const postheaders: Headers = new Headers();
         postheaders.append('Content-Type', 'application/json');

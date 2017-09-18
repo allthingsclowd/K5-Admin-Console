@@ -1,4 +1,5 @@
 import { StackService } from './stack.service';
+import { LoadbalancerService } from './loadbalancer.service';
 import { User, project, ProjectToken } from './../model/user';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, RequestMethod, Request, Headers, Response, RequestOptions } from '@angular/http';
@@ -44,15 +45,16 @@ export class IdentityService {
     roleAssignments = this.projectRoleAssignments.asObservable();
     private usersInGroupList = new BehaviorSubject<Response>(null);
     usersInGroup = this.usersInGroupList.asObservable();
-    servers: any = null;
+    //servers: any = null;
     // k5currentScopedToken: Response;
 
     constructor(private http: Http,
                 private utilityService: UtilityService,
                 private computeService: ComputeService,
-                private stackService: StackService) {
+                private stackService: StackService,
+                private loadBalancerService: LoadbalancerService) {
 
-        this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
+        // this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
 
     changeUsersInGroup(users: any) {
@@ -179,13 +181,15 @@ export class IdentityService {
                 this.changeProjectToken(res);
                 this.computeService.getServerList(res);
                 this.stackService.getStackList(res);
+                this.loadBalancerService.getLBaaSDetailOrList(res, 'all');
+
                 this.getRoleAssignments().subscribe();
                 console.log('New Project Scoped Token observable ->');
                 console.log(this.userProjectToken.getValue());
-                //console.log('New Server List ->');
-                //console.log(this.servers.getValue());
+                // console.log('New Server List ->');
+                // console.log(this.servers.getValue());
 
-                //return res;
+                // return res;
             });
 
     }
