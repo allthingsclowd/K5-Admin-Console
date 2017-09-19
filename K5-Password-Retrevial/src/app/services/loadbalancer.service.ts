@@ -15,6 +15,7 @@ export class LoadbalancerService {
   userLBaaS = this.userLBaaSList.asObservable();
   private userLBaaSDetails = new BehaviorSubject<any>(null);
   LBaaSDetails = this.userLBaaSDetails.asObservable();
+  lBDetails = false;
 
   constructor(private http: Http,
     private utilitiesService: UtilityService) { }
@@ -37,8 +38,11 @@ export class LoadbalancerService {
 
       if (LBaaSName === 'all') {
         lbaasURL = lbaasURL.concat('/?Version=2014-11-01&Action=DescribeLoadBalancers');
+        this.lBDetails = false;
       } else {
+        console.log('Get LBAAS Detail rather than ALL')
         lbaasURL = lbaasURL.concat('/?LoadBalancerNames.member.1=', LBaaSName, '&Version=2014-11-01&Action=DescribeLoadBalancers');
+        this.lBDetails = true;
       }
 
       // With CORS Proxy Service in use here
@@ -55,15 +59,53 @@ export class LoadbalancerService {
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
               console.log('New LBaaS List ->');
-              console.log(res.json());
-              this.changeLBaaSList(res.json().loadbalancer.name);
+              console.log(res.json().DescribeLoadBalancersResponse.DescribeLoadBalancersResult.LoadBalancerDescriptions.member);
+              if (this.lBDetails) {
+                this.changeLBaaSDetails(res.json().DescribeLoadBalancersResponse.DescribeLoadBalancersResult.LoadBalancerDescriptions.member);
+              } else {
+                this.changeLBaaSList(res.json().DescribeLoadBalancersResponse.DescribeLoadBalancersResult.LoadBalancerDescriptions.member);
+              }
 
-              // return res;
+
+              return res.json().DescribeLoadBalancersResponse.DescribeLoadBalancersResult.LoadBalancerDescriptions.member;
               })
           .subscribe(
-                  data => console.log(data),
-                  err => console.log(err),
+                  (res) => console.log(res),
+                  (err) => console.log(err),
                   () => console.log('Finished LBaaS List or Details Observable'));
+
+  }
+
+      deleteLBaaS(k5scopedtoken: any, LBaaSName: string) {
+          let lbaasURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'loadbalancing');
+
+          lbaasURL = lbaasURL.concat('/?LoadBalancerName=', LBaaSName, '&Version=2014-11-01&Action=DeleteLoadBalancer');
+
+    
+          // With CORS Proxy Service in use here
+          const proxiedURL = this.utilitiesService.sendViaCORSProxy(lbaasURL);
+    
+          const getheaders: Headers = new Headers();
+          getheaders.append('Content-Type', 'application/json');
+          getheaders.append('Accept', 'application/json');
+          getheaders.append('X-Auth-Token', k5scopedtoken.headers.get('x-subject-token'));
+    
+          const headeropts: RequestOptions = new RequestOptions();
+          headeropts.headers = getheaders;
+    
+          return this.http.get(proxiedURL, headeropts)
+              .map((res: any) => {
+                  console.log('LBaaS Deleted');
+                  console.log(res.json());
+    
+    
+                  return res.json();
+                  })
+              .subscribe(
+                      (res) => console.log(res),
+                      (err) => console.log(err),
+                      () => console.log('Finished LBaaS Deletion'));
+    
 
   }
 

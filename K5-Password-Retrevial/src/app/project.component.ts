@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 // import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IdentityService } from './services/identity.service';
 import { ComputeService } from './services/compute.service';
+import { StackService } from './services/stack.service';
+import { LoadbalancerService } from './services/loadbalancer.service';
 
 @Component({
   selector: 'app-project',
@@ -16,13 +18,15 @@ export class ProjectComponent implements OnInit {
   currentProject: project = null;
 
   constructor(private identityService: IdentityService,
-              private computeService: ComputeService) { }
+              private computeService: ComputeService,
+              private stackService: StackService,
+              private loadBalancerService: LoadbalancerService) { }
 
   ngOnInit() {
     this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
     this.identityService.userProjects.subscribe(currentProjects => this.projects = currentProjects);
     this.identityService.currentProject.subscribe(selectedProject => this.currentProject = selectedProject);
-
+  
     // this.projectForm = new FormGroup({
     //  'projectData': new FormGroup({
     //    'project': new FormControl(null, [Validators.required])
@@ -50,6 +54,14 @@ export class ProjectComponent implements OnInit {
 
   projectChange(selectedProject) {
 
+    this.computeService.changeServerDetails(null);
+    this.computeService.changeServerList(null);
+    this.computeService.changeServerLogs(null);
+    this.stackService.changeStackList(null);
+    this.stackService.changeStackDetails(null);
+    this.stackService.changeStackOutputs(null);
+    this.loadBalancerService.changeLBaaSList(null);
+    this.loadBalancerService.changeLBaaSDetails(null);
     this.identityService.changeProject(selectedProject);
     console.log('333333333333. Selected Project ID to be scoped to...');
     console.log(selectedProject.id);

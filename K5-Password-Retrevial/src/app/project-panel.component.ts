@@ -1,3 +1,4 @@
+import { LoadbalancerService } from './services/loadbalancer.service';
 import { StackService } from './services/stack.service';
 import { UserMaintenanceService } from './services/user-maintenance.service';
 import { ComputeService } from './services/compute.service';
@@ -26,11 +27,13 @@ export class ProjectPanelComponent implements OnInit {
   roleAssignment: any = null;
   groupUsers: any = null;
   userGlobalToken: any = null;
+  userLBaaS: any = null;
 
   constructor(private computeService: ComputeService,
               private userMaintenanceService: UserMaintenanceService,
               private identityService: IdentityService,
-              private stackService: StackService) { }
+              private stackService: StackService,
+              private loadbalancerService: LoadbalancerService) { }
 
 
   ngOnInit() {
@@ -49,6 +52,7 @@ export class ProjectPanelComponent implements OnInit {
     this.stackService.stackDetails.subscribe(stackDetail => this.stackDetails = stackDetail);
     this.stackService.userStacks.subscribe(stacks => this.userStacks = stacks);
     this.stackService.stackOutputs.subscribe(outputs => this.stackOutputs = outputs);
+    this.loadbalancerService.userLBaaS.subscribe(LBaaS => this.userLBaaS = LBaaS);
     console.log('Contract Groups');
     console.log(this.contractGroups);
   }

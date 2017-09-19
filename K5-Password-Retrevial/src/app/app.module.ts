@@ -27,7 +27,8 @@ import { ConvertGroupIDtoNamePipe } from './services/convert-group-idto-name.pip
 import { ConvertProjectIDtoNamePipe } from './services/convert-project-idto-name.pipe';
 import { UserManagementComponent } from './user-management.component';
 import { UserMaintenanceService } from './services/user-maintenance.service';
-import { LoadbalancerComponent } from './src/app/loadbalancer.component';
+import { LoadbalancerComponent } from './loadbalancer.component';
+import { LoadbalancerService } from './services/loadbalancer.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,13 @@ import { LoadbalancerComponent } from './src/app/loadbalancer.component';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [IdentityService, UtilityService, StackService, ComputeService, PasswordManagementService, UserMaintenanceService],
+  providers: [IdentityService,
+              UtilityService,
+              StackService,
+              ComputeService,
+              PasswordManagementService,
+              UserMaintenanceService,
+              LoadbalancerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

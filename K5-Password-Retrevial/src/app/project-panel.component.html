@@ -7,7 +7,7 @@
                       <li *ngIf='contractProjects'><a href="#tab0project" data-toggle="tab">Project Detail</a></li>
                       <li *ngIf='userServers'><a href="#tab1compute" data-toggle="tab">Compute <span class="badge">{{userServers.length}}</span></a></li>
                       <li *ngIf='userStacks'> <a href="#tab2stack" data-toggle="tab">Stack <span class="badge">{{userStacks.length}}</span></a></li>
-                      <li *ngIf='userNetworks'> <a href="#tab3primary" data-toggle="tab">Network</a></li>
+                      <li *ngIf='userLBaaS'> <a href="#tab3primary" data-toggle="tab">LBaaS <span class="badge">{{userLBaaS.length}}</span></a></li>
                   </ul>
           </div> <!-- Main Tabbed Panel Headings -->
           <div class="panel-body"> <!-- Tabbed Panel Body -->
@@ -255,6 +255,9 @@
                         </div>
                   </div><!-- Fourth Tab -->
                   <div class="tab-pane fade" id="tab3primary"><!-- Fifth Tab -->
+                    <app-loadbalancer></app-loadbalancer>
+                  </div><!-- Fifth Tab -->
+                  <div class="tab-pane fade" id="tab3primary"><!-- Fifth Tab -->
                     Network
                   </div><!-- Fifth Tab -->
               </div> <!-- Tabbed Panel Body Panes -->
@@ -262,5 +265,4 @@
       </div> <!-- Main Tabbed Panel Wrapper -->
   </div>
 </div>
-
 
