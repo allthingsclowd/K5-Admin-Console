@@ -87,4 +87,12 @@ export class ProjectPanelComponent implements OnInit {
     this.identityService.getUsersInGroup(role);
 
   }
+
+  deleteStack(stack) {
+    
+    this.stackService.deleteStack(this.currentProjectT, stack);
+    // this.stackChange(null);
+    //this.stackService.getStackList(this.currentProjectT);
+
+  }
 }
