@@ -1,8 +1,10 @@
+import { UtilityService } from './services/utility.service';
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-login',
@@ -14,22 +16,34 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loggedIn: boolean = false;
   failedLogIn: boolean = false;
-  //projects :any;
+  k5proxy:boolean = false;
 
-  constructor(private identityService: IdentityService) { }
+
+
+  constructor(private identityService: IdentityService,
+              private utilityService: UtilityService) { }
 
   ngOnInit() {
-    this.identityService.loggedIn.subscribe(status => this.loggedIn = status)
+    this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
+    this.utilityService.userK5CORS.subscribe(proxy => this.k5proxy = proxy);
 
     this.loginForm = new FormGroup({
       'loginData': new FormGroup({
         'user': new FormControl(null, [Validators.required]),
         'password': new FormControl(null, [Validators.required]),
         'contract': new FormControl(null, [Validators.required]),
-        'region': new FormControl(null, [Validators.required])
+        'region': new FormControl(null, [Validators.required]),
+        'k5cors': new FormControl(null)
       })
-    });    
+    });
   }
+
+  toggleK5Proxy() {
+    console.log(this.k5proxy);
+    this.utilityService.changek5proxy(this.k5proxy);
+    console.log(this.k5proxy);
+  }
+
 
   onLogin() {
     this.identityService.login( this.loginForm.get('loginData.user').value,

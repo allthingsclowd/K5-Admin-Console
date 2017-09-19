@@ -31,6 +31,7 @@ export class IdentityService {
     userRToken = this.userRegionalToken.asObservable();
     private userGlobalToken = new BehaviorSubject<Response>(null);
     userGToken = this.userGlobalToken.asObservable();
+
     // k5response: Response;
     // k5Globalresponse: Response;
     // loggedIn :boolean = false;
@@ -56,6 +57,8 @@ export class IdentityService {
 
         // this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
+
+
 
     changeUsersInGroup(users: any) {
         this.usersInGroupList.next(users);

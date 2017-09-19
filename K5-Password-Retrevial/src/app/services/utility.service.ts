@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class UtilityService {
+    private userk5CORSproxy = new BehaviorSubject<boolean>(false);
+    userK5CORS = this.userk5CORSproxy.asObservable();
 
-  constructor() { }
+  constructor() {
+  }
+
+  changek5proxy(proxy: boolean) {
+    console.log(this.userk5CORSproxy.getValue());
+    this.userk5CORSproxy.next(!proxy);
+    console.log(this.userk5CORSproxy.getValue());
+  }
 
     convertStringToArrayBufferView(str: string)
     {
@@ -82,25 +92,29 @@ export class UtilityService {
 
     sendViaCORSProxy(URL: string) {
         console.log(URL);
-        // CORS PROXY URL
-        //const corsProxy = 'http://localhost:2337/';https://corsproxy.uk-1.cf-app.net/
-        const corsProxy = 'https://corsproxy.uk-1.cf-app.net/'
-        // remove the first 8 characters of the URL...https:// and add export
-        const protocol = URL.split(':', 1);
-        const port = (protocol[0] === 'https') ? 443 : 80;
+        if (this.userk5CORSproxy.getValue()) {
+            // CORS PROXY URL
+            //const corsProxy = 'http://localhost:2337/';https://corsproxy.uk-1.cf-app.net/
+            const corsProxy = 'https://corsproxy.uk-1.cf-app.net/'
+            // remove the first 8 characters of the URL...https:// and add export
+            const protocol = URL.split(':', 1);
+            const port = (protocol[0] === 'https') ? 443 : 80;
 
-        // insert port number after host details
-        const pureURL = URL.substring((protocol[0].length + 3), URL.length);
-        console.log(pureURL);
+            // insert port number after host details
+            const pureURL = URL.substring((protocol[0].length + 3), URL.length);
+            console.log(pureURL);
 
-        const hostName = pureURL.split('/', 1);
-        const urlWithoutHost = pureURL.substring(hostName[0].length, pureURL.length);
-        console.log(urlWithoutHost);
-        const hostNamePort = hostName[0].concat(':', port.toString());
+            const hostName = pureURL.split('/', 1);
+            const urlWithoutHost = pureURL.substring(hostName[0].length, pureURL.length);
+            console.log(urlWithoutHost);
+            const hostNamePort = hostName[0].concat(':', port.toString());
 
-        const proxyURL = corsProxy.concat(hostNamePort, urlWithoutHost);
-        console.log(proxyURL);
-        return proxyURL;
+            const proxyURL = corsProxy.concat(hostNamePort, urlWithoutHost);
+            console.log(proxyURL);
+            return proxyURL;
+        } else {
+            return URL;
+        }
 
     }
 
