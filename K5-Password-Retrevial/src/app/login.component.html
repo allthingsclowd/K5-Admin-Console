@@ -64,8 +64,9 @@
         </div>
         <div class="form-group"> 
             <!-- CORS Proxy Toggle -->
-            <p *ngIf="loginForm.get('loginData.k5cors').value">CORS Proxy Enabled</p>
-            <p *ngIf="!loginForm.get('loginData.k5cors').value">CORS Proxy Disabled</p>
+
+            <!-- <p *ngIf="loginForm.get('loginData.k5cors').value">CORS Proxy Enabled</p>
+            <p *ngIf="!loginForm.get('loginData.k5cors').value">CORS Proxy Disabled</p> -->
             <label class="switch">
               <input type="checkbox"
               id="k5cors"
@@ -74,7 +75,12 @@
               <span class="slider round"></span>
               
             </label>
+            
           </div>
+          <span
+          *ngIf="!loginForm.get('loginData.k5cors').value"
+          class="help-block">CORS Proxy Disabled
+        </span>
       </div>
       <div class="form-group" *ngIf="!loggedIn">
         <button type="button" class="pull-right btn-xl btn btn-success btn-large" [disabled]="!loginForm.get('loginData').valid" (click)="onLogin()">
