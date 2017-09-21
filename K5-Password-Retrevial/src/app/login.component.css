@@ -69,3 +69,8 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.help-block {
+  color: red;
+  background-color: white;
+}
