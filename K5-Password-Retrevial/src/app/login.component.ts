@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loggedIn: boolean = false;
   failedLogIn: boolean = false;
-  k5proxy:boolean = false;
+  k5proxy:boolean = true;
 
 
 
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         'password': new FormControl(null, [Validators.required]),
         'contract': new FormControl(null, [Validators.required]),
         'region': new FormControl(null, [Validators.required]),
-        'k5cors': new FormControl(null)
+        'k5cors': new FormControl(true)
       })
     });
   }

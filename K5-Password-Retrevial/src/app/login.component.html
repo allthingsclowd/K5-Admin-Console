@@ -64,12 +64,15 @@
         </div>
         <div class="form-group"> 
             <!-- CORS Proxy Toggle -->
+            <p *ngIf="loginForm.get('loginData.k5cors').value">CORS Proxy Enabled</p>
+            <p *ngIf="!loginForm.get('loginData.k5cors').value">CORS Proxy Disabled</p>
             <label class="switch">
               <input type="checkbox"
               id="k5cors"
               formControlName="k5cors"
               (change)="toggleK5Proxy()">
               <span class="slider round"></span>
+              
             </label>
           </div>
       </div>
