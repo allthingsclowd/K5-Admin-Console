@@ -28,8 +28,4 @@ export class AppComponent implements OnInit {
     this.identityService.contractProjects.subscribe(projects => this.contractProjects = projects);
 
   }
-
-
-  
- 
 }

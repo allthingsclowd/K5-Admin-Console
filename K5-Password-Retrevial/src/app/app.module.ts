@@ -5,7 +5,7 @@ import { UtilityService } from './services/utility.service';
 import { StackService } from './services/stack.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule, MdDatepickerModule, MdNativeDateModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -56,7 +56,6 @@ import { BillingComponent } from './billing.component';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    FormsModule,
     HttpModule,
     MaterialModule,            // <----- this module will be deprecated in the future version.
     MdDatepickerModule,        // <----- import(must)

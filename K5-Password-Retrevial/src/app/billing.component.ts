@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule, MdDatepickerModule, MdNativeDateModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -9,14 +9,20 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   styleUrls: ['./billing.component.css']
 })
 export class BillingComponent implements OnInit {
-  startDate;
-  endDate;
+  billingForm: FormGroup;
 
   constructor() { }
 
   ngOnInit() {
-    this.startDate = new Date();
-    this.endDate = new Date();
+
+    this.billingForm = new FormGroup({
+      'billingData': new FormGroup({
+        'startDate': new FormControl(null, [Validators.required]),
+        'endDate': new FormControl(null, [Validators.required]),
+        'contract': new FormControl(null, [Validators.required]),
+        'region': new FormControl(null, [Validators.required])
+      })
+    });
   }
 
 }
