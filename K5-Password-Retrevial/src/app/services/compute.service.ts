@@ -16,8 +16,7 @@ export class ComputeService {
     serverDetails = this.userServerDetails.asObservable();
     private userServerLogs = new BehaviorSubject<any>(null);
     serverLogs = this.userServerLogs.asObservable();
-    // private userProjectToken = new BehaviorSubject<Response>(null);
-    // userPToken = this.userProjectToken.asObservable();
+
 
 
     constructor(private http: Http,
