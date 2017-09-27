@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class UtilityService {
-    private userk5CORSproxy = new BehaviorSubject<boolean>(false);
+    private userk5CORSproxy = new BehaviorSubject<boolean>(true);
     userK5CORS = this.userk5CORSproxy.asObservable();
 
   constructor() {
