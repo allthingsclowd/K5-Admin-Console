@@ -40,7 +40,7 @@ export class LoadbalancerService {
         lbaasURL = lbaasURL.concat('/?Version=2014-11-01&Action=DescribeLoadBalancers');
         this.lBDetails = false;
       } else {
-        console.log('Get LBAAS Detail rather than ALL')
+        console.log('Get LBAAS Detail rather than ALL');
         lbaasURL = lbaasURL.concat('/?LoadBalancerNames.member.1=', LBaaSName, '&Version=2014-11-01&Action=DescribeLoadBalancers');
         this.lBDetails = true;
       }
