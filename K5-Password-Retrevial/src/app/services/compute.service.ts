@@ -18,6 +18,7 @@ export class ComputeService {
     serverLogs = this.userServerLogs.asObservable();
     // private userProjectToken = new BehaviorSubject<Response>(null);
     // userPToken = this.userProjectToken.asObservable();
+    // hello FDE forum
 
 
     constructor(private http: Http,
