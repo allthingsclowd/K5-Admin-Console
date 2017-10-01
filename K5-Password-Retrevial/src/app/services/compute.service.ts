@@ -64,7 +64,7 @@ export class ComputeService {
             .subscribe(
                     data => console.log(data),
                     err => console.log(err),
-                    () => console.log('yay'));
+                    () => console.log('Server list complete'));
 
     }
 
