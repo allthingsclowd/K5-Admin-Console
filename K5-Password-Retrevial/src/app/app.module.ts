@@ -1,3 +1,4 @@
+import { NetworkService } from './services/network.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
@@ -63,7 +64,8 @@ import { LoadbalancerService } from './services/loadbalancer.service';
               ComputeService,
               PasswordManagementService,
               UserMaintenanceService,
-              LoadbalancerService],
+              LoadbalancerService,
+              NetworkService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

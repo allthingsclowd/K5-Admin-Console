@@ -69,7 +69,7 @@ export class NetworkService {
   getRouterList(k5scopedtoken: any) {
 
       let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
-      networkURL = networkURL.concat('/routers');
+      networkURL = networkURL.concat('/v2.0/routers');
       // With CORS Proxy Service in use here
       const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
 
@@ -99,7 +99,7 @@ export class NetworkService {
   getRouterDetails(k5scopedtoken: any, router: any) {
 
       let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
-      networkURL = networkURL.concat('/routers/', router.id);
+      networkURL = networkURL.concat('/v2.0/routers/', router.id);
       // With CORS Proxy Service in use here
       const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
 
@@ -127,7 +127,7 @@ export class NetworkService {
   getNetworkList(k5scopedtoken: any) {
 
     let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
-    networkURL = networkURL.concat('/networks');
+    networkURL = networkURL.concat('/v2.0/networks');
     // With CORS Proxy Service in use here
     const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
 
@@ -157,7 +157,7 @@ export class NetworkService {
   getNetworkDetails(k5scopedtoken: any, network: any) {
 
       let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
-      networkURL = networkURL.concat('/networks/', network.id);
+      networkURL = networkURL.concat('/v2.0/networks/', network.id);
       // With CORS Proxy Service in use here
       const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
 
@@ -186,7 +186,7 @@ export class NetworkService {
   getSubnetList(k5scopedtoken: any) {
 
       let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
-      networkURL = networkURL.concat('/subnets');
+      networkURL = networkURL.concat('/v2.0/subnets');
       // With CORS Proxy Service in use here
       const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
 
@@ -200,7 +200,7 @@ export class NetworkService {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('New Router List ->');
+              console.log('New Subnet List ->');
               console.log(res.json().subnets);
               this.changeSubNetworkList(res.json().subnets);
 
@@ -216,7 +216,7 @@ export class NetworkService {
 getSubnetDetails(k5scopedtoken: any, subnet: any) {
 
     let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
-    networkURL = networkURL.concat('/subnets/', subnet.id);
+    networkURL = networkURL.concat('/v2.0/subnets/', subnet.id);
     // With CORS Proxy Service in use here
     const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
 
@@ -245,7 +245,7 @@ getSubnetDetails(k5scopedtoken: any, subnet: any) {
 getPortList(k5scopedtoken: any) {
 
       let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
-      networkURL = networkURL.concat('/ports');
+      networkURL = networkURL.concat('/v2.0/ports');
       // With CORS Proxy Service in use here
       const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
 
@@ -275,7 +275,7 @@ getPortList(k5scopedtoken: any) {
   getPortDetails(k5scopedtoken: any, port: any) {
 
       let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
-      networkURL = networkURL.concat('/ports/', port.id);
+      networkURL = networkURL.concat('/v2.0/ports/', port.id);
       // With CORS Proxy Service in use here
       const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
 

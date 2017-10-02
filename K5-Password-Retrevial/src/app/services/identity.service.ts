@@ -1,3 +1,4 @@
+import { NetworkService } from './network.service';
 import { StackService } from './stack.service';
 import { LoadbalancerService } from './loadbalancer.service';
 import { User, project, ProjectToken } from './../model/user';
@@ -53,7 +54,8 @@ export class IdentityService {
                 private utilityService: UtilityService,
                 private computeService: ComputeService,
                 private stackService: StackService,
-                private loadBalancerService: LoadbalancerService) {
+                private loadBalancerService: LoadbalancerService,
+                private networkService: NetworkService) {
 
         // this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
@@ -185,6 +187,10 @@ export class IdentityService {
                 this.computeService.getServerList(res);
                 this.stackService.getStackList(res);
                 this.loadBalancerService.getLBaaSDetailOrList(res, 'all');
+                this.networkService.getPortList(res);
+                this.networkService.getSubnetList(res);
+                this.networkService.getNetworkList(res);
+                this.networkService.getRouterList(res);
 
                 this.getRoleAssignments().subscribe();
                 console.log('New Project Scoped Token observable ->');
