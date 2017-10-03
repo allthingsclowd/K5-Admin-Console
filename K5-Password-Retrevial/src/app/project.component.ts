@@ -5,6 +5,7 @@ import { IdentityService } from './services/identity.service';
 import { ComputeService } from './services/compute.service';
 import { StackService } from './services/stack.service';
 import { LoadbalancerService } from './services/loadbalancer.service';
+import { CloudvisualisedService } from './services/cloudvisualised.service';
 
 @Component({
   selector: 'app-project',
@@ -20,7 +21,8 @@ export class ProjectComponent implements OnInit {
   constructor(private identityService: IdentityService,
               private computeService: ComputeService,
               private stackService: StackService,
-              private loadBalancerService: LoadbalancerService) { }
+              private loadBalancerService: LoadbalancerService,
+              private cloudVisualisedService: CloudvisualisedService) { }
 
   ngOnInit() {
     this.identityService.loggedIn.subscribe(status => this.loggedIn = status);
@@ -68,17 +70,14 @@ export class ProjectComponent implements OnInit {
     console.log(selectedProject.name);
     console.log(selectedProject);
     this.identityService.getProjectScopedToken(selectedProject.id)
-      .subscribe( data => {
-        console.log('new project token');
-        console.log(data);
-        // this.currentScopedToken = data;
-        // this.computeService.getServerList(data)
-        //   .subscribe( serverList => {
-        //     this.servers = serverList.json().servers;
-        //     console.log(this.servers);
-
-         // });
-      });
+      .subscribe( 
+        data => 
+        { console.log('new project token');
+          console.log(data);
+        },
+        err => console.log(err),
+        () => {console.log('End of new Project Selection');
+                this.cloudVisualisedService.getNodes(); });
       console.log('PROJECT CHANGE SELECTED Projects, Project, Logged In Status are as follows (next three lines) : ');
       console.log(this.projects);
       console.log(this.currentProject);
@@ -86,3 +85,8 @@ export class ProjectComponent implements OnInit {
 
   }
 }
+// .subscribe(
+//   res => {},
+//   err => console.log(err),
+//   () => {console.log('End of new Project Selection');
+//           this.cloudvisualisedService.getNodes(); });

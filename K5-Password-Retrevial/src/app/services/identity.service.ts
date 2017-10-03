@@ -1,3 +1,4 @@
+import { CloudvisualisedService } from './cloudvisualised.service';
 import { NetworkService } from './network.service';
 import { StackService } from './stack.service';
 import { LoadbalancerService } from './loadbalancer.service';
@@ -55,7 +56,8 @@ export class IdentityService {
                 private computeService: ComputeService,
                 private stackService: StackService,
                 private loadBalancerService: LoadbalancerService,
-                private networkService: NetworkService) {
+                private networkService: NetworkService,
+                private cloudvisualisedService: CloudvisualisedService) {
 
         // this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
@@ -193,6 +195,7 @@ export class IdentityService {
                 this.networkService.getRouterList(res);
 
                 this.getRoleAssignments().subscribe();
+                
                 console.log('New Project Scoped Token observable ->');
                 console.log(this.userProjectToken.getValue());
                 // console.log('New Server List ->');
@@ -200,6 +203,7 @@ export class IdentityService {
 
                 // return res;
             });
+            
 
     }
 

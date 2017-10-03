@@ -1,3 +1,4 @@
+import { CloudvisualisedService } from './services/cloudvisualised.service';
 import { NetworkService } from './services/network.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { ComputeService } from './services/compute.service';
@@ -65,7 +66,8 @@ import { LoadbalancerService } from './services/loadbalancer.service';
               PasswordManagementService,
               UserMaintenanceService,
               LoadbalancerService,
-              NetworkService],
+              NetworkService,
+              CloudvisualisedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
