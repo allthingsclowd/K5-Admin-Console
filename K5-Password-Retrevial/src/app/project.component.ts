@@ -77,7 +77,7 @@ export class ProjectComponent implements OnInit {
         },
         err => console.log(err),
         () => {console.log('End of new Project Selection');
-                this.cloudVisualisedService.getNodes(); });
+                 });
       console.log('PROJECT CHANGE SELECTED Projects, Project, Logged In Status are as follows (next three lines) : ');
       console.log(this.projects);
       console.log(this.currentProject);

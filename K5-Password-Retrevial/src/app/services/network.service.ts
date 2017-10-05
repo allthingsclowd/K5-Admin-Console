@@ -1,3 +1,4 @@
+import { CloudvisualisedService } from './cloudvisualised.service';
 import { Injectable} from '@angular/core';
 import { Http, RequestMethod, Request, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -32,10 +33,12 @@ export class NetworkService {
   subPortDetails = this.userPortDetails.asObservable();
 
   constructor(private http: Http,
-              private utilitiesService: UtilityService) { }
+              private utilitiesService: UtilityService,
+              private cloudvisualisedService: CloudvisualisedService) { }
 
   changeRouterList(userRouters: any) {
       this.userRouterList.next(userRouters);
+      this.cloudvisualisedService.getNodes('router', userRouters);
   }
 
   changeRouterDetails(routerDetails: any) {
@@ -44,6 +47,7 @@ export class NetworkService {
 
   changeNetworkList(userNetworks: any) {
     this.userNetworkList.next(userNetworks);
+    this.cloudvisualisedService.getNodes('network', userNetworks);
   }
 
   changeNetworkDetails(NetworkDetails: any) {
@@ -52,6 +56,7 @@ export class NetworkService {
 
   changeSubNetworkList(userSubNetworks: any) {
     this.userSubNetworkList.next(userSubNetworks);
+    this.cloudvisualisedService.getNodes('subnetwork', userSubNetworks);
   }
 
   changeSubNetworkDetails(SubNetworkDetails: any) {
@@ -60,6 +65,7 @@ export class NetworkService {
 
   changePortList(userPorts: any) {
     this.userPortList.next(userPorts);
+    this.cloudvisualisedService.getNodes('port', userPorts);
   }
 
   changePortDetails(PortDetails: any) {

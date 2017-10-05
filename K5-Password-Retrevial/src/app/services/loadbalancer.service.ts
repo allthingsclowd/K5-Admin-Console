@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CloudvisualisedService } from './cloudvisualised.service';
 import { Http, RequestMethod, Request, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 // import { User, project, projects, ProjectToken } from '../model/user';
@@ -18,7 +19,8 @@ export class LoadbalancerService {
   lBDetails = false;
 
   constructor(private http: Http,
-    private utilitiesService: UtilityService) { }
+    private utilitiesService: UtilityService,
+    private cloudvisualisedService: CloudvisualisedService) { }
 
   changeLBaaSDetails(LBaaSDetails: any) {
     this.userLBaaSDetails.next(LBaaSDetails);
@@ -26,6 +28,9 @@ export class LoadbalancerService {
 
   changeLBaaSList(userLBaaS: any) {
     this.userLBaaSList.next(userLBaaS);
+    if (userLBaaS != null) {
+      this.cloudvisualisedService.getNodes('lbaas', userLBaaS);
+    }
   }
 
   // set LBaaSName to 'all' to retrieve all LBaaS associated with scoped token
