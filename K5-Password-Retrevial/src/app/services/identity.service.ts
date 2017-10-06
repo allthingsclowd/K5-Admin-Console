@@ -186,6 +186,7 @@ export class IdentityService {
                 console.log(res);
 
                 this.changeProjectToken(res);
+                this.cloudvisualisedService.resetNodeList();
                 this.computeService.getServerList(res);
                 this.stackService.getStackList(res);
                 this.loadBalancerService.getLBaaSDetailOrList(res, 'all');
