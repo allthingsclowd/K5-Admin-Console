@@ -31,6 +31,7 @@ import { UserManagementComponent } from './user-management.component';
 import { UserMaintenanceService } from './services/user-maintenance.service';
 import { LoadbalancerComponent } from './loadbalancer.component';
 import { LoadbalancerService } from './services/loadbalancer.service';
+import { CloudvisualisedComponent } from './cloudvisualised.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { LoadbalancerService } from './services/loadbalancer.service';
     ConvertProjectIDtoNamePipe,
     UserManagementComponent,
     LoadbalancerComponent,
+    CloudvisualisedComponent,
     ],
   imports: [
     BrowserModule,
