@@ -1,4 +1,5 @@
-<div *ngIf='currentProjectT' class="container-fluid">
+<div *ngIf='currentProjectT && contractUsers && userServers && userLBaaS' class="container-fluid">
+  <app-cloudvisualised *ngIf='currentProjectT' ></app-cloudvisualised>
   <div class="col-md-12">
       <div class="panel with-nav-tabs panel-info">  <!-- Main Tabbed Panel Wrapper --> 
           <div class="panel-heading"> <!-- Main Tabbed Panel Headings -->

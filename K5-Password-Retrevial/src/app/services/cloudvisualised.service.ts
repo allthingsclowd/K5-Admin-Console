@@ -21,8 +21,8 @@ class VisualLink implements IVisualLink {
       this.weight = weight || 1;
   }
 
-
 }
+
 
 interface IVisualNode {
   type: string;
@@ -274,7 +274,7 @@ export class CloudvisualisedService {
     this.k5Nodes = new VisualisationData(this.localNodeList, this.localEdgeList);
     console.log('Final OutPut for D3JS');
     console.log(this.k5Nodes);
-    this.changeVisualData(this.k5Nodes);
+    this.changeVisualData(this.k5Nodes)
 
   }
 
