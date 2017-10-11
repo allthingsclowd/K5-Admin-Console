@@ -9,7 +9,8 @@ import * as d3Color from 'd3-color';
 @Component({
   selector: 'app-cloudvisualised',
   templateUrl: './cloudvisualised.component.html',
-  styleUrls: ['./cloudvisualised.component.css']
+  styleUrls: ['./cloudvisualised.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy  {
   // @ViewChild('chart') private chartContainer: ElementRef;
@@ -415,6 +416,7 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     console.log('HELEN');
     console.log(graph.nodes);
     console.log(graph.links);
+
     this.link = this.svg.append('g')
     .attr('class', 'links')
     .selectAll('line')
@@ -435,7 +437,7 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
             .on("end", (d)=>{return this.dragended(d)}));
 
     this.node.append('title')
-      .text(function(d) { return d.name; });
+      .text(function(d) { return d.id; });
 
     this.simulation
       .nodes(graph.nodes)
