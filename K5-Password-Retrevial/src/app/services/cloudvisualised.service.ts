@@ -85,11 +85,11 @@ class VisualNode implements IVisualNode {
 
 class VisualisationData {
   nodes: Array<VisualNode>;
-  edges: Array<VisualLink>;
+  links: Array<VisualLink>;
 
-  constructor(nodes: Array<VisualNode>, edges: Array<VisualLink>) {
+  constructor(nodes: Array<VisualNode>, links: Array<VisualLink>) {
     this.nodes = nodes;
-    this.edges = edges;
+    this.links = links;
 
   }
 }
@@ -274,7 +274,7 @@ export class CloudvisualisedService {
     this.k5Nodes = new VisualisationData(this.localNodeList, this.localEdgeList);
     console.log('Final OutPut for D3JS');
     console.log(this.k5Nodes);
-    this.changeVisualData(this.k5Nodes)
+    this.changeVisualData(this.k5Nodes);
 
   }
 

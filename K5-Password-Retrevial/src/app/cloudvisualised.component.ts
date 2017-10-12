@@ -389,7 +389,8 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
         .force('charge', d3Force.forceManyBody())
         .force('center', d3Force.forceCenter(width / 2, height / 2));
 
-    this.render(this.testdata);
+    // this.render(this.testdata);
+    this.render(JSON.stringify(this.nodeDetails));
   }
 
   ticked() {
