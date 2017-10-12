@@ -96,6 +96,7 @@ export class UtilityService {
             // CORS PROXY URL
             //const corsProxy = 'http://localhost:2337/';https://corsproxy.uk-1.cf-app.net/
             const corsProxy = 'https://corsproxy.uk-1.cf-app.net/'
+            // const corsProxy = 'https://hydra-t-apimng.uk-1.paas.cloud.global.fujitsu.com:10443/k5corsdemo/'
             // remove the first 8 characters of the URL...https:// and add export
             const protocol = URL.split(':', 1);
             const port = (protocol[0] === 'https') ? 443 : 80;
