@@ -35,16 +35,16 @@ export class ProjectComponent implements OnInit {
     //  })
     // });
     // this.projects = this.identityService.k5projects;
-    console.log('NGONINIT on Projects Component - Projects, Project, Logged In Status are as follows (next three lines) : ');
-    console.log(this.projects);
+    //console.log('NGONINIT on Projects Component - Projects, Project, Logged In Status are as follows (next three lines) : ');
+    //console.log(this.projects);
 //     for (let index in this.projects) {
-//       console.log(this.projects[index].name);
+//       //console.log(this.projects[index].name);
 //   }
 //   for (let project of this.projects.project) {
-//     console.log(project.name);
+//     //console.log(project.name);
 // }
-    console.log(this.currentProject);
-    console.log(this.loggedIn);
+    //console.log(this.currentProject);
+    //console.log(this.loggedIn);
   }
 
   onLogout() {
@@ -65,28 +65,28 @@ export class ProjectComponent implements OnInit {
     this.loadBalancerService.changeLBaaSList(null);
     this.loadBalancerService.changeLBaaSDetails(null);
     this.identityService.changeProject(selectedProject);
-    console.log('333333333333. Selected Project ID to be scoped to...');
-    console.log(selectedProject.id);
-    console.log(selectedProject.name);
-    console.log(selectedProject);
+    //console.log('333333333333. Selected Project ID to be scoped to...');
+    //console.log(selectedProject.id);
+    //console.log(selectedProject.name);
+    //console.log(selectedProject);
     this.identityService.getProjectScopedToken(selectedProject.id)
       .subscribe( 
         data => 
-        { console.log('new project token');
-          console.log(data);
+        { //console.log('new project token');
+          //console.log(data);
         },
         err => console.log(err),
-        () => {console.log('End of new Project Selection');
+        () => {//console.log('End of new Project Selection');
                  });
-      console.log('PROJECT CHANGE SELECTED Projects, Project, Logged In Status are as follows (next three lines) : ');
-      console.log(this.projects);
-      console.log(this.currentProject);
-      console.log(this.loggedIn);
+      //console.log('PROJECT CHANGE SELECTED Projects, Project, Logged In Status are as follows (next three lines) : ');
+      //console.log(this.projects);
+      //console.log(this.currentProject);
+      //console.log(this.loggedIn);
 
   }
 }
 // .subscribe(
 //   res => {},
 //   err => console.log(err),
-//   () => {console.log('End of new Project Selection');
+//   () => {//console.log('End of new Project Selection');
 //           this.cloudvisualisedService.getNodes(); });

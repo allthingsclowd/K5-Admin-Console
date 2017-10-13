@@ -134,12 +134,12 @@ export class CloudvisualisedService {
   }
 
   updateNodeList(nodes) {
-    console.log('Update Called');
+    //console.log('Update Called');
     this.nodeList.next(nodes);
   }
 
   resetNodeList() {
-    console.log('Reset Called');
+    //console.log('Reset Called');
     this.localNodeList = new Array<VisualNode>();
     this.nodeList.next(this.localNodeList);
   }
@@ -147,29 +147,63 @@ export class CloudvisualisedService {
   locateIndexinNodeList(item: string, nodeList: Array<VisualNode>) {
     for (let node of nodeList) {
       if (item === node.id) {
-        console.log('link Match') ;
-        console.log(node.id, item);
+        //console.log('link Match') ;
+        //console.log(node.id, item);
         return nodeList.indexOf(node);
       }
     }
-    console.log('link No Match') ;
-    // console.log(node.id, item);
+    //console.log('link No Match') ;
+    // //console.log(node.id, item);
       
     return false;  
     
   }
 
+  convertToD3(data: VisualisationData) {
+    let d3Data: any = [];
+    let nodes: Array<any> = [];
+    let links: Array<any> = [];
+
+    for (let node of data.nodes) {
+      let newnode: any = [];
+      for (let property in node) {
+        if (node.hasOwnProperty(property)) {
+          console.log(property);
+          console.log(node[property]);
+          console.log(node);
+
+          newnode.push({[property] : node[property]});
+        }
+      }
+      nodes.push({newnode});
+    }
+    for (let link of data.links) {
+      let newlink: any = [];
+      for (let property in link) {
+        if (link.hasOwnProperty(property)) {
+          //console.log(property);
+          //console.log(link[property]);
+          //console.log(link);
+          newlink.push({property : link[property]});
+        }
+      }
+      links.push({newlink});
+    }
+    d3Data = {nodes, links};
+    return d3Data;
+  }
+
   generateEdges(nodelist: Array<VisualNode>) {
     this.localEdgeList = new Array<VisualLink>();
     for (let node in nodelist) {
-      console.log('Processing Node ', node);
+      //console.log('Processing Node ', node);
       for (let link of nodelist[node].links) {
         const linkIndex = this.locateIndexinNodeList(link, this.localNodeList);
         if (linkIndex) {
-          console.log('target');
-          console.log(linkIndex);
-          console.log('source');
-          console.log(node);
+          //console.log('target');
+          //console.log(linkIndex);
+          //console.log('source');
+          //console.log(node);
           const newLink = new VisualLink(+node, linkIndex);
           this.localEdgeList.push(newLink);
         }
@@ -181,17 +215,17 @@ export class CloudvisualisedService {
       }
     }
 
-    console.log('Finished Link List');
-    console.log(this.localEdgeList);
+    //console.log('Finished Link List');
+    //console.log(this.localEdgeList);
     
   }
 
   getNodes(type: string, nodelist: Array<VisualNode>) {
-    console.log('Visualisation Nodes ' + type);
-    console.log(nodelist);
+    //console.log('Visualisation Nodes ' + type);
+    //console.log(nodelist);
     this.localNodeList = this.nodeList.getValue();
     for (let node of nodelist) {
-      console.log(node);
+      //console.log(node);
       let newNode = new VisualNode(type, node.id, node.name, node.availability_zone);
       // let newEdge = new VisualLink(1, 1);
 
@@ -216,9 +250,9 @@ export class CloudvisualisedService {
           // statements;
           newNode.status = node.status;
           for (let link of node.subnets) {
-            console.log('Network Subnets');
-            console.log(node.subnets);
-            console.log(link);
+            //console.log('Network Subnets');
+            //console.log(node.subnets);
+            //console.log(link);
             newNode.addLink(link);
           }
           break;
@@ -230,7 +264,7 @@ export class CloudvisualisedService {
           } else {
             newNode.status = 'NO_DHCP';
           }
-          console.log('failing here => ' + node.network_id);
+          //console.log('failing here => ' + node.network_id);
           newNode.addLink(node.network_id);
           break;
         }
@@ -261,19 +295,20 @@ export class CloudvisualisedService {
            break;
         }
      }
-     console.log(newNode);
-      // console.log(this.routers);
-      // console.log(this.loadbalancers);
+     //console.log(newNode);
+      // //console.log(this.routers);
+      // //console.log(this.loadbalancers);
     this.localNodeList.push(newNode);
     }
 
-    console.log(this.localNodeList);
+    //console.log(this.localNodeList);
     this.updateNodeList(this.localNodeList);
-    console.log(this.currentNodeList);
+    //console.log(this.currentNodeList);
     this.generateEdges(this.localNodeList);
     this.k5Nodes = new VisualisationData(this.localNodeList, this.localEdgeList);
     console.log('Final OutPut for D3JS');
     console.log(this.k5Nodes);
+    //console.log(this.k5Nodes);
     this.changeVisualData(this.k5Nodes);
 
   }

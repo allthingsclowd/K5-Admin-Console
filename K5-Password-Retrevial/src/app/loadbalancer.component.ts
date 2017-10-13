@@ -24,13 +24,13 @@ export class LoadbalancerComponent implements OnInit {
 
   LBaaSChange(LBaaS) {
     this.loadBalancerService.getLBaaSDetailOrList(this.currentProjectT, LBaaS.LoadBalancerName);
-    console.log('Change LBaaS Detail => ');
-    console.log(this.userLBaaSDetails);
+    //console.log('Change LBaaS Detail => ');
+    //console.log(this.userLBaaSDetails);
   }
 
   onLBaaSDelete(LBaaS) {
-    console.log('Deleting LBaaS => ');
-    console.log(LBaaS);
+    //console.log('Deleting LBaaS => ');
+    //console.log(LBaaS);
     this.loadBalancerService.deleteLBaaS(this.currentProjectT, LBaaS.LoadBalancerName);
     this.loadBalancerService.changeLBaaSDetails(null);
     this.loadBalancerService.getLBaaSDetailOrList(this.currentProjectT, 'all');

@@ -10,9 +10,9 @@ export class UtilityService {
   }
 
   changek5proxy(proxy: boolean) {
-    console.log(this.userk5CORSproxy.getValue());
+    //console.log(this.userk5CORSproxy.getValue());
     this.userk5CORSproxy.next(!proxy);
-    console.log(this.userk5CORSproxy.getValue());
+    //console.log(this.userk5CORSproxy.getValue());
   }
 
     convertStringToArrayBufferView(str: string)
@@ -49,12 +49,12 @@ export class UtilityService {
     }
 
     getEndpoint(k5token: any, endpointType: string) {
-        // console.log('Get Endpoint Token Details ' + JSON.stringify(k5token));
-        // console.log('Get Endpoint ObjectType Details ' + endpointType);
+        // //console.log('Get Endpoint Token Details ' + JSON.stringify(k5token));
+        // //console.log('Get Endpoint ObjectType Details ' + endpointType);
         for (const endpoint of (k5token.json().token.catalog)){
             if (endpoint.endpoints.length > 0) {
                 if (endpointType === endpoint.endpoints[0].name) {
-                    // console.log(endpoint.endpoints[0].url);
+                    // //console.log(endpoint.endpoints[0].url);
                     return endpoint.endpoints[0].url;
                 }
             }
@@ -65,7 +65,7 @@ export class UtilityService {
         let itemId = 'None';
         for (let item in itemList.json()[itemType]) {
             if (itemList.json()[itemType][item].name === itemName) {
-                // console.log('\n\n\n\===== OBJECT  LIST ======\n\n\n' + JSON.stringify(itemList.json()[itemType][item]));
+                // //console.log('\n\n\n\===== OBJECT  LIST ======\n\n\n' + JSON.stringify(itemList.json()[itemType][item]));
                 itemId = itemList.json()[itemType][item].id;
                 break;
             }
@@ -80,7 +80,7 @@ export class UtilityService {
         
         for (let item in itemList.json()) {
             if (itemList.json()[item].id === itemID) {
-                console.log('\n\n\n\===== OBJECT  LIST ======\n\n\n' + JSON.stringify(itemList.json()));
+                //console.log('\n\n\n\===== OBJECT  LIST ======\n\n\n' + JSON.stringify(itemList.json()));
                 itemName = itemList.json()[item].name;
                 break;
             }
@@ -91,7 +91,7 @@ export class UtilityService {
     }
 
     sendViaCORSProxy(URL: string) {
-        // console.log(URL);
+        // //console.log(URL);
         if (this.userk5CORSproxy.getValue()) {
             // CORS PROXY URL
             //const corsProxy = 'http://localhost:2337/';https://corsproxy.uk-1.cf-app.net/
@@ -102,15 +102,15 @@ export class UtilityService {
 
             // insert port number after host details
             const pureURL = URL.substring((protocol[0].length + 3), URL.length);
-            // console.log(pureURL);
+            // //console.log(pureURL);
 
             const hostName = pureURL.split('/', 1);
             const urlWithoutHost = pureURL.substring(hostName[0].length, pureURL.length);
-            // console.log(urlWithoutHost);
+            // //console.log(urlWithoutHost);
             const hostNamePort = hostName[0].concat(':', port.toString());
 
             const proxyURL = corsProxy.concat(hostNamePort, urlWithoutHost);
-            // console.log(proxyURL);
+            // //console.log(proxyURL);
             return proxyURL;
         } else {
             return URL;

@@ -53,22 +53,22 @@ export class ProjectPanelComponent implements OnInit {
     this.stackService.userStacks.subscribe(stacks => this.userStacks = stacks);
     this.stackService.stackOutputs.subscribe(outputs => this.stackOutputs = outputs);
     this.loadbalancerService.userLBaaS.subscribe(LBaaS => this.userLBaaS = LBaaS);
-    console.log('Contract Groups');
-    console.log(this.contractGroups);
+    //console.log('Contract Groups');
+    //console.log(this.contractGroups);
   }
 
   serverChange(server) {
     this.computeService.getServerDetails(this.currentProjectT, server);
     this.computeService.getServerLogs(this.currentProjectT, server);
-    console.log('Change Server => ');
-    console.log(this.serverDetails);
-    console.log(this.serverLogs);
+    //console.log('Change Server => ');
+    //console.log(this.serverDetails);
+    //console.log(this.serverLogs);
   }
 
   userSelection(user) {
-    console.log('Calling USER EMAIL API');
-    console.log(this.userGlobalToken);
-    console.log(user);
+    //console.log('Calling USER EMAIL API');
+    //console.log(this.userGlobalToken);
+    //console.log(user);
     this.identityService.getUserInfo(user);
 
   }
@@ -77,13 +77,13 @@ export class ProjectPanelComponent implements OnInit {
     this.stackService.getStackDetails(this.currentProjectT, stack);
     // outputs API call not currently implemented on K5
     // this.stackService.getStackOutputs(this.currentProjectT, stack);
-    console.log('Change Stack => ');
-    console.log(this.stackDetails);
+    //console.log('Change Stack => ');
+    //console.log(this.stackDetails);
   }
 
   groupSelection(role) {
-    console.log('Group Users Entry');
-    console.log(role);
+    //console.log('Group Users Entry');
+    //console.log(role);
     this.identityService.getUsersInGroup(role);
 
   }

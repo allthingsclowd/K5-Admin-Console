@@ -369,14 +369,11 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ngAfterViewInit() {
-    console.log('START OF CREATECHART IN CHART');
+    //console.log('START OF CREATECHART IN CHART');
     this.svg = d3Selection.select('svg');
 
     const width = +this.svg.attr('width');
     const height = +this.svg.attr('height');
-
-    this.color = d3Scale.scaleOrdinal(d3Scale.schemeCategory20);
-
 
     // Original data
     const dataset = this.nodeDetails;
@@ -385,12 +382,15 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     this.color = d3Scale.scaleOrdinal(d3Scale.schemeCategory20);
 
     this.simulation = d3Force.forceSimulation()
-        .force('link', d3Force.forceLink().id(function(d) { return d.id; }))
-        .force('charge', d3Force.forceManyBody())
+        .force('link', d3Force.forceLink().id(function(d) { return d.index; }))
+        .force('charge', d3Force.forceManyBody(10))
         .force('center', d3Force.forceCenter(width / 2, height / 2));
 
     // this.render(this.testdata);
-    this.render(JSON.stringify(this.nodeDetails));
+    //console.log('Bananas');
+    //console.log(this.testdata);
+    //console.log(this.cloudvisualisedService.convertToD3(this.nodeDetails));
+    this.render(this.nodeDetails);
   }
 
   ticked() {
@@ -423,7 +423,7 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     .selectAll('line')
     .data(graph.links)
     .enter().append('line')
-      .attr('stroke-width', function(d) { return Math.sqrt(d.value); });
+      .attr('stroke-width', function(d) { return Math.sqrt(d.weight); });
 
     this.node = this.svg.append("g")
       .attr("class", "nodes")
@@ -431,14 +431,14 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
       .data(graph.nodes)
       .enter().append("circle")
         .attr("r", 5)
-        .attr("fill", (d)=> { return this.color(d.group); })
+        .attr("fill", (d)=> { return this.color(d.type); })
         .call(d3Drag.drag()
             .on("start", (d)=>{return this.dragstarted(d)})
             .on("drag", (d)=>{return this.dragged(d)})
             .on("end", (d)=>{return this.dragended(d)}));
 
     this.node.append('title')
-      .text(function(d) { return d.id; });
+      .text(function(d) { return d.name; });
 
     this.simulation
       .nodes(graph.nodes)

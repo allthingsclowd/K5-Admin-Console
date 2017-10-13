@@ -89,8 +89,8 @@ export class NetworkService {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('New Router List ->');
-              console.log(res.json().routers);
+              //console.log('New Router List ->');
+              //console.log(res.json().routers);
               this.changeRouterList(res.json().routers);
 
               // return res;
@@ -119,8 +119,8 @@ export class NetworkService {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('Router details');
-              console.log(res.json().router);
+              //console.log('Router details');
+              //console.log(res.json().router);
               this.changeRouterDetails(res.json().router);
               return res;
               })
@@ -147,8 +147,8 @@ export class NetworkService {
 
     return this.http.get(proxiedURL, headeropts)
         .map((res: any) => {
-            console.log('New network List ->');
-            console.log(res.json().networks);
+            //console.log('New network List ->');
+            //console.log(res.json().networks);
             this.changeNetworkList(res.json().networks);
 
             // return res;
@@ -177,8 +177,8 @@ export class NetworkService {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('network details');
-              console.log(res.json().network);
+              //console.log('network details');
+              //console.log(res.json().network);
               this.changeNetworkDetails(res.json().network);
               return res;
               })
@@ -206,8 +206,8 @@ export class NetworkService {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('New Subnet List ->');
-              console.log(res.json().subnets);
+              //console.log('New Subnet List ->');
+              //console.log(res.json().subnets);
               this.changeSubNetworkList(res.json().subnets);
 
               // return res;
@@ -236,8 +236,8 @@ getSubnetDetails(k5scopedtoken: any, subnet: any) {
 
     return this.http.get(proxiedURL, headeropts)
         .map((res: any) => {
-            console.log('Subnet details');
-            console.log(res.json().subnet);
+            //console.log('Subnet details');
+            //console.log(res.json().subnet);
             this.changeSubNetworkDetails(res.json().subnet);
             return res;
             })
@@ -265,8 +265,8 @@ getPortList(k5scopedtoken: any) {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('New Port List ->');
-              console.log(res.json().ports);
+              //console.log('New Port List ->');
+              //console.log(res.json().ports);
               this.changePortList(res.json().ports);
 
               // return res;
@@ -295,8 +295,8 @@ getPortList(k5scopedtoken: any) {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('Port details');
-              console.log(res.json().port);
+              //console.log('Port details');
+              //console.log(res.json().port);
               this.changePortDetails(res.json().port);
               return res;
               })
