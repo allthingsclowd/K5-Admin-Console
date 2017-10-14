@@ -370,7 +370,8 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
 
   ngAfterViewInit() {
     //console.log('START OF CREATECHART IN CHART');
-    this.svg = d3Selection.select('svg');
+    this.svg = d3Selection.select('svg')
+        .attr("viewBox", "0,0,500,500");
 
     const width = +this.svg.attr('width');
     const height = +this.svg.attr('height');
@@ -383,7 +384,7 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
 
     this.simulation = d3Force.forceSimulation()
         .force('link', d3Force.forceLink().id(function(d) { return d.index; }))
-        .force('charge', d3Force.forceManyBody(10))
+        .force('charge', d3Force.forceManyBody().strength(-8))
         .force('center', d3Force.forceCenter(width / 2, height / 2));
 
     // this.render(this.testdata);
@@ -401,8 +402,8 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     .attr('y2', function(d) { return d.target.y; });
 
     this.node
-    .attr('cx', function(d) { return d.x; })
-    .attr('cy', function(d) { return d.y; });
+    .attr('x', function(d) { return d.x; })
+    .attr('y', function(d) { return d.y; });
 
   }
 
@@ -425,12 +426,18 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     .enter().append('line')
       .attr('stroke-width', function(d) { return Math.sqrt(d.weight); });
 
+
+
     this.node = this.svg.append("g")
       .attr("class", "nodes")
-      .selectAll("circle")
+      .selectAll("images")
       .data(graph.nodes)
-      .enter().append("circle")
-        .attr("r", 5)
+      .enter().append("image")
+        .attr("xlink:href", "https://github.com/favicon.ico")
+        .attr("x", -8)
+        .attr("y", -8)
+        .attr("width", 16)
+        .attr("height", 16)
         .attr("fill", (d)=> { return this.color(d.type); })
         .call(d3Drag.drag()
             .on("start", (d)=>{return this.dragstarted(d)})

@@ -159,39 +159,6 @@ export class CloudvisualisedService {
     
   }
 
-  convertToD3(data: VisualisationData) {
-    let d3Data: any = [];
-    let nodes: Array<any> = [];
-    let links: Array<any> = [];
-
-    for (let node of data.nodes) {
-      let newnode: any = [];
-      for (let property in node) {
-        if (node.hasOwnProperty(property)) {
-          console.log(property);
-          console.log(node[property]);
-          console.log(node);
-
-          newnode.push({[property] : node[property]});
-        }
-      }
-      nodes.push({newnode});
-    }
-    for (let link of data.links) {
-      let newlink: any = [];
-      for (let property in link) {
-        if (link.hasOwnProperty(property)) {
-          //console.log(property);
-          //console.log(link[property]);
-          //console.log(link);
-          newlink.push({property : link[property]});
-        }
-      }
-      links.push({newlink});
-    }
-    d3Data = {nodes, links};
-    return d3Data;
-  }
 
   generateEdges(nodelist: Array<VisualNode>) {
     this.localEdgeList = new Array<VisualLink>();
