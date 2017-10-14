@@ -380,7 +380,7 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     const dataset = this.nodeDetails;
 
     // Initialize a simple force layout, using the nodes and edges in dataset
-    this.color = d3Scale.scaleOrdinal(d3Scale.schemeCategory20);
+    this.color = d3Scale.scaleOrdinal(d3Scale.schemeCategory10);
 
     this.simulation = d3Force.forceSimulation()
         .force('link', d3Force.forceLink().id(function(d) { return d.index; }))
@@ -401,7 +401,9 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     .attr('x2', function(d) { return d.target.x; })
     .attr('y2', function(d) { return d.target.y; });
 
-    this.node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    this.node
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; });
 
   }
 
@@ -428,14 +430,10 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
 
     this.node = this.svg.append("g")
       .attr("class", "nodes")
-      .selectAll("images")
+      .selectAll("circle")
       .data(graph.nodes)
-      .enter().append("image")
-        .attr("xlink:href", "https://github.com/favicon.ico")
-        .attr("x", -8)
-        .attr("y", -8)
-        .attr("width", 16)
-        .attr("height", 16)
+      .enter().append("circle")
+        .attr("r", 5)
         .attr("fill", (d)=> { return this.color(d.type); })
         .call(d3Drag.drag()
             .on("start", (d)=>{return this.dragstarted(d)})
