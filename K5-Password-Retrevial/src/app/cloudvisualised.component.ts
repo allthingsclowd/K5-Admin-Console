@@ -392,8 +392,8 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
 
     const modulePosition = {
       "2": {x: 0, y: 0},
-      "3": {x: 200, y: 25},
-      "1": {x: 0, y: 200}
+      "3": {x: 250, y: 25},
+      "1": {x: 0, y: 250}
     };
 
     //Make the x-position equal to the x-position specified in the module positioning object or, if not in
