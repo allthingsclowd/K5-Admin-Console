@@ -1,3 +1,5 @@
+import { CloudvisualisedService } from './cloudvisualised.service';
+import { NetworkService } from './network.service';
 import { StackService } from './stack.service';
 import { LoadbalancerService } from './loadbalancer.service';
 import { User, project, ProjectToken } from './../model/user';
@@ -53,7 +55,9 @@ export class IdentityService {
                 private utilityService: UtilityService,
                 private computeService: ComputeService,
                 private stackService: StackService,
-                private loadBalancerService: LoadbalancerService) {
+                private loadBalancerService: LoadbalancerService,
+                private networkService: NetworkService,
+                private cloudvisualisedService: CloudvisualisedService) {
 
         // this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
@@ -109,8 +113,8 @@ export class IdentityService {
 
     getKeystoneObjectList(objectType: string) {
         // const k5token = this.k5response;
-        // console.log('Keystone Token Details ' + JSON.stringify(this.userRegionalToken.getValue()));
-        console.log('Keystone ObjectType Details ' + objectType);
+        // //console.log('Keystone Token Details ' + JSON.stringify(this.userRegionalToken.getValue()));
+        //console.log('Keystone ObjectType Details ' + objectType);
         const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
         const endpointDetail = identityURL.concat(  '/',
                                                     objectType,
@@ -121,7 +125,7 @@ export class IdentityService {
 
         // retrieve the K5/OpenStack authentication token from the response header
         const token = this.userRegionalToken.getValue().headers.get('x-subject-token');
-        console.log('Getting KeystoneObject List' + JSON.stringify(authURL));
+        //console.log('Getting KeystoneObject List' + JSON.stringify(authURL));
 
         const postheaders: Headers = new Headers();
         postheaders.append('Content-Type', 'application/json');
@@ -133,7 +137,7 @@ export class IdentityService {
 
         return this.http.get(authURL, postopts)
             .map((res: Response) => {
-                // console.log(' Map ObjectList => ' + JSON.stringify(res));
+                // //console.log(' Map ObjectList => ' + JSON.stringify(res));
                 return res;
              });
 
@@ -142,8 +146,8 @@ export class IdentityService {
     getProjectScopedToken(projectId: string) {
 
         // const k5token = this.k5response;
-        console.log('New Scoped Project Pre-Response');
-        console.log(this.userRegionalToken.getValue());
+        //console.log('New Scoped Project Pre-Response');
+        //console.log(this.userRegionalToken.getValue());
         const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
         const endpointDetail = identityURL.concat('/auth/tokens');
         // With CORS Proxy Service in use here
@@ -178,22 +182,29 @@ export class IdentityService {
                 // retrieve the K5/OpenStack authentication token from the response header
                 // projectToken.scopedToken = res.headers.get('x-subject-token');
                 // projectToken.projectId = projectId;
-                console.log('New Project Scoped Token response ->');
-                console.log(res);
+                //console.log('New Project Scoped Token response ->');
+                //console.log(res);
 
                 this.changeProjectToken(res);
+                this.cloudvisualisedService.resetNodeList();
                 this.computeService.getServerList(res);
                 this.stackService.getStackList(res);
                 this.loadBalancerService.getLBaaSDetailOrList(res, 'all');
+                this.networkService.getPortList(res);
+                this.networkService.getSubnetList(res);
+                this.networkService.getNetworkList(res);
+                this.networkService.getRouterList(res);
 
                 this.getRoleAssignments().subscribe();
-                console.log('New Project Scoped Token observable ->');
-                console.log(this.userProjectToken.getValue());
-                // console.log('New Server List ->');
-                // console.log(this.servers.getValue());
+                
+                //console.log('New Project Scoped Token observable ->');
+                //console.log(this.userProjectToken.getValue());
+                // //console.log('New Server List ->');
+                // //console.log(this.servers.getValue());
 
                 // return res;
             });
+            
 
     }
 
@@ -201,19 +212,19 @@ export class IdentityService {
     getProjectList() {
 
         // const k5token = this.k5response;
-        // console.log(this.currentProject);
+        // //console.log(this.currentProject);
         const identityURL = this.utilityService.getEndpoint(this.userRegionalToken.getValue(), 'identityv3');
         // role_assignments?scope.project.id={project_id}
         const endpointDetail = identityURL.concat('/users/', this.userRegionalToken.getValue().json().token.user.id, '/projects');
         
-        console.log(endpointDetail);
+        //console.log(endpointDetail);
         // With CORS Proxy Service in use here
         const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
-        console.log(authURL);
+        //console.log(authURL);
 
         // retrieve the K5/OpenStack authentication token from the response header
         const token = this.userRegionalToken.getValue().headers.get('x-subject-token');
-        console.log('Getting Project List');
+        //console.log('Getting Project List');
 
         const postheaders: Headers = new Headers();
         postheaders.append('Content-Type', 'application/json');
@@ -230,13 +241,13 @@ export class IdentityService {
 
                     this.changeProjectList(res.json().projects);
                     this.changeProject(res.json().projects[0]);
-                    console.log('111111111. Get Project List with projects and actual project as follows: ');
-                    console.log('All Unparsed Projects');
-                    // console.log(res);
-                    // console.log(res.json());
-                    // console.log(res.json().projects);
-                    console.log(this.userProjectList.getValue());
-                    console.log(this.selectedProject.getValue().name);
+                    //console.log('111111111. Get Project List with projects and actual project as follows: ');
+                    //console.log('All Unparsed Projects');
+                    // //console.log(res);
+                    // //console.log(res.json());
+                    // //console.log(res.json().projects);
+                    //console.log(this.userProjectList.getValue());
+                    //console.log(this.selectedProject.getValue().name);
                     // return res.json().projects as projects;
                     // return projects;
             });
@@ -247,11 +258,11 @@ export class IdentityService {
     getUserInfo(user) {
         
                 // const k5token = this.k5response;
-                // console.log(this.currentProject);
+                // //console.log(this.currentProject);
                 const identityURL = this.utilityService.getEndpoint(this.userProjectToken.getValue(), 'identityv3');
                 const endpointDetail = identityURL.concat('/users/', user.id);
         
-                console.log(endpointDetail);
+                //console.log(endpointDetail);
                 // With CORS Proxy Service in use here
                 const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
                 
@@ -280,12 +291,13 @@ export class IdentityService {
                             res => {
                                 console.log('Getting User Info via API');
                                 console.log(this.userProjectToken.getValue());
-                                console.log(authURL);
-                                console.log(postopts);
-                                console.log(postheaders);
-                                console.log('New User Info' + JSON.stringify(res));
-                                console.log(res.json());
-                                console.log(res); }
+                                // console.log(authURL);
+                                // console.log(postopts);
+                                // console.log(postheaders);
+                                // console.log('New User Info' + JSON.stringify(res));
+                                // console.log(res.json());
+                                // console.log(res);
+                            }
                                 ,
                             err => console.log(err),
                             () => console.log('Getting User Info via API Complete'));
@@ -295,20 +307,20 @@ export class IdentityService {
     getRoleAssignments() {
         
                 // const k5token = this.k5response;
-                // console.log(this.currentProject);
+                // //console.log(this.currentProject);
                 const identityURL = this.utilityService.getEndpoint(this.userProjectToken.getValue(), 'identityv3');
                 const endpointDetail = identityURL.concat('/role_assignments?scope.project.id=',
                 this.userProjectToken.getValue().json().token.project.id,
                 '&include_names');
         
-                console.log(endpointDetail);
+                //console.log(endpointDetail);
                 // With CORS Proxy Service in use here
                 const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
-                console.log(authURL);
+                //console.log(authURL);
         
                 // retrieve the K5/OpenStack authentication token from the response header
                 const token = this.userProjectToken.getValue().headers.get('x-subject-token');
-                console.log('Getting Role Assignments');
+                //console.log('Getting Role Assignments');
         
                 const postheaders: Headers = new Headers();
                 postheaders.append('Content-Type', 'application/json');
@@ -320,10 +332,10 @@ export class IdentityService {
         
                 return this.http.get(authURL, postopts)
                     .map((res: Response) => {
-                            console.log('New Role Assignments' + JSON.stringify(res));
+                            //console.log('New Role Assignments' + JSON.stringify(res));
                             this.changeRoleAssignments(res.json().role_assignments);
-                            console.log(this.userProjectList.getValue());
-                            console.log(this.selectedProject.getValue().name);
+                            //console.log(this.userProjectList.getValue());
+                            //console.log(this.selectedProject.getValue().name);
                             // return res.json().projects as projects;
                             // return projects;
                     });
@@ -335,20 +347,20 @@ export class IdentityService {
     }
 
     getUsersInGroup(group) {
-                console.log(group.group.id);
+                //console.log(group.group.id);
                 // const k5token = this.k5response;
-                // console.log(this.currentProject);
+                // //console.log(this.currentProject);
                 const identityURL = this.utilityService.getEndpoint(this.userProjectToken.getValue(), 'identityv3');
                 const endpointDetail = identityURL.concat('/groups/', group.group.id, '/users');
         
-                console.log(endpointDetail);
+                //console.log(endpointDetail);
                 // With CORS Proxy Service in use here
                 const authURL = this.utilityService.sendViaCORSProxy(endpointDetail);
-                console.log(authURL);
+                //console.log(authURL);
         
                 // retrieve the K5/OpenStack authentication token from the response header
                 const token = this.userProjectToken.getValue().headers.get('x-subject-token');
-                console.log('Getting Users in Group');
+                //console.log('Getting Users in Group');
         
                 const postheaders: Headers = new Headers();
                 postheaders.append('Content-Type', 'application/json');
@@ -360,9 +372,9 @@ export class IdentityService {
         
                 return this.http.get(authURL, postopts)
                     .map((res: Response) => {
-                            console.log('New Group User List' + JSON.stringify(res));
+                            //console.log('New Group User List' + JSON.stringify(res));
                             this.changeUsersInGroup(res.json().users);
-                            console.log(this.usersInGroupList.getValue());
+                            //console.log(this.usersInGroupList.getValue());
                             
                             // return res.json().projects as projects;
                             // return projects;
@@ -406,8 +418,8 @@ export class IdentityService {
                 // this.k5Globalresponse = gres;
                 // retrieve the K5/OpenStack authentication token from the response header
                 // this.user.globalToken = gres.headers.get('X-Access-Token');
-                console.log('Central Portal Token => \n');
-                console.log(this.userGlobalToken.getValue().json());
+                //console.log('Central Portal Token => \n');
+                //console.log(this.userGlobalToken.getValue().json());
 
            });
 

@@ -1,3 +1,5 @@
+import { CloudvisualisedService } from './services/cloudvisualised.service';
+import { NetworkService } from './services/network.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
@@ -29,6 +31,7 @@ import { UserManagementComponent } from './user-management.component';
 import { UserMaintenanceService } from './services/user-maintenance.service';
 import { LoadbalancerComponent } from './loadbalancer.component';
 import { LoadbalancerService } from './services/loadbalancer.service';
+import { CloudvisualisedComponent } from './cloudvisualised.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,7 @@ import { LoadbalancerService } from './services/loadbalancer.service';
     ConvertProjectIDtoNamePipe,
     UserManagementComponent,
     LoadbalancerComponent,
+    CloudvisualisedComponent,
     ],
   imports: [
     BrowserModule,
@@ -63,7 +67,9 @@ import { LoadbalancerService } from './services/loadbalancer.service';
               ComputeService,
               PasswordManagementService,
               UserMaintenanceService,
-              LoadbalancerService],
+              LoadbalancerService,
+              NetworkService,
+              CloudvisualisedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

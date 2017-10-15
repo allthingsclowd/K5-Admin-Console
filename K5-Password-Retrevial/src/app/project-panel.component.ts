@@ -1,3 +1,4 @@
+import { NetworkService } from './services/network.service';
 import { LoadbalancerService } from './services/loadbalancer.service';
 import { StackService } from './services/stack.service';
 import { UserMaintenanceService } from './services/user-maintenance.service';
@@ -28,12 +29,17 @@ export class ProjectPanelComponent implements OnInit {
   groupUsers: any = null;
   userGlobalToken: any = null;
   userLBaaS: any = null;
+  userRouters: any = null;
+  userNetworks: any = null;
+  userSubNetworks: any = null;
+  userPorts: any = null;
 
   constructor(private computeService: ComputeService,
               private userMaintenanceService: UserMaintenanceService,
               private identityService: IdentityService,
               private stackService: StackService,
-              private loadbalancerService: LoadbalancerService) { }
+              private loadbalancerService: LoadbalancerService,
+              private networkService: NetworkService) { }
 
 
   ngOnInit() {
@@ -53,22 +59,27 @@ export class ProjectPanelComponent implements OnInit {
     this.stackService.userStacks.subscribe(stacks => this.userStacks = stacks);
     this.stackService.stackOutputs.subscribe(outputs => this.stackOutputs = outputs);
     this.loadbalancerService.userLBaaS.subscribe(LBaaS => this.userLBaaS = LBaaS);
-    console.log('Contract Groups');
-    console.log(this.contractGroups);
+    this.networkService.userRouters.subscribe(routers => this.userRouters = routers);
+    this.networkService.userNetworks.subscribe(networks => this.userNetworks = networks);
+    this.networkService.userSubNetworks.subscribe(subnets => this.userSubNetworks = subnets);
+    this.networkService.userPorts.subscribe(ports => this.userPorts = ports);
+
+    //console.log('Contract Groups');
+    //console.log(this.contractGroups);
   }
 
   serverChange(server) {
     this.computeService.getServerDetails(this.currentProjectT, server);
     this.computeService.getServerLogs(this.currentProjectT, server);
-    console.log('Change Server => ');
-    console.log(this.serverDetails);
-    console.log(this.serverLogs);
+    //console.log('Change Server => ');
+    //console.log(this.serverDetails);
+    //console.log(this.serverLogs);
   }
 
   userSelection(user) {
-    console.log('Calling USER EMAIL API');
-    console.log(this.userGlobalToken);
-    console.log(user);
+    //console.log('Calling USER EMAIL API');
+    //console.log(this.userGlobalToken);
+    //console.log(user);
     this.identityService.getUserInfo(user);
 
   }
@@ -77,13 +88,13 @@ export class ProjectPanelComponent implements OnInit {
     this.stackService.getStackDetails(this.currentProjectT, stack);
     // outputs API call not currently implemented on K5
     // this.stackService.getStackOutputs(this.currentProjectT, stack);
-    console.log('Change Stack => ');
-    console.log(this.stackDetails);
+    //console.log('Change Stack => ');
+    //console.log(this.stackDetails);
   }
 
   groupSelection(role) {
-    console.log('Group Users Entry');
-    console.log(role);
+    //console.log('Group Users Entry');
+    //console.log(role);
     this.identityService.getUsersInGroup(role);
 
   }
