@@ -206,9 +206,14 @@ export class CloudvisualisedService {
            if (node.name === '') {
              newNode.name = node.id;
            }
+           if (subtype[1] === 'dhcp') {
+            newNode.name = type + ': ' + subtype[1] + ': ' + newNode.name;
+            newNode.type = type + ': ' + subtype[1];
+           } else {
+            newNode.name = type + ': ' + subtype[0] + ': ' + newNode.name;
+            newNode.type = type + ': ' + subtype[0];
+           }
 
-           newNode.name = type + ': ' + subtype[0] + ': ' + newNode.name;
-           newNode.type = type + ': ' + subtype[0];
            newNode.status = node.status;
            newNode.addLink(node.device_id);
            // newNode.addLink(node.network_id);
@@ -245,9 +250,10 @@ export class CloudvisualisedService {
         }
         case 'router': {
           // statements;
+          //console.log(node);
           newNode.status = node.status;
           if (node.external_gateway_info != null) {
-            newNode.addLink(node.external_gateway_info.network_id);
+            newNode.addLink(node.external_gateway_info.external_fixed_ips[0]['subnet_id']);
           } else {
             newNode.addLink(node.id);
           }
