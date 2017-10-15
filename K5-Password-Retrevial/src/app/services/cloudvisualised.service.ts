@@ -56,6 +56,7 @@ class VisualNode implements IVisualNode {
   status?: string;
   other?: string;
   device_id?: string;
+  device_owner?: string;
   fixed_ips?: string;
   enable_dhcp?: boolean;
   network_id?: string;
@@ -200,15 +201,20 @@ export class CloudvisualisedService {
         case 'port': {
            // statements;
            //newNode.availability_zone = node.availability_zone;
+           console.log(node);
+           const subtype = (node.device_owner).split(':');
            if (node.name === '') {
              newNode.name = node.id;
            }
+
+           newNode.name = type + ': ' + subtype[0] + ': ' + newNode.name;
+           newNode.type = type + ': ' + subtype[0];
            newNode.status = node.status;
            newNode.addLink(node.device_id);
            // newNode.addLink(node.network_id);
            for (let link of node.fixed_ips) {
-             if (link['subnet']) {
-              newNode.addLink(link['subnet']);
+             if (link['subnet_id']) {
+              newNode.addLink(link['subnet_id']);
              }
            }
            break;
@@ -222,6 +228,7 @@ export class CloudvisualisedService {
             //console.log(link);
             newNode.addLink(link);
           }
+          newNode.name = type + ': ' + newNode.name;
           break;
         }
         case 'subnetwork': {
@@ -233,6 +240,7 @@ export class CloudvisualisedService {
           }
           //console.log('failing here => ' + node.network_id);
           newNode.addLink(node.network_id);
+          newNode.name = type + ': ' + newNode.name;
           break;
         }
         case 'router': {
@@ -243,7 +251,7 @@ export class CloudvisualisedService {
           } else {
             newNode.addLink(node.id);
           }
-
+          newNode.name = type + ': ' + newNode.name;
           break;
         }
         case 'lbaas': {
@@ -255,6 +263,7 @@ export class CloudvisualisedService {
            for (let link of node.Subnets) {
              newNode.addLink(link['member']);
             }
+           newNode.name = type + ': ' + newNode.name;
            break;
         }
         default: {

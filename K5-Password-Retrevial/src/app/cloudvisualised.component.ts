@@ -428,11 +428,11 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     .attr('y1', function(d) { return d.source.y; })
     .attr('x2', function(d) { return d.target.x; })
     .attr('y2', function(d) { return d.target.y; });
-    console.log(this.link);
+    //console.log(this.link);
 
     this.node
       .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"});
-    console.log(this.node);
+    //console.log(this.node);
 
   }
 
@@ -470,9 +470,20 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
             .on("end", (d)=>{return this.dragended(d)}));
 
     this.node.append("title")
-    .attr("dx", 12)
-    .attr("dy", ".35em")
-    .text(function(d) { return d.name });
+      .text(function (d) {return d.name});
+
+
+    // this.node.append("title")
+    //   .style("text-anchor", "middle")
+    //   .attr("y", 3)
+    //   .style("font-size", "8px")
+    //   .text(function (d) {return d.name})
+    //   .style("pointer-events", "none");
+
+    // this.node.append("title")
+    // .attr("dx", 12)
+    // .attr("dy", ".35em")
+    // .text(function(d) { return d.name });
 
     this.simulation
       .nodes(graph.nodes)
