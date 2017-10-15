@@ -21,6 +21,9 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
   simulation: any;
   nodeDetails: any;
   chartTester: any;
+  height: any;
+  width: any;
+  radius: any;
 
   testdata = {
     "nodes": [
@@ -370,11 +373,14 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
 
   ngAfterViewInit() {
     //console.log('START OF CREATECHART IN CHART');
-    this.svg = d3Selection.select('svg')
-        .attr("viewBox", "0,0,500,500");
-
-    const width = +this.svg.attr('width');
-    const height = +this.svg.attr('height');
+    this.svg = d3Selection.select('svg');
+      
+    this.width = +this.svg.attr('width');
+    this.height = +this.svg.attr('height');
+    this.radius = 5;
+    console.log('Height & Width');
+    console.log(this.height);
+    console.log(this.width);
 
     // Original data
     const dataset = this.nodeDetails;
@@ -382,10 +388,31 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     // Initialize a simple force layout, using the nodes and edges in dataset
     this.color = d3Scale.scaleOrdinal(d3Scale.schemeCategory10);
 
+    const networkCenter = d3Force.forceCenter().x(250).y(250);
+
+    const modulePosition = {
+      "2": {x: 0, y: 0},
+      "3": {x: 200, y: 25},
+      "1": {x: 0, y: 200}
+    };
+
+    //Make the x-position equal to the x-position specified in the module positioning object or, if not in
+    //the hash, then set it to 250
+    let forceX = d3Force.forceX(function (d) {return modulePosition[d.module] ? modulePosition[d.module].x : 250})
+    .strength(0.05);
+
+    //Same for forceY--these act as a gravity parameter so the different strength determines how closely
+    //the individual nodes are pulled to the center of their module position
+    let forceY = d3Force.forceY(function (d) {return modulePosition[d.module] ? modulePosition[d.module].y : 250})
+    .strength(0.05);
+
+
     this.simulation = d3Force.forceSimulation()
         .force('link', d3Force.forceLink().id(function(d) { return d.index; }))
-        .force('charge', d3Force.forceManyBody().strength(-8))
-        .force('center', d3Force.forceCenter(width / 2, height / 2));
+        .force('charge', d3Force.forceManyBody().strength(-150).distanceMax(100))
+        .force('center', networkCenter)
+        .force("x", forceX)
+        .force("y", forceY);
 
     // this.render(this.testdata);
     //console.log('Bananas');
@@ -395,15 +422,17 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ticked() {
+    
     this.link
     .attr('x1', function(d) { return d.source.x; })
     .attr('y1', function(d) { return d.source.y; })
     .attr('x2', function(d) { return d.target.x; })
     .attr('y2', function(d) { return d.target.y; });
+    console.log(this.link);
 
     this.node
-    .attr("cx", function(d) { return d.x; })
-    .attr("cy", function(d) { return d.y; });
+      .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"});
+    console.log(this.node);
 
   }
 
@@ -433,14 +462,14 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
       .selectAll("circle")
       .data(graph.nodes)
       .enter().append("circle")
-        .attr("r", 5)
+        .attr("r", this.radius)
         .attr("fill", (d)=> { return this.color(d.type); })
         .call(d3Drag.drag()
             .on("start", (d)=>{return this.dragstarted(d)})
             .on("drag", (d)=>{return this.dragged(d)})
             .on("end", (d)=>{return this.dragended(d)}));
 
-    this.node.append("text")
+    this.node.append("title")
     .attr("dx", 12)
     .attr("dy", ".35em")
     .text(function(d) { return d.name });
