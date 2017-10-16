@@ -226,14 +226,22 @@ export class CloudvisualisedService {
         }
         case 'network': {
           // statements;
-          newNode.status = node.status;
-          for (let link of node.subnets) {
-            //console.log('Network Subnets');
-            //console.log(node.subnets);
-            //console.log(link);
-            newNode.addLink(link);
+          console.log(node);
+          if (node['router:external'] === true) {
+            console.log('External Network');
+            newNode.status = node.status;
+            for (let link of node.subnets) {
+              //console.log('Network Subnets');
+              //console.log(node.subnets);
+              //console.log(link);
+              newNode.addLink(link);
+            }
+            newNode.name = type + ': ' + newNode.name;
+          } else {
+            console.log('Unwanted Network');
+            continue;
+
           }
-          newNode.name = type + ': ' + newNode.name;
           break;
         }
         case 'subnetwork': {
