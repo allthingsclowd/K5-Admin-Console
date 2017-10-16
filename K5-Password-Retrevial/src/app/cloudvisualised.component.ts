@@ -462,7 +462,35 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
       .selectAll(".node")
       .data(graph.nodes)
       .enter().append("image")
-      .attr("xlink:href", "https://github.com/favicon.ico")
+      .attr("xlink:href", function(d) {
+        console.log(d.type);
+        switch(d.type) {
+          case 'network': {
+             return "https://www.cisco.com/favicon.ico";
+          }
+          case 'port: network': {
+            return "https://www.cisco.com/favicon.ico";
+         }
+          case 'subnetwork': {
+            return "https://github.com/favicon.ico";
+          }
+          case 'router': {
+            return "https://www.juniper.com/favicon.ico";
+          }
+          case 'port: compute': {
+            return "http://www.fujitsu.com/global/favicon.ico";
+          }
+          case 'port: dhcp': {
+            return "http://www.thekelleys.org.uk/favicon.ico";
+          }
+          case 'lbaas': {
+            return "https://f5.com/favicon.ico";
+          }
+          default: {
+             return "https://gitlab.com/favicon.ico";
+          }
+       }
+        })
       .attr("x", -8)
       .attr("y", -8)
       .attr("width", 16)
