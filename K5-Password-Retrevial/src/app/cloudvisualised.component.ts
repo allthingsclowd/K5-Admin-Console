@@ -455,46 +455,55 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     .enter().append('line')
       .attr('stroke-width', function(d) { return Math.sqrt(d.weight); });
 
-
+      const defaultStyle = {
+        padding: "0px 5px 0px 5px",
+        margin: "5px",
+        "border-radius": "16px",
+        "background-color": "white",
+        "stroke": "none",
+        "cursor": "pointer"
+      };
 
     this.node = this.svg.append("g")
       .attr("class", "nodes")
-      .selectAll(".node")
+      .selectAll("text")
       .data(graph.nodes)
-      .enter().append("image")
-      .attr("xlink:href", function(d) {
+      .enter().append("text")
+      .text(function(d) {
         console.log(d.type);
         switch(d.type) {
           case 'network': {
-             return "https://www.cisco.com/favicon.ico";
+             return '\uf0c2';
           }
           case 'port: network': {
-            return "https://www.cisco.com/favicon.ico";
+            return '\uf0a9';
          }
           case 'subnetwork': {
-            return "https://github.com/favicon.ico";
+            return '\uf18e';
           }
           case 'router': {
-            return "https://www.juniper.com/favicon.ico";
+            return '\uf25d';
           }
           case 'port: compute': {
-            return "http://www.fujitsu.com/global/favicon.ico";
+            return '\uf108';
           }
           case 'port: dhcp': {
-            return "http://www.thekelleys.org.uk/favicon.ico";
+            return '\uf0cb';
           }
           case 'lbaas': {
-            return "https://f5.com/favicon.ico";
+            return '\uf24e';
           }
           default: {
-             return "https://gitlab.com/favicon.ico";
+             return '\uf188';
           }
        }
         })
       .attr("x", -8)
-      .attr("y", -8)
+      .attr("y", 0)
       .attr("width", 16)
       .attr("height", 16)
+      .attr('font-family', 'FontAwesome')
+      .attr('font-size', function(d) { return d.size+'em'} )
         .call(d3Drag.drag()
             .on("start", (d)=>{return this.dragstarted(d)})
             .on("drag", (d)=>{return this.dragged(d)})

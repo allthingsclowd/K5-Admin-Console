@@ -118,17 +118,6 @@ export class CloudvisualisedService {
   currentVisualData = this.visualData.asObservable();
 
   constructor() {}
-              // private computeService: ComputeService,
-              // private loadBalancerService: LoadbalancerService,
-              // private networkService: NetworkService) {
-
-              //   // this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
-              //   // this.loadBalancerService.userLBaaS.subscribe(currentLbaas => this.loadbalancers = currentLbaas);
-              //   // this.networkService.userPorts.subscribe(currentPorts => this.ports = currentPorts);
-              //   // this.networkService.userSubNetworks.subscribe(currentSubnets => this.subnets = currentSubnets);
-              //   // this.networkService.userNetworks.subscribe(currentNetworks => this.networks = currentNetworks);
-              //   // this.networkService.userRouters.subscribe(currentRouters => this.routers = currentRouters);
-              // }
   
   changeVisualData(data) {
     this.visualData.next(data);
@@ -156,7 +145,7 @@ export class CloudvisualisedService {
     //console.log('link No Match') ;
     // //console.log(node.id, item);
       
-    return false;  
+    return false;
     
   }
 
