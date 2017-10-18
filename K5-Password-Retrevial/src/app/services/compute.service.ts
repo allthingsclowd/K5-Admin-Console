@@ -37,8 +37,8 @@ export class ComputeService {
     }
 
     getServerList(k5scopedtoken: any) {
-        console.log('compute token');
-        console.log(k5scopedtoken);
+        //console.log('compute token');
+        //console.log(k5scopedtoken);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
         computeURL = computeURL.concat('/servers/detail');
@@ -55,8 +55,8 @@ export class ComputeService {
 
         return this.http.get(proxiedURL, headeropts)
             .map((res: any) => {
-                console.log('New Server List ->');
-                console.log(res.json().servers);
+                //console.log('New Server List ->');
+                //console.log(res.json().servers);
                 this.changeServerList(res.json().servers);
 
                 // return res;
@@ -64,7 +64,7 @@ export class ComputeService {
             .subscribe(
                     data => console.log(data),
                     err => console.log(err),
-                    () => console.log('yay'));
+                    () => console.log('Server list complete'));
 
     }
 
@@ -85,8 +85,8 @@ export class ComputeService {
 
         return this.http.get(proxiedURL, headeropts)
             .map((res: any) => {
-                console.log('nova server details');
-                console.log(res.json().server);
+                //console.log('nova server details');
+                //console.log(res.json().server);
                 this.changeServerDetails(res.json().server);
                 return res;
                 })
@@ -98,9 +98,9 @@ export class ComputeService {
     }
 
     getServerPassword(k5scopedtoken: any, serverid: any) {
-        console.log('Server Password Function');
-        console.log(k5scopedtoken);
-        console.log(serverid);
+        //console.log('Server Password Function');
+        //console.log(k5scopedtoken);
+        //console.log(serverid);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
         computeURL = computeURL.concat('/servers/', serverid, '/os-server-password');
@@ -117,17 +117,17 @@ export class ComputeService {
 
         return this.http.get(proxiedURL, headeropts)
             .map((res: any) => {
-                console.log('server password');
-                console.log(res.json().password);
+                //console.log('server password');
+                //console.log(res.json().password);
                 return res.json().password;
                 });
 
     }
 
     getServerLogs(k5scopedtoken: any, server: any) {
-        console.log('Server Logs Function');
-        console.log(k5scopedtoken);
-        console.log(server.id);
+        //console.log('Server Logs Function');
+        //console.log(k5scopedtoken);
+        //console.log(server.id);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
         computeURL = computeURL.concat('/servers/', server.id, '/action');
@@ -152,8 +152,8 @@ export class ComputeService {
         return this.http.post(proxiedURL, bodyString, headeropts)
             .map((res: any) => {
                 this.changeServerLogs(res.json().output);
-                console.log('server logs');
-                console.log(res.json().output);
+                //console.log('server logs');
+                //console.log(res.json().output);
                 // return res.json().password;
                 })
             .subscribe(

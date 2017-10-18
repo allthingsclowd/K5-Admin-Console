@@ -17,8 +17,8 @@ export class PasswordManagementService {
     }
 
     // importPublicKey(pemKey) {
-    //     console.log('import pem key');
-    //     console.log(this.convertPemToBinary(pemKey));
+    //     //console.log('import pem key');
+    //     //console.log(this.convertPemToBinary(pemKey));
         
     //     return new Promise(function(resolve) {
     //         let importer = crypto.subtle.importKey("spki", this.convertPemToBinary(pemKey), this.encryptAlgorithm, false, ["encrypt"]);
@@ -44,14 +44,14 @@ export class PasswordManagementService {
         .then(function(publicKey){
             //returns a publicKey (or privateKey if you are importing a private key)
 
-            console.log(publicKey);
+            //console.log(publicKey);
             return publicKey;
         });
     }
 
     convertPemToBinary(pem) {
-        console.log('convert pem key');
-        console.log(pem);
+        //console.log('convert pem key');
+        //console.log(pem);
         let lines = pem.split('\n');
         let encoded = '';
         for(let i = 0;i < lines.length;i++){
@@ -65,9 +65,9 @@ export class PasswordManagementService {
             encoded += lines[i].trim();
             }
         }
-        console.log('converted pem key');
-        console.log(encoded);
-        console.log(this.base64StringToArrayBuffer(encoded));
+        //console.log('converted pem key');
+        //console.log(encoded);
+        //console.log(this.base64StringToArrayBuffer(encoded));
         return this.base64StringToArrayBuffer(encoded);
     }
 
@@ -89,13 +89,13 @@ export class PasswordManagementService {
     }
 
     decrypt_data(private_key_object:any,encrypted_data:any) {
-        console.log(' decrypt key debug....');
-        console.log(private_key_object);
+        //console.log(' decrypt key debug....');
+        //console.log(private_key_object);
         private_key_object = this.importKey(private_key_object);
-        console.log(private_key_object);
-        console.log(encrypted_data);
+        //console.log(private_key_object);
+        //console.log(encrypted_data);
         encrypted_data = this.base64StringToArrayBuffer(encrypted_data);
-        console.log(encrypted_data);
+        //console.log(encrypted_data);
         window.crypto.subtle.decrypt(
             {
                 name: "RSA-OAEP",
@@ -106,7 +106,7 @@ export class PasswordManagementService {
             )
             .then(function(decrypted){
                 //returns an ArrayBuffer containing the decrypted data
-                console.log(new Uint8Array(decrypted));
+                //console.log(new Uint8Array(decrypted));
             });
     }
 
@@ -131,15 +131,15 @@ export class PasswordManagementService {
     //         promise_key.then(function(key){
     //             private_key_object = key.privateKey;
     //             public_key_object = key.publicKey;
-    //             console.log('New Crypto Keys Start');
-    //             console.log(private_key_object);
-    //             console.log(public_key_object);
-    //             console.log('New Crypto Keys End');
+    //             //console.log('New Crypto Keys Start');
+    //             //console.log(private_key_object);
+    //             //console.log(public_key_object);
+    //             //console.log('New Crypto Keys End');
 
     //         });
 
     //         promise_key.catch = function(e){
-    //             console.log(e.message);
+    //             //console.log(e.message);
     //         }
             
     //     }

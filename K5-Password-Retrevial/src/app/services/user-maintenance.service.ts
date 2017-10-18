@@ -29,14 +29,14 @@ export class UserMaintenanceService {
   //   const postopts: RequestOptions = new RequestOptions();
   //   postopts.headers = postheaders;
 
-  //   console.log('call Update API ===>' + user.id + ' token : ' + user.globalToken);
+  //   //console.log('call Update API ===>' + user.id + ' token : ' + user.globalToken);
 
   //   return this.http.get(authURL, postopts)
   //       .map(res => res.json())
-  //       .subscribe((data) => { console.log('Get Response ' + data);
+  //       .subscribe((data) => { //console.log('Get Response ' + data);
 
   //                   },
-  //                   (err) => { console.log('Get Error ' + err);
+  //                   (err) => { //console.log('Get Error ' + err);
 
   //                   });
 
@@ -63,9 +63,9 @@ export class UserMaintenanceService {
 
     return this.http.put(authURL, bodyString, postopts)
         .map((res: any) => {
-            console.log('Response of User Update');
-            console.log(res);
-            console.log('User Queried on Central Portal' + JSON.stringify(res) );
+            //console.log('Response of User Update');
+            //console.log(res);
+            //console.log('User Queried on Central Portal' + JSON.stringify(res) );
         });
 
 }

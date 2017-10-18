@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit {
   }
 
   toggleK5Proxy() {
-    console.log(this.k5proxy);
+    //console.log(this.k5proxy);
     this.utilityService.changek5proxy(this.k5proxy);
-    console.log(this.k5proxy);
+    //console.log(this.k5proxy);
   }
 
 
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
                                                     data => {
                                                         //this.identityService.loggedIn = true;
                                                         //this.failedLogIn = false;
-                                                        console.log("Login.ts -> Logged In");
+                                                        //console.log("Login.ts -> Logged In");
                                                         // this.identityService.getProjectList().subscribe(newProjectList => {
                                                         //   this.projects = newProjectList;
                                                         // });
@@ -64,12 +64,12 @@ export class LoginComponent implements OnInit {
                                                     error => {
                                                         //this.alertService.error(error);
                                                         //this.loading = false;
-                                                        console.log('bang - something failed during login');
+                                                        //console.log('bang - something failed during login');
                                                         //this.failedLogIn = true;
                                                         this.loginForm.reset();
                                                         
                                                     });
-    console.log(this.loginForm);
+    //console.log(this.loginForm);
     //this.passwordForm.reset();
   }
 

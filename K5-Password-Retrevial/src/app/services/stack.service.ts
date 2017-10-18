@@ -51,8 +51,8 @@ export class StackService {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('New Stack List ->');
-              console.log(res.json().stacks);
+              //console.log('New Stack List ->');
+              //console.log(res.json().stacks);
               this.changeStackList(res.json().stacks);
 
               // return res;
@@ -81,8 +81,8 @@ export class StackService {
 
       return this.http.get(proxiedURL, headeropts)
           .map((res: any) => {
-              console.log('Heat Stack Details');
-              console.log(res.json());
+              //console.log('Heat Stack Details');
+              //console.log(res.json());
               this.changeStackDetails(res.json());
               // added following 'hack' as the outputs API call is not currently implemented on FJ K5 IaaS
               this.changeStackOutputs(res.json().stack.outputs);
@@ -112,8 +112,8 @@ export class StackService {
 
     return this.http.delete(proxiedURL, headeropts)
         .map((res: any) => {
-            console.log('Delete Stack');
-            console.log(res.json());
+            //console.log('Delete Stack');
+            //console.log(res.json());
             this.changeStackDetails(null);
             // added following 'hack' as the outputs API call is not currently implemented on FJ K5 IaaS
             this.changeStackOutputs(null);
@@ -145,8 +145,8 @@ export class StackService {
     
           return this.http.get(proxiedURL, headeropts)
               .map((res: any) => {
-                  console.log('Heat Stack Outputs');
-                  console.log(res.json().outputs);
+                  //console.log('Heat Stack Outputs');
+                  //console.log(res.json().outputs);
                   this.changeStackOutputs(res.json().outputs);
                   // return res;
                   })
