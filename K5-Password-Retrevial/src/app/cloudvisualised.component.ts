@@ -455,15 +455,6 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     .enter().append('line')
       .attr('stroke-width', function(d) { return Math.sqrt(d.weight); });
 
-      const defaultStyle = {
-        padding: "0px 5px 0px 5px",
-        margin: "5px",
-        "border-radius": "16px",
-        "background-color": "white",
-        "stroke": "none",
-        "cursor": "pointer"
-      };
-
     this.node = this.svg.append("g")
       .attr("class", "nodes")
       .selectAll("text")
@@ -503,7 +494,8 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
       .attr("width", 16)
       .attr("height", 16)
       .attr('font-family', 'FontAwesome')
-      .attr('font-size', function(d) { return d.size+'em'} )
+      .attr('font-size', function(d) { return d.weight+'em'} )
+      .style("fill", (d)=> this.color(d.type))
         .call(d3Drag.drag()
             .on("start", (d)=>{return this.dragstarted(d)})
             .on("drag", (d)=>{return this.dragged(d)})
