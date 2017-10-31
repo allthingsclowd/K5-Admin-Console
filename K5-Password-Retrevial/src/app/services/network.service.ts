@@ -32,6 +32,9 @@ export class NetworkService {
   private userPortDetails = new BehaviorSubject<any>(null);
   subPortDetails = this.userPortDetails.asObservable();
 
+  private userRouterStatus = new BehaviorSubject<any>(null);
+  routerStatus = this.userRouterStatus.asObservable();
+
   constructor(private http: Http,
               private utilitiesService: UtilityService,
               private cloudvisualisedService: CloudvisualisedService) { }
@@ -44,6 +47,10 @@ export class NetworkService {
   changeRouterDetails(routerDetails: any) {
       this.userRouterDetails.next(routerDetails);
   }
+
+  changeRouterStatus(routerUpdateStatus: any) {
+    this.userRouterStatus.next(routerUpdateStatus);
+}
 
   changeNetworkList(userNetworks: any) {
     this.userNetworkList.next(userNetworks);
@@ -70,6 +77,59 @@ export class NetworkService {
 
   changePortDetails(PortDetails: any) {
       this.userPortDetails.next(PortDetails);
+  }
+
+  updateRouterRoutes(k5scopedtoken: any, router: any, newRoutes: any) {
+
+    let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
+    networkURL = networkURL.concat('/v2.0/routers/', router.id);
+    // With CORS Proxy Service in use here
+    const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
+
+    newRoutes = JSON.parse(newRoutes);
+
+    // if (!replace) {
+    //     console.log('Before route change');
+    //     console.log(newRoutes);
+    //     console.log('Existing routes');
+    //     console.log(router.routes);
+    //     console.log(router);
+
+    //     newRoutes.concat(router.routes);
+    //     console.log('After route change');
+    //     console.log(newRoutes);
+    // }
+
+    const body = {'router': {'routes': newRoutes}};
+
+    console.log(body);
+
+    const bodyString = JSON.stringify(body); // Stringify payload
+
+    const putheaders: Headers = new Headers();
+    putheaders.append('Content-Type', 'application/json');
+    putheaders.append('Accept', 'application/json');
+    putheaders.append('X-Auth-Token', k5scopedtoken.headers.get('x-subject-token'));
+
+    const headeropts: RequestOptions = new RequestOptions();
+    headeropts.headers = putheaders;
+
+    return this.http.put(proxiedURL, bodyString, headeropts)
+        .map((res: any) => {
+            //console.log('Router details');
+            //console.log(res.json().router);
+            this.changeRouterDetails(res.json().router);
+            this.changeRouterStatus(res);
+            console.log(res.json().body);
+            console.log(res._body);
+            return res;
+            })
+        .subscribe(
+                    data => console.log(data),
+                    err => {console.log(err);
+                    this.changeRouterStatus(err); },
+                    () => console.log('Completed Router Update'));
+
   }
 
   getRouterList(k5scopedtoken: any) {
