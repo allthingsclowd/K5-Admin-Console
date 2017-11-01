@@ -64,8 +64,8 @@ export class ProjectPanelComponent implements OnInit {
     this.networkService.userSubNetworks.subscribe(subnets => this.userSubNetworks = subnets);
     this.networkService.userPorts.subscribe(ports => this.userPorts = ports);
 
-    //console.log('Contract Groups');
-    //console.log(this.contractGroups);
+    console.log('Routers');
+    console.log(this.userRouters);
   }
 
   serverChange(server) {
