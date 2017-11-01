@@ -130,6 +130,8 @@ export class NetworkService {
                       () => console.log('Completed Router Details'));
 
   }
+
+  
   getNetworkList(k5scopedtoken: any) {
 
     let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
