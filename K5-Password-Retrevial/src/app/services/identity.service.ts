@@ -1,4 +1,4 @@
-import { IpsecvpnService, IpsecvpnService } from './ipsecvpn.service';
+import { IpsecvpnService } from './ipsecvpn.service';
 import { CloudvisualisedService } from './cloudvisualised.service';
 import { NetworkService } from './network.service';
 import { StackService } from './stack.service';
