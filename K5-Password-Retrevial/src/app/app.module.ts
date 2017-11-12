@@ -1,3 +1,4 @@
+import { IpsecvpnService } from './services/ipsecvpn.service';
 import { CloudvisualisedService } from './services/cloudvisualised.service';
 import { NetworkService } from './services/network.service';
 import { PasswordManagementService } from './services/password-management.service';
@@ -69,7 +70,8 @@ import { CloudvisualisedComponent } from './cloudvisualised.component';
               UserMaintenanceService,
               LoadbalancerService,
               NetworkService,
-              CloudvisualisedService],
+              CloudvisualisedService,
+              IpsecvpnService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

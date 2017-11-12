@@ -1,3 +1,4 @@
+import { IpsecvpnService, IpsecvpnService } from './ipsecvpn.service';
 import { CloudvisualisedService } from './cloudvisualised.service';
 import { NetworkService } from './network.service';
 import { StackService } from './stack.service';
@@ -57,7 +58,8 @@ export class IdentityService {
                 private stackService: StackService,
                 private loadBalancerService: LoadbalancerService,
                 private networkService: NetworkService,
-                private cloudvisualisedService: CloudvisualisedService) {
+                private cloudvisualisedService: CloudvisualisedService,
+                private ipsecvpnService: IpsecvpnService) {
 
         // this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
     }
@@ -194,6 +196,7 @@ export class IdentityService {
                 this.networkService.getSubnetList(res);
                 this.networkService.getNetworkList(res);
                 this.networkService.getRouterList(res);
+                this.ipsecvpnService.list_ipsec_policies(res);
 
                 this.getRoleAssignments().subscribe();
                 
