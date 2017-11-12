@@ -188,6 +188,7 @@ export class IdentityService {
                 //console.log(res);
 
                 this.changeProjectToken(res);
+                this.ipsecvpnService.list_ipsec_policies(res);
                 this.cloudvisualisedService.resetNodeList();
                 this.computeService.getServerList(res);
                 this.stackService.getStackList(res);
@@ -196,8 +197,6 @@ export class IdentityService {
                 this.networkService.getSubnetList(res);
                 this.networkService.getNetworkList(res);
                 this.networkService.getRouterList(res);
-                this.ipsecvpnService.list_ipsec_policies(res);
-
                 this.getRoleAssignments().subscribe();
                 
                 //console.log('New Project Scoped Token observable ->');
