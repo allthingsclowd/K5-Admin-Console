@@ -1,15 +1,15 @@
 
-   <ul *ngIf='currentProject' class="btn-group">   
+   <ul *ngIf='currentProject'>   
       
       <!-- Split button -->
-        
-        <button type="button" class="btn-xl btn btn-danger" (click)="onLogout()">Logout</button>
-        <!-- <button type="button" class="btn-xl btn btn-info">{{currentProject.name | json | removeQuotes}}</button> -->
-        <button type="button" class="btn-xl btn btn-info">Please select a Project, click here ==> </button>
-        <button type="button" class="btn-xl btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
+      <div  class="btn-group">  
+        <button type="button" class="btn btn-round-lg btn-danger" (click)="onLogout()">Logout</button>
+        <button type="button" class="btn btn-round-lg btn-success">{{currentProject.name | json | removeQuotes}}</button>
+      
+        <button type="button" class="btn btn-round-lg btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="sr-only">Toggle Dropdown</span>Select Project <span class="caret"></span>
         </button>
+      
 
         <ul class="wrapper selection dropdown-menu dropdown-hover scrollable-menu" >
           <div *ngFor='let project of projects | sortObjectsByName'>
@@ -17,7 +17,7 @@
                     (click)="projectChange(project)">{{project.name | json | removeQuotes}}</li>
           </div>
         </ul>
-    
+      </div>
     </ul>
    
 

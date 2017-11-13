@@ -21,6 +21,28 @@
   border-radius: 10px;
 }
 
+.btn-lg{
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 0px;
+}
+
+.btn-round-lg{
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 20px;
+}
+.btn-round{
+border-radius: 17px;
+}
+.btn-round-sm{
+border-radius: 15px;
+}
+.btn-round-xs{
+border-radius: 11px;
+padding-left: 10px;
+padding-right: 10px;
+}
 /* .navbar .navbar-nav {
   display: inline-block;
   float: none;
