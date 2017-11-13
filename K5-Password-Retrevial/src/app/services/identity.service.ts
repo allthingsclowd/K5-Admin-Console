@@ -19,6 +19,14 @@ export class IdentityService {
     user = new User();
 
     // k5projects: projects;
+    vpnServices: any;
+    vpnService: any;
+    ipsecPolicies: any;
+    ipsecPolicy: any;
+    ikePolicies: any;
+    ikePolicy: any;
+    ipsecConnections: any;
+    ipsecConnection: any;
     
     private userProjectList = new BehaviorSubject<project[]>(null);
     userProjects = this.userProjectList.asObservable();
@@ -62,6 +70,14 @@ export class IdentityService {
                 private ipsecvpnService: IpsecvpnService) {
 
         // this.computeService.userServers.subscribe(currentServers => this.servers = currentServers);
+        this.ipsecvpnService.ipsecPolicies.subscribe(policies => this.ipsecPolicies = policies);
+        this.ipsecvpnService.ipsecPolicy.subscribe(policy => this.ipsecPolicy = policy);
+        this.ipsecvpnService.ikePolicies.subscribe(policies => this.ikePolicies = policies);
+        this.ipsecvpnService.ikePolicy.subscribe(policy => this.ikePolicy = policy);
+        this.ipsecvpnService.vpnServices.subscribe(services => this.vpnServices = services);
+        this.ipsecvpnService.vpnService.subscribe(service => this.vpnService = service);
+        this.ipsecvpnService.ipsecConnections.subscribe(connections => this.ipsecConnections = connections);
+        this.ipsecvpnService.ipsecConnection.subscribe(connection => this.ipsecConnection = connection);
     }
 
 
@@ -188,16 +204,25 @@ export class IdentityService {
                 //console.log(res);
 
                 this.changeProjectToken(res);
-                this.ipsecvpnService.list_ipsec_policies(res);
-                this.cloudvisualisedService.resetNodeList();
-                this.computeService.getServerList(res);
-                this.stackService.getStackList(res);
-                this.loadBalancerService.getLBaaSDetailOrList(res, 'all');
-                this.networkService.getPortList(res);
-                this.networkService.getSubnetList(res);
-                this.networkService.getNetworkList(res);
-                this.networkService.getRouterList(res);
-                this.getRoleAssignments().subscribe();
+                //this.ipsecvpnService.ipsecPolicyCreate(res, 'freddy', 'esp', 'sha1', 'aes-256', 'tunnel', 'group5', 3600, 'uk-1a');
+                // console.log('Return Policy Below');
+                // console.log(policy);
+                //this.ipsecvpnService.ipsecPolicyUpdate(res, '23674bf7-6638-47e4-890f-324ed21fcf13', 'freddy', 'aes-256', 'group5', 3600, 'updated ipsec policy');
+                this.ipsecvpnService.ipsecPolicieslist(res);
+                this.ipsecvpnService.ipsecSiteConnectionsList(res);
+                //this.ipsecvpnService.ipsecPolicyShow(res, '23674bf7-6638-47e4-890f-324ed21fcf13');
+                //this.ipsecvpnService.ipsecPolicyDelete(res, '23674bf7-6638-47e4-890f-324ed21fcf13');
+                //this.ipsecvpnService.ipsecPolicyShow(res, '23674bf7-6638-47e4-890f-324ed21fcf13');
+ 
+                // this.cloudvisualisedService.resetNodeList();
+                // this.computeService.getServerList(res);
+                // this.stackService.getStackList(res);
+                // this.loadBalancerService.getLBaaSDetailOrList(res, 'all');
+                // this.networkService.getPortList(res);
+                // this.networkService.getSubnetList(res);
+                // this.networkService.getNetworkList(res);
+                // this.networkService.getRouterList(res);
+                // this.getRoleAssignments().subscribe();
                 
                 //console.log('New Project Scoped Token observable ->');
                 //console.log(this.userProjectToken.getValue());
