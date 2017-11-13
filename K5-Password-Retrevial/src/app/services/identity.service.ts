@@ -210,26 +210,28 @@ export class IdentityService {
                 //this.ipsecvpnService.ipsecPolicyUpdate(res, '23674bf7-6638-47e4-890f-324ed21fcf13', 'freddy', 'aes-256', 'group5', 3600, 'updated ipsec policy');
                 this.ipsecvpnService.ipsecPolicieslist(res);
                 this.ipsecvpnService.ipsecSiteConnectionsList(res);
+                this.ipsecvpnService.ikePoliciesList(res);
+                this.ipsecvpnService.vpnServicesList(res);
                 //this.ipsecvpnService.ipsecPolicyShow(res, '23674bf7-6638-47e4-890f-324ed21fcf13');
                 //this.ipsecvpnService.ipsecPolicyDelete(res, '23674bf7-6638-47e4-890f-324ed21fcf13');
                 //this.ipsecvpnService.ipsecPolicyShow(res, '23674bf7-6638-47e4-890f-324ed21fcf13');
  
-                // this.cloudvisualisedService.resetNodeList();
-                // this.computeService.getServerList(res);
-                // this.stackService.getStackList(res);
-                // this.loadBalancerService.getLBaaSDetailOrList(res, 'all');
-                // this.networkService.getPortList(res);
-                // this.networkService.getSubnetList(res);
-                // this.networkService.getNetworkList(res);
-                // this.networkService.getRouterList(res);
-                // this.getRoleAssignments().subscribe();
+                this.cloudvisualisedService.resetNodeList();
+                this.computeService.getServerList(res);
+                this.stackService.getStackList(res);
+                this.loadBalancerService.getLBaaSDetailOrList(res, 'all');
+                this.networkService.getPortList(res);
+                this.networkService.getSubnetList(res);
+                this.networkService.getNetworkList(res);
+                this.networkService.getRouterList(res);
+                this.getRoleAssignments().subscribe();
                 
                 //console.log('New Project Scoped Token observable ->');
                 //console.log(this.userProjectToken.getValue());
                 // //console.log('New Server List ->');
                 // //console.log(this.servers.getValue());
 
-                // return res;
+                return res;
             });
             
 

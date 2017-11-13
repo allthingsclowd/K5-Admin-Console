@@ -33,6 +33,7 @@ import { UserMaintenanceService } from './services/user-maintenance.service';
 import { LoadbalancerComponent } from './loadbalancer.component';
 import { LoadbalancerService } from './services/loadbalancer.service';
 import { CloudvisualisedComponent } from './cloudvisualised.component';
+import { IpsecvpnComponent } from './ipsecvpn.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { CloudvisualisedComponent } from './cloudvisualised.component';
     UserManagementComponent,
     LoadbalancerComponent,
     CloudvisualisedComponent,
+    IpsecvpnComponent,
     ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { ComputeService } from './services/compute.service';
 import { IdentityService } from './services/identity.service';
 import { project } from './model/user';
 import { Component, OnInit } from '@angular/core';
+import { IpsecvpnService } from './services/ipsecvpn.service';
 
 @Component({
   selector: 'app-project-panel',
@@ -33,13 +34,15 @@ export class ProjectPanelComponent implements OnInit {
   userNetworks: any = null;
   userSubNetworks: any = null;
   userPorts: any = null;
+  vpnServices: any = 0;
 
   constructor(private computeService: ComputeService,
               private userMaintenanceService: UserMaintenanceService,
               private identityService: IdentityService,
               private stackService: StackService,
               private loadbalancerService: LoadbalancerService,
-              private networkService: NetworkService) { }
+              private networkService: NetworkService,
+              private ipsecvpnService: IpsecvpnService) { }
 
 
   ngOnInit() {
@@ -63,9 +66,11 @@ export class ProjectPanelComponent implements OnInit {
     this.networkService.userNetworks.subscribe(networks => this.userNetworks = networks);
     this.networkService.userSubNetworks.subscribe(subnets => this.userSubNetworks = subnets);
     this.networkService.userPorts.subscribe(ports => this.userPorts = ports);
+    this.ipsecvpnService.vpnServices.subscribe(services => this.vpnServices = services);
 
-    console.log('Routers');
-    console.log(this.userRouters);
+
+    //console.log('Routers');
+    //console.log(this.userRouters);
   }
 
   serverChange(server) {

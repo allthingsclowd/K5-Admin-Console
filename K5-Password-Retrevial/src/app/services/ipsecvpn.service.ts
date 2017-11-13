@@ -372,7 +372,7 @@ export class IpsecvpnService {
 
       }
 
-      vpnServicesList(k5token, region) {
+      vpnServicesList(k5token) {
 
         let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
         vpnURL = vpnURL.concat('/v2.0/vpn/vpnservices');
