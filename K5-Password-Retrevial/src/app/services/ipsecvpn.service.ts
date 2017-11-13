@@ -106,23 +106,23 @@ export class IpsecvpnService {
 
   ipsecPolicyShow(k5token, policyId) {
     
-        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
-        vpnURL = vpnURL.concat('/v2.0/vpn/ipsecpolicies/', policyId);
-        // With CORS Proxy Service in use here
-        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+    let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+    vpnURL = vpnURL.concat('/v2.0/vpn/ipsecpolicies/', policyId);
+    // With CORS Proxy Service in use here
+    const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+
+    const headeropts = this.setRequestHeaders(k5token);
     
-        const headeropts = this.setRequestHeaders(k5token);
-        
-            return this.http.get(proxiedURL, headeropts)
-              .map((response: Response) => {
-                    response.json();
-                    console.log('IPSEC Policy Show');
-                    console.log(response.json()); 
-                    return response.json(); })
-              .subscribe(
-                      data => console.log(data),
-                      err => console.log(err),
-                      () => console.log('IPSEC Policy Show Success'));
+        return this.http.get(proxiedURL, headeropts)
+          .map((response: Response) => {
+                response.json();
+                console.log('IPSEC Policy Show');
+                console.log(response.json()); 
+                return response.json(); })
+          .subscribe(
+                  data => console.log(data),
+                  err => console.log(err),
+                  () => console.log('IPSEC Policy Show Success'));
     }
 
     ipsecPolicyCreate(k5token, name, protocol, auth_alg, enc_alg, encapmode, pfsgroup,  ipseclt, az) {
@@ -212,6 +212,7 @@ export class IpsecvpnService {
                     response.json();
                     console.log('IPSEC Delete Policy');
                     console.log(response.json());
+                    this.changeIpsecPolicy(null);
                     return response.json(); })
               .subscribe(
                       data => console.log(data),
@@ -234,7 +235,7 @@ export class IpsecvpnService {
                 response.json();
                 console.log('List IPSEC Site Connections');
                 console.log(response.json());
-                this.changeIpsecPolicies(response.json());
+                this.changeIpsecConnections(response.json());
                 return response.json(); })
           .subscribe(
                   data => console.log(data),
@@ -300,7 +301,7 @@ export class IpsecvpnService {
           .map((response: Response) => {
                 console.log('IPSEC Policy Creation');
                 console.log(response.json());
-                this.changeIpsecPolicy(response.json());
+                this.changeIpsecConnection(response.json());
                 return response.json(); })
           .subscribe(
                   data => console.log(data),
@@ -340,7 +341,7 @@ export class IpsecvpnService {
           .map((response: Response) => {
                 console.log('IPSEC Policy Creation');
                 console.log(response.json());
-                this.changeIpsecPolicy(response.json());
+                this.changeIpsecConnection(response.json());
                 return response.json(); })
           .subscribe(
                   data => console.log(data),
@@ -348,7 +349,7 @@ export class IpsecvpnService {
                   () => console.log('IPSEC Policy Create Success'));
       }
 
-      ipsecSiteConnectionDelete(k5token, connectionid, region) {
+      ipsecSiteConnectionDelete(k5token, connectionId) {
         
         let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
         vpnURL = vpnURL.concat('/v2.0/vpn/ipsec-site-connections/', connectionId);
@@ -361,7 +362,8 @@ export class IpsecvpnService {
         .map((response: Response) => {
               response.json();
               console.log('IPSEC Site Connection Delete');
-              console.log(response.json()); 
+              console.log(response.json());
+              this.changeIpsecConnection(null);
               return response.json(); })
         .subscribe(
                 data => console.log(data),
@@ -372,41 +374,278 @@ export class IpsecvpnService {
 
       vpnServicesList(k5token, region) {
 
-      }
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/vpnservices');
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
 
-      vpnServiceShow(k5token, serviceid, region) {
+        const headeropts = this.setRequestHeaders(k5token);
 
-      }
-
-      vpnServiceCreate(k5token, name, routerid, subnetid, az, region) {
-
-      }
-
-      vpnServiceUpdate(k5token, name, routerid, subnetid, az, region) {
-
-      }
-
-      vpnServiceDelete(k5token, serviceid, region) {
-
-      }
-
-      ikePoliciesList(k5token, region) { 
-
-      }
-
-      ikePolicyShow(k5token, policyid, region) {
+        return this.http.get(proxiedURL, headeropts)
+          .map((response: Response) => {
+                response.json();
+                console.log('List IPSEC VPN Services');
+                console.log(response.json());
+                this.changeVpnServices(response.json());
+                return response.json(); })
+          .subscribe(
+                  data => console.log(data),
+                  err => console.log(err),
+                  () => console.log('IPSEC VPN Services List Success'));
 
       }
 
-      ikePolicyDelete(k5token, policyid, region) {
+      vpnServiceShow(k5token, serviceId) {
+        
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/vpnservices/', serviceId);
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+
+        const headeropts = this.setRequestHeaders(k5token);
+
+        return this.http.get(proxiedURL, headeropts)
+        .map((response: Response) => {
+              response.json();
+              console.log('IPSEC VPN Service Show');
+              console.log(response.json()); 
+              this.changeVpnService(response.json());
+              return response.json(); })
+        .subscribe(
+                data => console.log(data),
+                err => console.log(err),
+                () => console.log('IPSEC VPN Service Show Success'));
+      }
+
+      vpnServiceCreate(k5token, name, routerid, subnetid, az) {
+
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/vpnservices');
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+
+        const headeropts = this.setRequestHeaders(k5token);
+
+        const body = {
+          'vpnservice': {
+              'subnet_id': subnetid,
+              'router_id': routerid,
+              'name': name,
+              'admin_state_up': true,
+              'availability_zone': az
+          }
+        };
+
+        const bodyString = JSON.stringify(body); // Stringify payload
+
+        return this.http.post(proxiedURL, bodyString, headeropts)
+          .map((response: Response) => {
+                console.log('IPSEC VPN Service Creation');
+                console.log(response.json());
+                this.changeVpnService(response.json());
+                return response.json(); })
+          .subscribe(
+                  data => console.log(data),
+                  err => console.log(err),
+                  () => console.log('IPSEC VPN Service Create Success'));
+      }
+
+      vpnServiceUpdate(k5token, serviceId, name, adminState, desc) {
+
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/vpnservices/', serviceId);
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+
+        const headeropts = this.setRequestHeaders(k5token);
+
+        const body = {
+          'vpnservice': {
+              'name': name,
+              'admin_state_up': adminState,
+              'description': desc
+          }
+        };
+
+        const bodyString = JSON.stringify(body); // Stringify payload
+
+        return this.http.put(proxiedURL, bodyString, headeropts)
+          .map((response: Response) => {
+                console.log('IPSEC VPN Service Update');
+                console.log(response.json());
+                this.changeVpnService(response.json());
+                return response.json(); })
+          .subscribe(
+                  data => console.log(data),
+                  err => console.log(err),
+                  () => console.log('IPSEC VPN Service Update Success'));
 
       }
 
-      ikePolicyCreate(k5token, name, authalg, encryalg, ikelt, ikev, pfs, neg, az, region) {
+      vpnServiceDelete(k5token, serviceId) {
+                
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/vpnservices/', serviceId);
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+
+        const headeropts = this.setRequestHeaders(k5token);
+
+        return this.http.delete(proxiedURL, headeropts)
+        .map((response: Response) => {
+              response.json();
+              console.log('IPSEC VPN Service Deletion');
+              console.log(response.json()); 
+              this.changeVpnService(null);
+              return response.json(); })
+        .subscribe(
+                data => console.log(data),
+                err => console.log(err),
+                () => console.log('IPSEC VPN Service Delete Success'));
 
       }
 
-      ikePolicyUpdate(k5token, name, authalg, encryalg, ikelt, ikev, pfs, neg, az, region) {
+      ikePoliciesList(k5token) { 
+
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/ikepolicies');
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+    
+        const headeropts = this.setRequestHeaders(k5token);
+    
+        return this.http.get(proxiedURL, headeropts)
+          .map((response: Response) => {
+                response.json();
+                console.log('List IKE Policies');
+                console.log(response.json());
+                this.changeIkePolicies(response.json());
+                return response.json(); })
+          .subscribe(
+                  data => console.log(data),
+                  err => console.log(err),
+                  () => console.log('IKE Policies List Success'));
+
+      }
+
+      ikePolicyShow(k5token, policyId) {
+        
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/ikepolicies/', policyId);
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+    
+        const headeropts = this.setRequestHeaders(k5token);
+        
+            return this.http.get(proxiedURL, headeropts)
+              .map((response: Response) => {
+                    response.json();
+                    console.log('IKE Policy Show');
+                    console.log(response.json());
+                    this.changeIkePolicy(response.json());
+                    return response.json(); })
+              .subscribe(
+                      data => console.log(data),
+                      err => console.log(err),
+                      () => console.log('IKE Policy Show Success'));
+
+      }
+
+      ikePolicyDelete(k5token, policyId) {
+                
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/ikepolicies/', policyId);
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+    
+        const headeropts = this.setRequestHeaders(k5token);
+        
+            return this.http.delete(proxiedURL, headeropts)
+              .map((response: Response) => {
+                    response.json();
+                    console.log('IKE Policy Deletion');
+                    console.log(response.json());
+                    this.changeIkePolicy(null);
+                    return response.json(); })
+              .subscribe(
+                      data => console.log(data),
+                      err => console.log(err),
+                      () => console.log('IKE Policy Deletion Success'));
+
+      }
+
+      ikePolicyCreate(k5token, name, authalg, encryalg, ikelt, ikev, pfs, neg, az) {
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/ikepolicies');
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+
+        const headeropts = this.setRequestHeaders(k5token);
+
+        const body = {
+          'ikepolicy': {
+              'phase1_negotiation_mode': neg,
+              'auth_algorithm': authalg,
+              'encryption_algorithm': encryalg,
+              'pfs': pfs,
+              'lifetime': {
+                  'units': 'seconds',
+                  'value': ikelt
+              },
+              'ike_version': ikev,
+              'name': name,
+              'availability_zone': az
+          }
+      };
+
+        const bodyString = JSON.stringify(body); // Stringify payload
+
+        return this.http.post(proxiedURL, bodyString, headeropts)
+          .map((response: Response) => {
+                console.log('IKE Policy Creation');
+                console.log(response.json());
+                this.changeIkePolicy(response.json());
+                return response.json(); })
+          .subscribe(
+                  data => console.log(data),
+                  err => console.log(err),
+                  () => console.log('IKE Policy Create Success'));
+      }
+
+      ikePolicyUpdate(k5token, policyId, name, encryalg, ikelt, pfs, desc) {
+
+        let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
+        vpnURL = vpnURL.concat('/v2.0/vpn/ikepolicies/', policyId);
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(vpnURL);
+
+        const headeropts = this.setRequestHeaders(k5token);
+
+        const body = {
+          'ikepolicy': {
+              'encryption_algorithm': encryalg,
+              'pfs': pfs,
+              'lifetime': {
+                  'units': 'seconds',
+                  'value': ikelt
+              },
+              'name': name,
+              'description': desc
+          }
+      };
+
+        const bodyString = JSON.stringify(body); // Stringify payload
+
+        return this.http.put(proxiedURL, bodyString, headeropts)
+          .map((response: Response) => {
+                console.log('IKE Policy Update');
+                console.log(response.json());
+                this.changeIkePolicy(response.json());
+                return response.json(); })
+          .subscribe(
+                  data => console.log(data),
+                  err => console.log(err),
+                  () => console.log('IKE Policy Update Success'));
 
       }
 }
