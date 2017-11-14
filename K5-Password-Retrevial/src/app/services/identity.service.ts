@@ -57,6 +57,10 @@ export class IdentityService {
     roleAssignments = this.projectRoleAssignments.asObservable();
     private usersInGroupList = new BehaviorSubject<Response>(null);
     usersInGroup = this.usersInGroupList.asObservable();
+    private availabilityZoneList = new BehaviorSubject<Response>(null);
+    availabilityZones = this.availabilityZoneList.asObservable();
+    private currentAvailabilityZone = new BehaviorSubject<Response>(null);
+    currentAZ = this.currentAvailabilityZone.asObservable();
     //servers: any = null;
     // k5currentScopedToken: Response;
 
@@ -80,7 +84,13 @@ export class IdentityService {
         this.ipsecvpnService.ipsecConnection.subscribe(connection => this.ipsecConnection = connection);
     }
 
+    changeAZList(azones: any) {
+        this.availabilityZoneList.next(azones);
+    }
 
+    changeAZ(azone: any) {
+        this.currentAvailabilityZone.next(azone);
+    }
 
     changeUsersInGroup(users: any) {
         this.usersInGroupList.next(users);
@@ -200,8 +210,8 @@ export class IdentityService {
                 // retrieve the K5/OpenStack authentication token from the response header
                 // projectToken.scopedToken = res.headers.get('x-subject-token');
                 // projectToken.projectId = projectId;
-                //console.log('New Project Scoped Token response ->');
-                //console.log(res);
+                // console.log('New Project Scoped Token response ->');
+                // console.log(res);
 
                 this.changeProjectToken(res);
                 //this.ipsecvpnService.ipsecPolicyCreate(res, 'freddy', 'esp', 'sha1', 'aes-256', 'tunnel', 'group5', 3600, 'uk-1a');
@@ -447,8 +457,8 @@ export class IdentityService {
                 // this.k5Globalresponse = gres;
                 // retrieve the K5/OpenStack authentication token from the response header
                 // this.user.globalToken = gres.headers.get('X-Access-Token');
-                //console.log('Central Portal Token => \n');
-                //console.log(this.userGlobalToken.getValue().json());
+                console.log('Central Portal Token => \n');
+                console.log(this.userGlobalToken.getValue().json());
 
            });
 
@@ -489,6 +499,13 @@ export class IdentityService {
 
                 this.changeRegionalToken(res);
                 this.changeLoginStatus(true);
+                this.changeAZList([region + 'a', region + 'b']);
+                this.changeAZ(region + 'b');
+                console.log('New AZs');
+                console.log(this.availabilityZoneList.getValue());
+                console.log('Default AZone');
+                console.log(this.currentAvailabilityZone.getValue());
+                
 
                 // retrieve Global token
                 this.getCentralPortalToken(username, password, contract).subscribe();

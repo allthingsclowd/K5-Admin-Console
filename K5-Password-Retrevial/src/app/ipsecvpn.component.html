@@ -26,11 +26,11 @@
 					</h3>
 				</div>
 				<div class="fix-panel panel-body">
-					Panel content
+					{{vpnService | json | removeQuotes }}
 				</div>
-				<div class="panel-footer">
+				<!-- <div class="panel-footer">
 					Panel footer
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<div class="col-md-3">
@@ -40,7 +40,7 @@
 						VPN Service Update/Delete
 					</h3>
         </div>
-        <form [formGroup]="amendVpnServiceForm" >
+        <form [formGroup]="amendVpnServiceForm"#formDir="ngForm" >
           <div class="panel-body">
             Panel content
           </div>
