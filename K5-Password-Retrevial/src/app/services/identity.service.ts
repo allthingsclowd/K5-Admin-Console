@@ -218,7 +218,7 @@ export class IdentityService {
                 // console.log('Return Policy Below');
                 // console.log(policy);
                 //this.ipsecvpnService.ipsecPolicyUpdate(res, '23674bf7-6638-47e4-890f-324ed21fcf13', 'freddy', 'aes-256', 'group5', 3600, 'updated ipsec policy');
-                this.ipsecvpnService.ipsecPolicieslist(res);
+                this.ipsecvpnService.ipsecPoliciesList(res);
                 this.ipsecvpnService.ipsecSiteConnectionsList(res);
                 this.ipsecvpnService.ikePoliciesList(res);
                 this.ipsecvpnService.vpnServicesList(res);

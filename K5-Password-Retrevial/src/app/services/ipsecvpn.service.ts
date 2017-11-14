@@ -82,7 +82,7 @@ export class IpsecvpnService {
 
   }
 
-  ipsecPolicieslist(k5token) {
+  ipsecPoliciesList(k5token) {
 
     let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
     vpnURL = vpnURL.concat('/v2.0/vpn/ipsecpolicies');
@@ -125,7 +125,7 @@ export class IpsecvpnService {
                   () => console.log('IPSEC Policy Show Success'));
     }
 
-    ipsecPolicyCreate(k5token, name, protocol, auth_alg, enc_alg, encapmode, pfsgroup,  ipseclt, az) {
+    ipsecPolicyCreate(k5token, name, desc, protocol, auth_alg, enc_alg, encapmode, pfsgroup,  ipseclt, az) {
 
       let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
       vpnURL = vpnURL.concat('/v2.0/vpn/ipsecpolicies');
@@ -137,6 +137,7 @@ export class IpsecvpnService {
       const body = {
         'ipsecpolicy': {
             'name': name,
+            'description': desc,
             'transform_protocol': protocol,
             'auth_algorithm': auth_alg,
             'encapsulation_mode': encapmode,
@@ -155,6 +156,7 @@ export class IpsecvpnService {
         .map((response: Response) => {
               console.log('IPSEC Policy Creation');
               console.log(response.json());
+              this.ipsecPoliciesList(k5token);
               this.changeIpsecPolicy(response.json());
               return response.json(); })
         .subscribe(
@@ -190,6 +192,7 @@ export class IpsecvpnService {
                 response.json();
                 console.log('IPSEC Policy Update');
                 console.log(response.json());
+                this.ipsecPoliciesList(k5token);
                 this.changeIpsecPolicy(response.json());
                 return response.json(); })
           .subscribe(
@@ -212,6 +215,7 @@ export class IpsecvpnService {
                     response.json();
                     console.log('IPSEC Delete Policy');
                     console.log(response.json());
+                    this.ipsecPoliciesList(k5token);
                     this.changeIpsecPolicy(null);
                     return response.json(); })
               .subscribe(
@@ -265,7 +269,9 @@ export class IpsecvpnService {
 
       }
 
-      ipsecSiteConnectionCreate(k5token, name, vpnsid, ikepid, secpid, peeradr, peercidr, psk, az) {
+      ipsecSiteConnectionCreate(k5token, name, desc, initiator, vpnsid, ikepid,
+                                secpid, peerid, peeradr, peercidr, psk, adminstate,
+                                dpdprotocol, dpdinterval, dpdtimeout, az) {
 
         let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
         vpnURL = vpnURL.concat('/v2.0/vpn/ipsec-site-connections');
@@ -277,20 +283,21 @@ export class IpsecvpnService {
         const body = {
           'ipsec_site_connection': {
               'psk': psk,
-              'initiator': 'bi-directional',
+              'initiator': initiator,
               'ipsecpolicy_id': secpid,
-              'admin_state_up': true,
+              'admin_state_up': adminstate,
               'peer_cidrs': peercidr,
               'ikepolicy_id': ikepid,
               'dpd': {
-                  'action': 'hold',
-                  'interval': 60,
-                  'timeout': 240
+                  'action': dpdprotocol,
+                  'interval': dpdinterval,
+                  'timeout': dpdtimeout
               },
               'vpnservice_id': vpnsid,
               'peer_address': peeradr,
-              'peer_id': peeradr,
+              'peer_id': peerid,
               'name': name,
+              'description': desc,
               'availability_zone': az
           }
       };
@@ -302,6 +309,7 @@ export class IpsecvpnService {
                 console.log('IPSEC Policy Creation');
                 console.log(response.json());
                 this.changeIpsecConnection(response.json());
+                this.ipsecSiteConnectionsList(k5token);
                 return response.json(); })
           .subscribe(
                   data => console.log(data),
@@ -309,7 +317,8 @@ export class IpsecvpnService {
                   () => console.log('IPSEC Policy Create Success'));
       }
 
-      ipsecSiteConnectionUpdate(k5token, connectionId, peeradr, peercidr, psk, name, desc) {
+      ipsecSiteConnectionUpdate(k5token, connectionId, initiator, peerid, peeradr, peercidr, psk, name, desc, adminstate,
+        dpdprotocol, dpdinterval, dpdtimeout) {
         let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
         vpnURL = vpnURL.concat('/v2.0/vpn/ipsec-site-connections/', connectionId);
         // With CORS Proxy Service in use here
@@ -320,16 +329,16 @@ export class IpsecvpnService {
         const body = {
           'ipsec_site_connection': {
               'psk': psk,
-              'initiator': 'bi-directional',
-              'admin_state_up': true,
+              'initiator': initiator,
+              'admin_state_up': adminstate,
               'peer_cidrs': peercidr,
               'dpd': {
-                  'action': 'hold',
-                  'interval': 60,
-                  'timeout': 240
+                  'action': dpdprotocol,
+                  'interval': dpdinterval,
+                  'timeout': dpdtimeout
               },
               'peer_address': peeradr,
-              'peer_id': peeradr,
+              'peer_id': peerid,
               'name': name,
               'description': desc
           }
@@ -342,6 +351,7 @@ export class IpsecvpnService {
                 console.log('IPSEC Policy Creation');
                 console.log(response.json());
                 this.changeIpsecConnection(response.json());
+                this.ipsecSiteConnectionsList(k5token);
                 return response.json(); })
           .subscribe(
                   data => console.log(data),
@@ -364,6 +374,7 @@ export class IpsecvpnService {
               console.log('IPSEC Site Connection Delete');
               console.log(response.json());
               this.changeIpsecConnection(null);
+              this.ipsecSiteConnectionsList(k5token);
               return response.json(); })
         .subscribe(
                 data => console.log(data),
@@ -408,7 +419,7 @@ export class IpsecvpnService {
         .map((response: Response) => {
               response.json();
               console.log('IPSEC VPN Service Show');
-              console.log(response.json()); 
+              console.log(response.json());
               this.changeVpnService(response.json());
               return response.json(); })
         .subscribe(
@@ -417,7 +428,7 @@ export class IpsecvpnService {
                 () => console.log('IPSEC VPN Service Show Success'));
       }
 
-      vpnServiceCreate(k5token, name, routerid, subnetid, az) {
+      vpnServiceCreate(k5token, name, desc, routerid, subnetid, az) {
 
         let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
         vpnURL = vpnURL.concat('/v2.0/vpn/vpnservices');
@@ -431,6 +442,7 @@ export class IpsecvpnService {
               'subnet_id': subnetid,
               'router_id': routerid,
               'name': name,
+              'description': desc,
               'admin_state_up': true,
               'availability_zone': az
           }
@@ -442,6 +454,7 @@ export class IpsecvpnService {
           .map((response: Response) => {
                 console.log('IPSEC VPN Service Creation');
                 console.log(response.json());
+                this.vpnServicesList(k5token);
                 this.changeVpnService(response.json());
                 return response.json(); })
           .subscribe(
@@ -473,6 +486,7 @@ export class IpsecvpnService {
           .map((response: Response) => {
                 console.log('IPSEC VPN Service Update');
                 console.log(response.json());
+                this.vpnServicesList(k5token);
                 this.changeVpnService(response.json());
                 return response.json(); })
           .subscribe(
@@ -495,7 +509,8 @@ export class IpsecvpnService {
         .map((response: Response) => {
               response.json();
               console.log('IPSEC VPN Service Deletion');
-              console.log(response.json()); 
+              console.log(response.json());
+              this.vpnServicesList(k5token);
               this.changeVpnService(null);
               return response.json(); })
         .subscribe(
@@ -565,6 +580,7 @@ export class IpsecvpnService {
                     response.json();
                     console.log('IKE Policy Deletion');
                     console.log(response.json());
+                    this.ikePoliciesList(k5token);
                     this.changeIkePolicy(null);
                     return response.json(); })
               .subscribe(
@@ -574,7 +590,7 @@ export class IpsecvpnService {
 
       }
 
-      ikePolicyCreate(k5token, name, authalg, encryalg, ikelt, ikev, pfs, neg, az) {
+      ikePolicyCreate(k5token, name, desc, authalg, encryalg, ikelt, ikev, pfs, neg, az) {
         let vpnURL = this.utilitiesService.getEndpoint(k5token, 'networking');
         vpnURL = vpnURL.concat('/v2.0/vpn/ikepolicies');
         // With CORS Proxy Service in use here
@@ -594,6 +610,7 @@ export class IpsecvpnService {
               },
               'ike_version': ikev,
               'name': name,
+              'description': desc,
               'availability_zone': az
           }
       };
@@ -604,6 +621,7 @@ export class IpsecvpnService {
           .map((response: Response) => {
                 console.log('IKE Policy Creation');
                 console.log(response.json());
+                this.ikePoliciesList(k5token);
                 this.changeIkePolicy(response.json());
                 return response.json(); })
           .subscribe(
@@ -640,6 +658,7 @@ export class IpsecvpnService {
           .map((response: Response) => {
                 console.log('IKE Policy Update');
                 console.log(response.json());
+                this.ikePoliciesList(k5token);
                 this.changeIkePolicy(response.json());
                 return response.json(); })
           .subscribe(
