@@ -1,6 +1,6 @@
-# K5PasswordRetrevial
+# K5 Administrative Console - Alpha Code - Learning Angular 5.0
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.
+This project was originally generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.
 
 ## Development server
 
