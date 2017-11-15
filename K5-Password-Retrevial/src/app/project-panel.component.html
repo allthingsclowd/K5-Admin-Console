@@ -10,7 +10,7 @@
                       <li *ngIf='userStacks'> <a href="#tab2stack" data-toggle="tab">Stack <span class="badge">{{userStacks.length}}</span></a></li>
                       <li *ngIf='userLBaaS'> <a href="#tabLBaaS" data-toggle="tab">LBaaS <span class="badge">{{userLBaaS.length}}</span></a></li>
                       <li *ngIf='userRouters'> <a href="#tabRouter" data-toggle="tab">Router <span class="badge">{{userRouters.length}}</span></a></li>
-                      <li *ngIf='vpnServices'><a href="#tabIPSecVPN" data-toggle="tab">IPSecVPN <span class="badge">{{vpnServices.vpnservices.length}}</span></a></li>
+                      <li *ngIf='vpnServices && ipsecConnections && ipsecPolicies && ikePolicies'><a href="#tabIPSecVPN" data-toggle="tab">IPSecVPN <span class="badge">{{vpnServices.vpnservices.length}}</span></a></li>
                   </ul>
           </div> <!-- Main Tabbed Panel Headings -->
           <div class="panel-body"> <!-- Tabbed Panel Body -->

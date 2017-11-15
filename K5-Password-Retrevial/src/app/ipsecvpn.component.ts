@@ -32,9 +32,8 @@ export class IpsecvpnComponent implements OnInit {
   addConnectionForm: FormGroup;
 
   // api parameters
-  defaultName = 'Enter Resource Name';
-  defaultDescription = 'Enter Description';
-  // powers = ['Really Smart', 'Super Flexible', 'Weather Changer'];
+  defaultName = 'Enter resource name';
+  defaultDescription = 'Enter resource description';
   auth_algorithm = ['sha1'];
   encryption_algorithm = ['aes-128', 'aes-256', 'aes-192'];
   pfs = ['group2', 'group5', 'group14'];
@@ -80,8 +79,8 @@ export class IpsecvpnComponent implements OnInit {
     this.addVpnServiceForm = new FormGroup({
       'name': new FormControl(this.defaultName, [Validators.required]),
       'description': new FormControl(this.defaultDescription, [Validators.required]),
-      'subnet_id': new FormControl(null, [Validators.required]),
-      'router_id': new FormControl(null, [Validators.required]),
+      'subnet_id': new FormControl('Select Subnet', [Validators.required]),
+      'router_id': new FormControl('Select Router', [Validators.required]),
       'availability_zone': new FormControl(this.azones[0], [Validators.required])
       });
 
@@ -96,11 +95,11 @@ export class IpsecvpnComponent implements OnInit {
     this.addIpsecPolicyForm = new FormGroup({
       'name': new FormControl(this.defaultName, [Validators.required]),
       'description': new FormControl(this.defaultDescription, [Validators.required]),
-      'transform_protocol': new FormControl(null, [Validators.required]),
-      'auth_algorithm': new FormControl(null, [Validators.required]),
-      'encapsulation_mode': new FormControl(null, [Validators.required]),
-      'encryption_algorithm': new FormControl(null, [Validators.required]),
-      'pfs': new FormControl(null, [Validators.required]),
+      'transform_protocol': new FormControl(this.transform_protocol[0], [Validators.required]),
+      'auth_algorithm': new FormControl(this.auth_algorithm[0], [Validators.required]),
+      'encapsulation_mode': new FormControl(this.encapsulation_mode[0], [Validators.required]),
+      'encryption_algorithm': new FormControl(this.encryption_algorithm[1], [Validators.required]),
+      'pfs': new FormControl(this.pfs[2], [Validators.required]),
       'ipsecLtValue': new FormControl(7200, [Validators.required]),
       'availability_zone': new FormControl(this.azones[0], [Validators.required])
       });
@@ -114,12 +113,12 @@ export class IpsecvpnComponent implements OnInit {
       });
 
     this.addIkePolicyForm = new FormGroup({
-      'phase1_negotiation_mode': new FormControl(null, [Validators.required]),
-      'auth_algorithm': new FormControl(null, [Validators.required]),
-      'encryption_algorithm': new FormControl(null, [Validators.required]),
-      'pfs': new FormControl(null, [Validators.required]),
+      'phase1_negotiation_mode': new FormControl(this.phase1_negotiation_mode[0], [Validators.required]),
+      'auth_algorithm': new FormControl(this.auth_algorithm[0], [Validators.required]),
+      'encryption_algorithm': new FormControl(this.encryption_algorithm[1], [Validators.required]),
+      'pfs': new FormControl(this.pfs[2], [Validators.required]),
       'ikeLtValue': new FormControl(7200, [Validators.required]),
-      'ike_version': new FormControl(null, [Validators.required]),
+      'ike_version': new FormControl(this.ike_version[0], [Validators.required]),
       'name': new FormControl(this.defaultName, [Validators.required]),
       'description': new FormControl(this.defaultName, [Validators.required]),
       'availability_zone': new FormControl(this.azones[0], [Validators.required])
@@ -141,19 +140,19 @@ export class IpsecvpnComponent implements OnInit {
 
     this.addConnectionForm = new FormGroup({
       'psk': new FormControl(null, [Validators.required]),
-      'ipsecpolicy_id': new FormControl(null, [Validators.required]),
+      'ipsecpolicy_id': new FormControl('Select IPSec Policy', [Validators.required]),
       'peer_cidrs': new FormControl(null, [Validators.required]),
-      'initiator': new FormControl(null, [Validators.required]),
-      'ikepolicy_id': new FormControl(null, [Validators.required]),
-      'vpnservice_id': new FormControl(null, [Validators.required]),
-      'peer_address': new FormControl(null, [Validators.required]),
-      'peer_id': new FormControl(null, [Validators.required]),
-      'dpd_protocol': new FormControl(null, [Validators.required]),
-      'dpd_interval': new FormControl(null, [Validators.required]),
-      'dpd_timeout': new FormControl(null, [Validators.required]),
+      'initiator': new FormControl(this.initiator[0], [Validators.required]),
+      'ikepolicy_id': new FormControl('Select IKE Policy', [Validators.required]),
+      'vpnservice_id': new FormControl('Select VPN Service', [Validators.required]),
+      'peer_address': new FormControl('Enter remote ip address', [Validators.required]),
+      'peer_id': new FormControl('Enter any remote identifier', [Validators.required]),
+      'dpd_protocol': new FormControl(this.dpdProtocol[0], [Validators.required]),
+      'dpd_interval': new FormControl(30, [Validators.required]),
+      'dpd_timeout': new FormControl(120, [Validators.required]),
       'admin_state_up': new FormControl(true, [Validators.required]),
       'name': new FormControl(this.defaultName, [Validators.required]),
-      'description': new FormControl(this.defaultName, [Validators.required]),
+      'description': new FormControl(this.defaultDescription, [Validators.required]),
       'availability_zone': new FormControl(this.azones[0], [Validators.required])
       });
 

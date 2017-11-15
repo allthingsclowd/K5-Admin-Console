@@ -34,7 +34,10 @@ export class ProjectPanelComponent implements OnInit {
   userNetworks: any = null;
   userSubNetworks: any = null;
   userPorts: any = null;
-  vpnServices: any = 0;
+  vpnServices: any = null;
+  ipsecPolicies: any = null;
+  ikePolicies: any = null;
+  ipsecConnections: any = null;
 
   constructor(private computeService: ComputeService,
               private userMaintenanceService: UserMaintenanceService,
@@ -67,6 +70,9 @@ export class ProjectPanelComponent implements OnInit {
     this.networkService.userSubNetworks.subscribe(subnets => this.userSubNetworks = subnets);
     this.networkService.userPorts.subscribe(ports => this.userPorts = ports);
     this.ipsecvpnService.vpnServices.subscribe(services => this.vpnServices = services);
+    this.ipsecvpnService.ipsecPolicies.subscribe(secpolicies => this.ipsecPolicies = secpolicies);
+    this.ipsecvpnService.ikePolicies.subscribe(ikepolicies => this.ikePolicies = ikepolicies);
+    this.ipsecvpnService.ipsecConnections.subscribe(connections => this.ipsecConnections = connections);
 
 
     //console.log('Routers');

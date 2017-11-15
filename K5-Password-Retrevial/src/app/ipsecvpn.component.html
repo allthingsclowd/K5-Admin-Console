@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div *ngIf='vpnServices && ipsecConnections && ipsecPolicies && ikePolicies' class="container-fluid">
 	<div class="row">
 		<div class="col-md-3">
 			<div class="panel panel-info">
@@ -28,9 +28,6 @@
 				<div class="fix-panel panel-body">
 					{{vpnService | json | removeQuotes }}
 				</div>
-				<!-- <div class="panel-footer">
-					Panel footer
-				</div> -->
 			</div>
 		</div>
 		<div class="col-md-3">
@@ -55,7 +52,6 @@
 											formControlName="adminState" required >
 								<option *ngFor="let state of adminState" [value]="state">{{state}}</option>
 							</select>
-	
 
           </div>
           <div class="panel-footer">
@@ -431,7 +427,7 @@
 		</div>
   </div>
   <hr>
-  <!-- <div class="row">
+  <div class="row">
 		<div class="col-md-3">
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -544,9 +540,9 @@
 					<h3 class="panel-title">
 						Add New Site Connection
 					</h3>
-        </div>
-        <form [formGroup]="addConnectionForm" >
-          <div class="form-group panel-body">
+        		</div>
+        		<form [formGroup]="addConnectionForm" >
+          			<div class="form-group panel-body">
 							<label for="name">Name</label>
 							<input id="name" class="form-control"
 										 formControlName="name" required >
@@ -568,19 +564,19 @@
 							<label for="ikepolicy_id">IKE Policy - Phase 1</label>
 							<select id="ikepolicy_id" class="form-control"
 							formControlName="ikepolicy_id" required >
-								<option *ngFor="let ikpolicy of ikePolicies.ikepolicies" [value]="ikpolicy.id">{{ikpolicy.name (policy.id)}}</option>
+								<option *ngFor="let ikpolicy of ikePolicies.ikepolicies" [value]="ikpolicy.id">{{ikpolicy.name}} ({{ikpolicy.id}})</option>
 							</select>
 
 							<label for="ipsecpolicy_id">IPSec Policy - Phase 2</label>
 							<select id="ipsecpolicy_id" class="form-control"
 											formControlName="ipsecpolicy_id" required >
-								<option *ngFor="let secpolicy of ipsecPolicies.ipsecpolicies" [value]="secpolicy.id">{{secpolicy.name (policy.id)}}</option>
+								<option *ngFor="let secpolicy of ipsecPolicies.ipsecpolicies" [value]="secpolicy.id">{{secpolicy.name}}  ({{secpolicy.id}})</option>
 							</select>
 						
 							<label for="vpnservice_id">VPN Service</label>
 							<select id="vpnservice_id" class="form-control"
 									formControlName="vpnservice_id" required >
-								<option *ngFor="let service of vpnServices.vpnservices" [value]="service.id">{{service.name (service.id)}}</option>
+								<option *ngFor="let service of vpnServices.vpnservices" [value]="service.id">{{service.name}} ({{service.id}})</option>
 							</select>
 
 							<label for="peer_cidrs">Peer CIDR [Note: One Only Supported]</label>
@@ -598,7 +594,7 @@
 							<label for="dpd_protocol">Dead Peer Detection Protocol</label>
 							<select id="dpd_protocol" class="form-control"
 										formControlName="dpd_protocol" required >
-								<option *ngFor="let protocol of dpd_protocol" [value]="protocol">{{protocol}}</option>
+								<option *ngFor="let protocol of dpdprotocol" [value]="protocol">{{protocol}}</option>
 							</select>
 							
 							<label for="dpd_interval">Dead Peer Detection Interval</label>
@@ -620,17 +616,17 @@
 									formControlName="availability_zone" required >
 								<option *ngFor="let az of azones" [value]="az">{{az}}</option>
 							</select>
-          </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-success btn-lg btn-block" 
+          		</div>
+          		<div class="panel-footer">
+            		<button type="button" class="btn btn-success btn-lg btn-block" 
 						[disabled]="addConnectionForm.invalid"
 						(click)="addSiteConnection()">
-              Add
-            </button>
-          </div>
-        </form>
+              			Add
+            		</button>
+          		</div>
+        	</form>
 			</div> 
 
 		</div>
-	</div> -->
+	</div>
 </div>
