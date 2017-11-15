@@ -11,6 +11,7 @@
                       <li *ngIf='userLBaaS'> <a href="#tabLBaaS" data-toggle="tab">LBaaS <span class="badge">{{userLBaaS.length}}</span></a></li>
                       <li *ngIf='userRouters'> <a href="#tabRouter" data-toggle="tab">Router <span class="badge">{{userRouters.length}}</span></a></li>
                       <li *ngIf='vpnServices && ipsecConnections && ipsecPolicies && ikePolicies'><a href="#tabIPSecVPN" data-toggle="tab">IPSecVPN <span class="badge">{{vpnServices.vpnservices.length}}</span></a></li>
+                      <li *ngIf='currentProjectT && userPorts && userNetworks && userSubNetworks && userRouters && false'><a href="#tabVisualisation" data-toggle="tab">Beta Visualisation</a></li>
                   </ul>
           </div> <!-- Main Tabbed Panel Headings -->
           <div class="panel-body"> <!-- Tabbed Panel Body -->
@@ -268,10 +269,13 @@
                   <div class="tab-pane fade" id="tabIPSecVPN"><!-- Fifth Tab -->
                     <app-ipsecvpn></app-ipsecvpn>
                   </div>
+                  <div class="tab-pane fade" id="tabVisualisation"><!-- Fifth Tab -->
+                    <app-cloudvisualised *ngIf='currentProjectT && userPorts && userNetworks && userSubNetworks && userRouters && false' ></app-cloudvisualised>
+                  </div>
               </div> <!-- Tabbed Panel Body Panes -->
           </div> <!-- Tabbed Panel Body -->
       </div> <!-- Main Tabbed Panel Wrapper -->
   </div>
-  <app-cloudvisualised *ngIf='currentProjectT && userPorts && userNetworks && userSubNetworks && userRouters' ></app-cloudvisualised>
+  
 </div>
 

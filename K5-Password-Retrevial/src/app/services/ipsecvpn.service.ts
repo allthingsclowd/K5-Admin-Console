@@ -346,7 +346,7 @@ export class IpsecvpnService {
 
         const bodyString = JSON.stringify(body); // Stringify payload
 
-        return this.http.post(proxiedURL, bodyString, headeropts)
+        return this.http.put(proxiedURL, bodyString, headeropts)
           .map((response: Response) => {
                 console.log('IPSEC Policy Creation');
                 console.log(response.json());

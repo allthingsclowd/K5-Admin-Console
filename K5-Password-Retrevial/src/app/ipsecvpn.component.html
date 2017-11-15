@@ -435,7 +435,7 @@
 						Site Connections
 					</h3>
 				</div>
-				<div class="panel-body">
+				<div class="fix-panel panel-body">
 						<div *ngFor='let connection of ipsecConnections.ipsec_site_connections'>
 								<li    value="connection | json | removeQuotes"
 												(click)="connectionChange(connection)">{{connection.name | json | removeQuotes}}</li>
@@ -453,7 +453,7 @@
 						Site Connection
 					</h3>
 				</div>
-				<div class="panel-body">
+				<div class="fix-panel panel-body">
 						{{ ipsecConnection | json | removeQuotes }}
 				</div>
 			</div>
@@ -500,7 +500,7 @@
 							<label for="dpd_protocol">Dead Peer Detection Protocol</label>
 							<select id="dpd_protocol" class="form-control"
 										formControlName="dpd_protocol" required >
-								<option *ngFor="let protocol of dpd_protocol" [value]="protocol">{{protocol}}</option>
+								<option *ngFor="let protocol of dpdProtocol" [value]="protocol">{{protocol}}</option>
 							</select>
 							
 							<label for="dpd_interval">Dead Peer Detection Interval</label>
@@ -594,7 +594,7 @@
 							<label for="dpd_protocol">Dead Peer Detection Protocol</label>
 							<select id="dpd_protocol" class="form-control"
 										formControlName="dpd_protocol" required >
-								<option *ngFor="let protocol of dpdprotocol" [value]="protocol">{{protocol}}</option>
+								<option *ngFor="let protocol of dpdProtocol" [value]="protocol">{{protocol}}</option>
 							</select>
 							
 							<label for="dpd_interval">Dead Peer Detection Interval</label>
