@@ -1,37 +1,28 @@
-# K5-Password-Retrieval-SPA
-Quick and Dirty Angular Application to Simplify Windows Password Retrieval Process on Fujitsu K5 IaaS Platform
+# K5PasswordRetrevial
 
-## environment setup
-Step 1 - git clone https://github.com/allthingsclowd/K5-Password-Retrieval-SPA.git .
-Step 2 - npm install -g @angular/cli
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.
 
-## create new angular spa
-Step 3 - ng new K5-Password-Retrevial
+## Development server
 
-## verify
-Step 4 - cd K5-Password-Retrevial
-Step 5 - ng serve
-Step 6 - open browser and visit - http://localhost:4200/
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## add bootstrap to make it pretty
-Step 7 - npm install bootstrap@3 jquery --save
-Step 8 - edit .angular-cli.json file as follows:
+## Code scaffolding
 
-"styles": [
-    "styles.css",
-    "../node_modules/bootstrap/dist/css/bootstrap.min.css"
-  ],
-  "scripts": [
-    "../node_modules/jquery/dist/jquery.min.js",
-    "../node_modules/bootstrap/dist/js/bootstrap.min.js"
-  ]
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
 
-## generate rough HTML for SPA
-Step 9 - create rough HTML/CSS Layout using --> http://www.layoutit.com/build
-Step 10 - replace HTML in app.component.html with HTML created above and modify as required
+## Build
 
-Step 11 - Add rsautl openssl rsa library
-$ npm install rsautl
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
- 
+## Running unit tests
 
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Before running the tests make sure you are serving the app via `ng serve`.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
