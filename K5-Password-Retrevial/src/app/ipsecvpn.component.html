@@ -509,13 +509,21 @@
 
 							<label for="dpd_timeout">Dead Peer Detection Timeout</label>
 							<input id="dpd_timeout" class="form-control"
-										formControlName="dpd_timeout" required >
+										formCont
+										formControlName="availability_zone" rolName="dpd_timeout" required >
 
 							<label for="admin_state_up">Admin State Up</label>
 							<select id="admin_state_up" class="form-control"
 									formControlName="admin_state_up" required >
+									formControlName="availability_zone" 
 								<option *ngFor="let state of adminState" [value]="state">{{state}}</option>
 							</select>
+
+							<label for="availabilityZone">Availability Zone</label>
+							<input id="availabilityZone" class="form-control" disabled >
+							
+							<label for="ipsecPolicy">Availability Zone</label>
+							<input id="ipsecPolicy" class="form-control" disabled >
 
           </div>
           <div class="panel-footer">
