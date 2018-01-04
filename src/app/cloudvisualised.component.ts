@@ -159,8 +159,8 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
       .attr('font-size', function(d) { return d.weight+'em'} )
       .style("fill", (d)=> this.color(d.type))
         .call(d3Drag.drag()
-            .on("start", (d)=>{return this.dragstarted(d)})
-            .on("drag", (d)=>{return this.dragged(d)})
+            .on('start', (d) => { return this.dragstarted(d)})
+            .on("drag", (d)=> return this.dragged(d)})
             .on("end", (d)=>{return this.dragended(d)}));
 
     this.node.append("title")
