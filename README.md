@@ -1,28 +1,57 @@
-# K5 Administrative Console - Alpha Code - Learning Angular 5.0
+# K5 Administrative Console - Learning Angular 5.0 with OpenStack APIs
 
-This project was originally generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.
+K5 Admin Console is a basic reactive front-end Angular portal that I put together for two reasons:
+  - learn Angular and front-end programming
+  - demonstration of how users can consume native OpenStack API calls through Angular
 
-## Development server
+The project has been updated to Angular 5 on 04 January 2018 following the procedure outlined by the Angular team here https://angular-update-guide.firebaseapp.com/
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This will only ever be a playground or demonstration app - please fork and productionise should you wish to actually use it in production - it's alpha code :)
 
-## Code scaffolding
+## Cross Origin Resource Sharing (CORS) Proxy
+The OpenStack Kilo API endpoints that were used for development of the portal form the basis of Fujitsu's Cloud Service K5 IaaS offering. These endpoints do not support CORS headers (see https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) so it is necessary to run an additional simple backend proxy service to manage CORS headers in the API calls. I have documented this process previously here https://allthingscloud.eu/2017/03/24/cross-origin-resource-sharing-cors-on-fujitsus-k5-platform/
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
+## Angular versus React
+The Angular-Cli was used to create the original project and build all the components. I cannot recommend the Angular framework enough, the productivity/code quality it introduces is phenomenal. I see lots of debate online about Angular versus React but this is comparing a framework to a library - makes no sense. It is possible to implement the Flux data flow architecture with Angular to get the best of both worlds e.g. see https://www.uruit.com/blog/2017/05/04/using-redux-angular/
 
-## Build
+# Installation (verified using Ubuntu 16.04)
+For the past few years I'm telling my customers, friends even family that containers are the future and we should moving away from VMs whenever possible. So it's time that I start drinking my own champagne and to that end I have supplied a couple of Dockerfiles (https://www.docker.com/) that will create containers ready for development and production. This guarantees that we're ALL working off the same binaries...in theory if I remember to lock down all my versions in the image files :)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Development Setup
+ 1. Download the repository to your local development environment using git (https://www.atlassian.com/git/tutorials)
 
-## Running unit tests
+```bash
+mkdir AngularDemo && cd AngularDemo
+git clone https://github.com/allthingsclowd/K5-Admin-Console.git .
+```
+ 2. Build the new docker image using the Dockerfile whilst in the AngularDemo directory
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+docker build -t k5angulardemo .
+```
+__Note:__ The following warnings can be ignored during the docker image build
+```bash
+Step 5/7 : RUN ["npm", "install"]
+ ---> Running in 89a68a68a235
+npm WARN codelyzer@3.0.1 requires a peer of @angular/compiler@^2.3.1 || >=4.0.0-
+beta <5.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN codelyzer@3.0.1 requires a peer of @angular/core@^2.3.1 || >=4.0.0-beta
+ <5.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.1.3 (node_modules/fse
+vents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@
+1.1.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"}
+)
 
-## Running end-to-end tests
+```
+ 
+ 3. Now we can run the new docker as follows:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+```bash
+docker run -it --rm -p 4200:4200 -v $PWD/src:/app/src k5angulardemo
+```
 
-## Further help
+ 4. Using HTTPS navigate to port 4200 on the docker host server to see the application in action - **https://**dockerhost:4200
+ __Note:__ As we mounted the src directory of the downloaded repository onto the docker image at runtime we can see the debugger (test webserver) pickup the changes and recompile the application in realtime.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+ #Production Setup
