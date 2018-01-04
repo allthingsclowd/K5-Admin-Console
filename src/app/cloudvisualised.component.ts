@@ -34,9 +34,9 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ngAfterViewInit() {
-    //console.log('START OF CREATECHART IN CHART');
+    // console.log('START OF CREATECHART IN CHART');
     this.svg = d3Selection.select('svg');
-      
+
     this.width = +this.svg.attr('width');
     this.height = +this.svg.attr('height');
     this.radius = 5;
@@ -53,19 +53,19 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     const networkCenter = d3Force.forceCenter().x(250).y(250);
 
     const modulePosition = {
-      "2": {x: 0, y: 0},
-      "3": {x: 250, y: 25},
-      "1": {x: 0, y: 250}
+      '2': {x: 0, y: 0},
+      '3': {x: 250, y: 25},
+      '1': {x: 0, y: 250}
     };
 
-    //Make the x-position equal to the x-position specified in the module positioning object or, if not in
-    //the hash, then set it to 250
-    let forceX = d3Force.forceX(function (d) {return modulePosition[d.module] ? modulePosition[d.module].x : 250})
+    //  Make the x-position equal to the x-position specified in the module positioning object or, if not in
+    // the hash, then set it to 250
+    const forceX = d3Force.forceX(function (d) {return modulePosition[d.module] ? modulePosition[d.module].x : 250; })
     .strength(0.05);
 
-    //Same for forceY--these act as a gravity parameter so the different strength determines how closely
-    //the individual nodes are pulled to the center of their module position
-    let forceY = d3Force.forceY(function (d) {return modulePosition[d.module] ? modulePosition[d.module].y : 250})
+    // Same for forceY--these act as a gravity parameter so the different strength determines how closely
+    // the individual nodes are pulled to the center of their module position
+    const forceY = d3Force.forceY(function (d) {return modulePosition[d.module] ? modulePosition[d.module].y : 250; })
     .strength(0.05);
 
 
@@ -73,28 +73,28 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
         .force('link', d3Force.forceLink().id(function(d) { return d.index; }))
         .force('charge', d3Force.forceManyBody().strength(-150).distanceMax(100))
         .force('center', networkCenter)
-        .force("x", forceX)
-        .force("y", forceY);
+        .force('x', forceX)
+        .force('y', forceY);
 
     // this.render(this.testdata);
-    //console.log('Bananas');
-    //console.log(this.testdata);
-    //console.log(this.cloudvisualisedService.convertToD3(this.nodeDetails));
+    // console.log('Bananas');
+    // console.log(this.testdata);
+    // console.log(this.cloudvisualisedService.convertToD3(this.nodeDetails));
     this.render(this.nodeDetails);
   }
 
   ticked() {
-    
+
     this.link
     .attr('x1', function(d) { return d.source.x; })
     .attr('y1', function(d) { return d.source.y; })
     .attr('x2', function(d) { return d.target.x; })
     .attr('y2', function(d) { return d.target.y; });
-    //console.log(this.link);
+    // console.log(this.link);
 
     this.node
-      .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"});
-    //console.log(this.node);
+      .attr('transform', function (d) {return 'translate(' + d.x + ',' + d.y + ')'; });
+    // console.log(this.node);
 
   }
 
@@ -117,14 +117,14 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
     .enter().append('line')
       .attr('stroke-width', function(d) { return Math.sqrt(d.weight); });
 
-    this.node = this.svg.append("g")
-      .attr("class", "nodes")
-      .selectAll("text")
+    this.node = this.svg.append('g')
+      .attr('class', 'nodes')
+      .selectAll('text')
       .data(graph.nodes)
-      .enter().append("text")
+      .enter().append('text')
       .text(function(d) {
         console.log(d.type);
-        switch(d.type) {
+        switch (d.type) {
           case 'network': {
              return '\uf0c2';
           }
@@ -151,37 +151,37 @@ export class CloudvisualisedComponent implements OnInit, OnChanges, AfterViewIni
           }
        }
         })
-      .attr("x", -8)
-      .attr("y", 0)
-      .attr("width", 16)
-      .attr("height", 16)
+      .attr('x', -8)
+      .attr('y', 0)
+      .attr('width', 16)
+      .attr('height', 16)
       .attr('font-family', 'FontAwesome')
-      .attr('font-size', function(d) { return d.weight+'em'} )
-      .style("fill", (d)=> this.color(d.type))
+      .attr('font-size', function(d) { return d.weight + 'em'; } )
+      .style('fill', (d) => this.color(d.type))
         .call(d3Drag.drag()
-            .on('start', (d) => { return this.dragstarted(d)})
-            .on("drag", (d)=> return this.dragged(d)})
-            .on("end", (d)=>{return this.dragended(d)}));
+            .on('start', (d) => this.dragstarted(d))
+            .on('drag', (d) => this.dragged(d))
+            .on('end', (d) => this.dragended(d)));
 
-    this.node.append("title")
-      .text(function (d) {return d.name});
+    this.node.append('title')
+      .text(function (d) {return d.name; });
 
 
-    // this.node.append("title")
-    //   .style("text-anchor", "middle")
-    //   .attr("y", 3)
-    //   .style("font-size", "8px")
+    // this.node.append('title')
+    //   .style('text-anchor', 'middle')
+    //   .attr('y', 3)
+    //   .style('font-size', '8px')
     //   .text(function (d) {return d.name})
-    //   .style("pointer-events", "none");
+    //   .style('pointer-events', 'none');
 
-    // this.node.append("title")
-    // .attr("dx", 12)
-    // .attr("dy", ".35em")
+    // this.node.append('title')
+    // .attr('dx', 12)
+    // .attr('dy', '.35em')
     // .text(function(d) { return d.name });
 
     this.simulation
       .nodes(graph.nodes)
-      .on('tick', ()=>{return this.ticked()});
+      .on('tick', () => this.ticked());
 
     this.simulation.force('link')
       .links(graph.links);
