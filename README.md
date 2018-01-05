@@ -63,7 +63,7 @@ docker run -it --rm -p 4200:4200 -v $PWD/src:/app/src k5angulardemo
 docker-compose up
   ```
   
-  5. Using HTTPS navigate to port 4200 on the docker host server to see the application in action - __https://__dockerhost:4200
+  5. Using HTTPS navigate to port 4200 on the docker host server to see the application in action - __https__://dockerhost:4200
 
  __Note:__ As we mounted the src directory of the downloaded repository onto the docker image at runtime we can see the debugger (test webserver) pickup the changes and recompile the application in realtime.
 
