@@ -1,9 +1,10 @@
-# K5 Administrative Console
+# Demonstration K5 Administrative Portal
 ## Angular 5.0 with OpenStack APIs
 
-K5 Admin Console is a basic reactive front-end Angular portal that I put together for two reasons:
+K5 Admin Console is a basic reactive front-end Angular portal that I put together for three reasons:
   - learn Angular (2-5) and front-end programming
-  - demonstration of how users can consume native OpenStack API calls through Angular
+  - demonstration of how to consume K5 OpenStack API calls through Angular
+  - example CI/CD Pipeline application demonstrating a Git workflow
 
 The project has been updated to Angular 5 on 04 January 2018 following the procedure outlined by the Angular team here https://angular-update-guide.firebaseapp.com/
 
