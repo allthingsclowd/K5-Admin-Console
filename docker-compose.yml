@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  portal:
+    image: k5angulardemo
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./src:/app/src
+
+  corsproxy:
+    image: cors_proxy
+    ports:
+      - "2337:2337"
+
+
+
+
+
+
