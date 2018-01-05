@@ -15,7 +15,8 @@ There's a few APIs that are enhancements to OpenStack that only Fujitsu Cloud Se
 
 ## Cross Origin Resource Sharing (CORS) Proxy
 The OpenStack Kilo API endpoints that were used for development of this demo portal form the basis of Fujitsu's Cloud Service K5 IaaS offering. These endpoints do not support CORS headers (see https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) so it is necessary to run an additional simple backend proxy service to manage CORS headers in the API calls. I have documented this process previously here https://allthingscloud.eu/2017/03/24/cross-origin-resource-sharing-cors-on-fujitsus-k5-platform/
-_Note:_ Please build the cors_proxy docker image that's available here, https://github.com/allthingsclowd/cors_proxy, before continuing as this docker image is required by the docker-compose.yml file.
+
+__Note:__ Please build the cors_proxy docker image that's available here, https://github.com/allthingsclowd/cors_proxy, before continuing as this docker image is required by the docker-compose.yml file.
 
 ## Angular versus React
 The Angular-Cli was used to create the original project and build all the components. I cannot recommend the Angular framework enough, the productivity/code quality it introduces is phenomenal. I see lots of debate online about Angular versus React but this is comparing a framework to a library - makes no sense. It is possible to implement the Flux data flow architecture with Angular to get the best of both worlds e.g. see https://www.uruit.com/blog/2017/05/04/using-redux-angular/
