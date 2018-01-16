@@ -121,15 +121,18 @@ export class ProjectPanelComponent implements OnInit {
   onRebootServer(server){
     console.log(server);
     this.computeService.rebootServer(this.currentProjectT, server);
+    this.serverChange(server);
   }
 
   onStopServer(server){
     console.log(server);
     this.computeService.stopServer(this.currentProjectT, server);
+    this.serverChange(server);
   }
 
   onStartServer(server){
     console.log(server);
     this.computeService.startServer(this.currentProjectT, server);
+    this.serverChange(server);
   }
 }

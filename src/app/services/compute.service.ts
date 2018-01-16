@@ -165,9 +165,6 @@ export class ComputeService {
 
 
     startServer(k5scopedtoken: any, server: any) {
-        //console.log('Server Logs Function');
-        //console.log(k5scopedtoken);
-        //console.log(server.id);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
         computeURL = computeURL.concat('/servers/', server.id, '/action');
@@ -188,12 +185,6 @@ export class ComputeService {
         headeropts.headers = postheaders;
 
         return this.http.post(proxiedURL, bodyString, headeropts)
-            .map((res: any) => {
-                // this.changeServerLogs(res.json().output);
-                // console.log('server logs');
-                // console.log(res.json().output);
-                // return res.json().password;
-                })
             .subscribe(
                         data => console.log(data),
                         err => console.log(err),
@@ -202,9 +193,6 @@ export class ComputeService {
     }
 
     stopServer(k5scopedtoken: any, server: any) {
-        //console.log('Server Logs Function');
-        //console.log(k5scopedtoken);
-        //console.log(server.id);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
         computeURL = computeURL.concat('/servers/', server.id, '/action');
@@ -225,12 +213,6 @@ export class ComputeService {
         headeropts.headers = postheaders;
 
         return this.http.post(proxiedURL, bodyString, headeropts)
-            .map((res: any) => {
-                // this.changeServerLogs(res.json().output);
-                // console.log('server logs');
-                // console.log(res.json().output);
-                // return res.json().password;
-                })
             .subscribe(
                         data => console.log(data),
                         err => console.log(err),
@@ -239,9 +221,6 @@ export class ComputeService {
     }
 
     rebootServer(k5scopedtoken: any, server: any) {
-        //console.log('Server Logs Function');
-        //console.log(k5scopedtoken);
-        //console.log(server.id);
 
         let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
         computeURL = computeURL.concat('/servers/', server.id, '/action');
@@ -264,12 +243,6 @@ export class ComputeService {
         headeropts.headers = postheaders;
 
         return this.http.post(proxiedURL, bodyString, headeropts)
-            .map((res: any) => {
-                // this.changeServerLogs(res.json().output);
-                // console.log('server logs');
-                // console.log(res.json().output);
-                // return res.json().password;
-                })
             .subscribe(
                         data => console.log(data),
                         err => console.log(err),
