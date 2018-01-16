@@ -117,4 +117,19 @@ export class ProjectPanelComponent implements OnInit {
     //this.stackService.getStackList(this.currentProjectT);
 
   }
+
+  onRebootServer(server){
+    console.log(server);
+    this.computeService.rebootServer(this.currentProjectT, server);
+  }
+
+  onStopServer(server){
+    console.log(server);
+    this.computeService.stopServer(this.currentProjectT, server);
+  }
+
+  onStartServer(server){
+    console.log(server);
+    this.computeService.startServer(this.currentProjectT, server);
+  }
 }

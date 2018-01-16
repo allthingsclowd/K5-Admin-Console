@@ -184,6 +184,9 @@
                                     </div>
                                     <div class="panel-footer">
                                         {{serverDetails.flavor.id|json | removeQuotes}}
+                                        <button type="button" class="btn-xl btn btn-info" (click)="onRebootServer(serverDetails)">Reboot Server</button>
+                                        <button type="button" class="btn-xl btn btn-success" (click)="onStartServer(serverDetails)">Start Server</button>
+                                        <button type="button" class="btn-xl btn btn-danger" (click)="onStopServer(serverDetails)">Stop Server</button>
                                     </div>
                                   </div>
                             </div>

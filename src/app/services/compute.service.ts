@@ -162,6 +162,121 @@ export class ComputeService {
                         () => console.log('got logs complete'));
 
     }
+
+
+    startServer(k5scopedtoken: any, server: any) {
+        //console.log('Server Logs Function');
+        //console.log(k5scopedtoken);
+        //console.log(server.id);
+
+        let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
+        computeURL = computeURL.concat('/servers/', server.id, '/action');
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(computeURL);
+        const body = {
+            "os-start": null
+        };
+
+
+        const bodyString = JSON.stringify(body); // Stringify payload
+        const postheaders: Headers = new Headers();
+        postheaders.append('Content-Type', 'application/json');
+        postheaders.append('Accept', 'application/json');
+        postheaders.append('X-Auth-Token', k5scopedtoken.headers.get('x-subject-token'));
+
+        const headeropts: RequestOptions = new RequestOptions();
+        headeropts.headers = postheaders;
+
+        return this.http.post(proxiedURL, bodyString, headeropts)
+            .map((res: any) => {
+                // this.changeServerLogs(res.json().output);
+                // console.log('server logs');
+                // console.log(res.json().output);
+                // return res.json().password;
+                })
+            .subscribe(
+                        data => console.log(data),
+                        err => console.log(err),
+                        () => console.log('successfully started server'));
+
+    }
+
+    stopServer(k5scopedtoken: any, server: any) {
+        //console.log('Server Logs Function');
+        //console.log(k5scopedtoken);
+        //console.log(server.id);
+
+        let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
+        computeURL = computeURL.concat('/servers/', server.id, '/action');
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(computeURL);
+        const body = {
+            "os-stop": null
+            };
+
+
+        const bodyString = JSON.stringify(body); // Stringify payload
+        const postheaders: Headers = new Headers();
+        postheaders.append('Content-Type', 'application/json');
+        postheaders.append('Accept', 'application/json');
+        postheaders.append('X-Auth-Token', k5scopedtoken.headers.get('x-subject-token'));
+
+        const headeropts: RequestOptions = new RequestOptions();
+        headeropts.headers = postheaders;
+
+        return this.http.post(proxiedURL, bodyString, headeropts)
+            .map((res: any) => {
+                // this.changeServerLogs(res.json().output);
+                // console.log('server logs');
+                // console.log(res.json().output);
+                // return res.json().password;
+                })
+            .subscribe(
+                        data => console.log(data),
+                        err => console.log(err),
+                        () => console.log('stop server complete'));
+
+    }
+
+    rebootServer(k5scopedtoken: any, server: any) {
+        //console.log('Server Logs Function');
+        //console.log(k5scopedtoken);
+        //console.log(server.id);
+
+        let computeURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'compute');
+        computeURL = computeURL.concat('/servers/', server.id, '/action');
+        // With CORS Proxy Service in use here
+        const proxiedURL = this.utilitiesService.sendViaCORSProxy(computeURL);
+        const body = {
+            "reboot": {
+                "type": "SOFT"
+            }
+        };
+
+
+        const bodyString = JSON.stringify(body); // Stringify payload
+        const postheaders: Headers = new Headers();
+        postheaders.append('Content-Type', 'application/json');
+        postheaders.append('Accept', 'application/json');
+        postheaders.append('X-Auth-Token', k5scopedtoken.headers.get('x-subject-token'));
+
+        const headeropts: RequestOptions = new RequestOptions();
+        headeropts.headers = postheaders;
+
+        return this.http.post(proxiedURL, bodyString, headeropts)
+            .map((res: any) => {
+                // this.changeServerLogs(res.json().output);
+                // console.log('server logs');
+                // console.log(res.json().output);
+                // return res.json().password;
+                })
+            .subscribe(
+                        data => console.log(data),
+                        err => console.log(err),
+                        () => console.log('reboot server complete'));
+
+    }
+
 }
 
 
