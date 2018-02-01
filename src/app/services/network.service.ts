@@ -81,7 +81,7 @@ export class NetworkService {
 
   updateRouterRoutes(k5scopedtoken: any, router: any, newRoutes: any) {
 
-    let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking');
+    let networkURL = this.utilitiesService.getEndpoint(k5scopedtoken, 'networking-ex');
     networkURL = networkURL.concat('/v2.0/routers/', router.id);
     // With CORS Proxy Service in use here
     const proxiedURL = this.utilitiesService.sendViaCORSProxy(networkURL);
